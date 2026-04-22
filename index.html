@@ -608,6 +608,21 @@ function addLoading() {
 
 function removeLoading() { const el = document.getElementById('loading-msg'); if (el) el.remove(); }
 
+function addStreamingMsg() {
+  const c = document.getElementById('chat-messages');
+  const d = document.createElement('div');
+  d.className = 'msg brain';
+  const av = document.createElement('div'); av.className = 'msg-av brain';
+  const img = document.createElement('img');
+  img.src = logoSrc; img.style.cssText = 'width:18px;height:18px;object-fit:contain;display:block';
+  av.appendChild(img);
+  const b = document.createElement('div');
+  b.className = 'msg-bubble'; b.style.whiteSpace = 'pre-wrap';
+  d.appendChild(av); d.appendChild(b);
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
+  return b;
+}
+
 async function fire(text) { if (!loading) await run(text); }
 async function sendMsg() {
   if (loading) return;
@@ -621,20 +636,53 @@ async function run(text) {
   document.getElementById('send-btn').disabled = true;
   addMsg('user', text);
   history.push({ role: 'user', content: text });
-  addLoading();
+
+  // Create streaming bubble
+  removeLoading();
+  const bubble = addStreamingMsg();
+  let fullReply = '';
+
   try {
     const resp = await fetch('/api/claude', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, system: buildKB(), messages: history })
     });
-    const data = await resp.json();
-    const reply = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
-    removeLoading(); history.push({ role: 'assistant', content: reply }); addMsg('brain', reply);
+
+    if (!resp.ok) throw new Error('API error');
+
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value, { stream: true });
+      const lines = chunk.split('\n');
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6).trim();
+        if (data === '[DONE]' || !data) continue;
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.type === 'content_block_delta' && parsed.delta?.type === 'text_delta') {
+            fullReply += parsed.delta.text;
+            bubble.textContent = fullReply;
+            const c = document.getElementById('chat-messages');
+            c.scrollTop = c.scrollHeight;
+          }
+        } catch(e) {}
+      }
+    }
+
+    if (fullReply) history.push({ role: 'assistant', content: fullReply });
+    else { bubble.textContent = 'Something went wrong. Try again.'; }
+
   } catch(e) {
-    removeLoading();
-    addMsg('brain', 'Deploy to Vercel and wire /api/claude to activate the live brain.');
+    bubble.textContent = 'Deploy to Vercel and wire /api/claude to activate the live brain.';
   }
-  loading = false; document.getElementById('send-btn').disabled = false;
+
+  loading = false;
+  document.getElementById('send-btn').disabled = false;
 }
 
 function handleKey(e) {
