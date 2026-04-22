@@ -21,6 +21,12 @@
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'DM Sans',sans-serif;background:var(--gray-bg);color:var(--black);min-height:100vh;font-size:14px;}
 
+  /* Admin banner */
+  .admin-banner{background:#1A2332;color:#F5F5F5;padding:6px 24px;font-size:12px;display:none;align-items:center;justify-content:space-between;border-bottom:1px solid #2A3548;}
+  .admin-banner.visible{display:flex;}
+  .admin-banner-left{display:flex;align-items:center;gap:8px;}
+  .admin-pill{background:#D4860A;color:white;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:0.04em;text-transform:uppercase;}
+
   /* Header */
   .header{background:var(--black);padding:0 24px;height:54px;display:flex;align-items:center;justify-content:space-between;}
   .header-left{display:flex;align-items:center;gap:14px;}
@@ -30,14 +36,17 @@
   .header-brand span{color:rgba(255,255,255,0.38);font-weight:300;}
   .header-client{color:rgba(255,255,255,0.32);font-size:12px;margin-top:1px;}
   .user-tabs{display:flex;gap:4px;}
-  .user-tab{padding:4px 14px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.4);background:transparent;transition:all 0.15s;}
+  .user-tabs.hidden{display:none;}
+  .user-tab{padding:4px 14px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.4);background:transparent;transition:all 0.15s;font-family:'DM Sans',sans-serif;}
   .user-tab.active{background:rgba(255,255,255,0.1);color:white;border-color:rgba(255,255,255,0.35);}
+  .current-user-label{color:rgba(255,255,255,0.6);font-size:12px;font-weight:500;}
 
   /* Nav */
   .nav{background:var(--white);border-bottom:1px solid var(--gray-border);padding:0 24px;display:flex;overflow-x:auto;}
   .nav-item{padding:13px 15px;font-size:13px;color:var(--gray-mid);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
   .nav-item.active{color:var(--black);border-bottom-color:var(--black);font-weight:500;}
   .nav-item:hover:not(.active){color:var(--black);}
+  .nav-item.hidden{display:none;}
   .nav-badge{background:var(--red);color:white;border-radius:10px;padding:1px 6px;font-size:10px;}
 
   /* Layout */
@@ -74,6 +83,7 @@
   .b-approval{background:var(--red-light);color:#922B21;}
   .b-won{background:var(--success-bg);color:var(--success);}
   .b-lost{background:var(--gray-surface);color:var(--gray-mid);}
+  .b-locked{background:var(--gray-surface);color:var(--gray-mid);border:1px solid var(--gray-border);}
 
   .sched-time{font-size:12px;color:var(--gray-mid);min-width:72px;padding-top:2px;}
   .sched-name{font-size:13px;font-weight:500;}
@@ -89,6 +99,10 @@
   .btn-adjust{background:var(--amber-light);color:#784212;margin-left:6px;}
   .btn-black{background:var(--black);color:white;}
   .btn-black:hover{opacity:0.8;}
+
+  /* Owner-approval locked tag (for Brittany's view of pending approvals) */
+  .owner-lock{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:4px 10px;border-radius:6px;background:var(--gray-surface);color:var(--gray-mid);border:1px solid var(--gray-border);font-weight:500;}
+  .owner-lock svg{width:11px;height:11px;flex-shrink:0;}
 
   /* ── ATLAS TAB ── */
   .atlas-layout{display:grid;grid-template-columns:1fr 280px;gap:16px;height:calc(100vh - 142px);min-height:540px;}
@@ -173,6 +187,7 @@
 
   /* ── SETTINGS TAB ── */
   .settings-section{margin-bottom:24px;}
+  .settings-section.hidden{display:none;}
   .settings-title{font-size:13px;font-weight:600;color:var(--black);margin-bottom:12px;}
   .setting-row{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid var(--gray-border);background:var(--white);}
   .setting-row:first-of-type{border-radius:10px 10px 0 0;border:1px solid var(--gray-border);border-bottom:none;}
@@ -202,12 +217,35 @@
   .goal-bar{height:100%;background:var(--black);border-radius:3px;}
   .goal-meta{font-size:11px;color:var(--gray-light);}
 
+  /* ── MY JOBS TAB (crew) ── */
+  .myjobs-hero{background:var(--black);color:white;padding:20px 24px;border-radius:10px;margin-bottom:16px;}
+  .myjobs-hero h2{font-size:20px;font-weight:500;margin-bottom:4px;}
+  .myjobs-hero p{font-size:13px;color:rgba(255,255,255,0.5);}
+  .job-card{background:var(--white);border:1px solid var(--gray-border);border-radius:10px;padding:18px;margin-bottom:12px;}
+  .job-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+  .job-time-pill{background:var(--black);color:white;font-size:12px;font-weight:500;padding:4px 10px;border-radius:20px;}
+  .job-time-pill.later{background:var(--gray-surface);color:var(--gray-dark);}
+  .job-customer{font-size:16px;font-weight:600;margin-bottom:3px;}
+  .job-type{font-size:13px;color:var(--gray-mid);}
+  .job-addr{display:flex;align-items:center;gap:6px;margin-top:12px;font-size:13px;color:var(--gray-dark);padding-top:12px;border-top:1px solid var(--gray-border);}
+  .job-notes{background:var(--gray-surface);border-radius:6px;padding:10px 12px;margin-top:10px;font-size:12px;color:var(--gray-dark);line-height:1.5;}
+  .job-notes-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--gray-mid);margin-bottom:4px;}
+
   /* data banner */
   .demo-banner{background:var(--gray-surface);border:1px solid var(--gray-border);border-radius:8px;padding:8px 14px;margin-bottom:16px;font-size:12px;color:var(--gray-mid);display:flex;align-items:center;gap:8px;}
   .demo-dot{width:7px;height:7px;border-radius:50%;background:var(--amber);flex-shrink:0;}
 </style>
 </head>
 <body>
+
+<!-- Admin banner — only visible in admin mode -->
+<div class="admin-banner" id="admin-banner">
+  <div class="admin-banner-left">
+    <span class="admin-pill">Admin</span>
+    <span>Previewing as: <strong id="admin-current-role">Brittany</strong></span>
+  </div>
+  <div style="color:rgba(255,255,255,0.4);font-size:11px;">Use the role toggle to switch views</div>
+</div>
 
 <div class="header">
   <div class="header-left">
@@ -218,21 +256,27 @@
       <div class="header-client">Hardesty Roofing</div>
     </div>
   </div>
-  <div class="user-tabs">
-    <button class="user-tab active" onclick="setUser('brittany',this)">Brittany</button>
-    <button class="user-tab" onclick="setUser('sam',this)">Sam</button>
+  <!-- User switcher — only shown in admin mode -->
+  <div class="user-tabs hidden" id="user-tabs">
+    <button class="user-tab active" data-role="brittany" onclick="switchRole('brittany',this)">Brittany</button>
+    <button class="user-tab" data-role="sam" onclick="switchRole('sam',this)">Sam</button>
+    <button class="user-tab" data-role="brian" onclick="switchRole('brian',this)">Brian</button>
+    <button class="user-tab" data-role="crew" onclick="switchRole('crew',this)">Crew</button>
   </div>
+  <!-- Current user label — shown for non-admin users -->
+  <div class="current-user-label" id="current-user-label" style="display:none;"></div>
 </div>
 
-<div class="nav">
-  <div class="nav-item active" onclick="showPage('atlas',this)">Atlas</div>
-  <div class="nav-item" onclick="showPage('operations',this)">Operations</div>
-  <div class="nav-item" onclick="showPage('sales',this)">Sales <span class="nav-badge" id="approval-badge">3</span></div>
-  <div class="nav-item" onclick="showPage('marketing',this)">Marketing</div>
-  <div class="nav-item" onclick="showPage('finance',this)">Finance</div>
-  <div class="nav-item" onclick="showPage('voice',this)">Voice</div>
-  <div class="nav-item" onclick="showPage('strategy',this)">Strategy</div>
-  <div class="nav-item" onclick="showPage('settings',this)">⚙ Settings</div>
+<div class="nav" id="main-nav">
+  <div class="nav-item active" data-tab="atlas" onclick="showPage('atlas',this)">Atlas</div>
+  <div class="nav-item" data-tab="operations" onclick="showPage('operations',this)">Operations</div>
+  <div class="nav-item" data-tab="sales" onclick="showPage('sales',this)">Sales <span class="nav-badge" id="approval-badge">3</span></div>
+  <div class="nav-item" data-tab="marketing" onclick="showPage('marketing',this)">Marketing</div>
+  <div class="nav-item" data-tab="finance" onclick="showPage('finance',this)">Finance</div>
+  <div class="nav-item" data-tab="voice" onclick="showPage('voice',this)">Voice</div>
+  <div class="nav-item" data-tab="strategy" onclick="showPage('strategy',this)">Strategy</div>
+  <div class="nav-item" data-tab="myjobs" onclick="showPage('myjobs',this)">My Jobs</div>
+  <div class="nav-item" data-tab="settings" onclick="showPage('settings',this)">⚙ Settings</div>
 </div>
 
 <div class="main">
@@ -266,7 +310,6 @@
         <div class="conn-row"><div><div class="conn-name">Database</div><div class="conn-detail">Standard schema · Supabase</div></div><span class="conn-status cs-pending">Pending</span></div>
         <div class="conn-row"><div><div class="conn-name">Project docs</div><div class="conn-detail">Living docs · GitHub</div></div><span class="conn-status cs-pending">Pending</span></div>
       </div>
-
     </div>
   </div>
 </div>
@@ -308,7 +351,7 @@
 
 <!-- ══ SALES ══ -->
 <div class="page" id="page-sales">
-  <div class="alert-bar"><div class="alert-dot"></div>3 quotes awaiting approval — <strong style="margin-left:4px">$47,200 total.</strong></div>
+  <div class="alert-bar" id="sales-alert-bar"><div class="alert-dot"></div><span id="sales-alert-text">3 quotes awaiting approval — <strong style="margin-left:4px">$47,200 total.</strong></span></div>
   <div class="stats-row">
     <div class="stat-card"><div class="stat-label">Quotes out</div><div class="stat-value">11</div><div class="stat-sub">$218,400 pipeline</div></div>
     <div class="stat-card"><div class="stat-label">Close rate (30d)</div><div class="stat-value">34%</div><div class="stat-sub stat-up">↑ 8pts vs last month</div></div>
@@ -329,15 +372,15 @@
       <div class="card-header"><div class="card-title">Pending approval</div><span style="font-size:12px;color:var(--red)">$47,200 total</span></div>
       <div style="padding:12px 18px;border-bottom:1px solid var(--gray-border)">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px"><div><div style="font-size:13px;font-weight:500">Oakridge Commercial</div><div style="font-size:12px;color:var(--gray-mid);margin-top:2px">Flat roof · Marcus · 2 days ago</div></div><div style="font-size:14px;font-weight:500">$34,500</div></div>
-        <div style="display:flex;gap:6px"><button class="btn btn-approve" onclick="approveJob(this,34500)">Approve</button><button class="btn btn-adjust">Adjust</button></div>
+        <div class="approval-actions"><button class="btn btn-approve" onclick="approveJob(this,34500)">Approve</button><button class="btn btn-adjust">Adjust</button></div>
       </div>
       <div style="padding:12px 18px;border-bottom:1px solid var(--gray-border)">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px"><div><div style="font-size:13px;font-weight:500">Henderson re-roof</div><div style="font-size:12px;color:var(--gray-mid);margin-top:2px">Arch shingle · Derek · 1 day ago</div></div><div style="font-size:14px;font-weight:500">$9,200</div></div>
-        <div style="display:flex;gap:6px"><button class="btn btn-approve" onclick="approveJob(this,9200)">Approve</button><button class="btn btn-adjust">Adjust</button></div>
+        <div class="approval-actions"><button class="btn btn-approve" onclick="approveJob(this,9200)">Approve</button><button class="btn btn-adjust">Adjust</button></div>
       </div>
       <div style="padding:12px 18px">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px"><div><div style="font-size:13px;font-weight:500">Nguyen — Re-roof + fascia</div><div style="font-size:12px;color:var(--gray-mid);margin-top:2px">Chesterfield · Marcus · Today</div></div><div style="font-size:14px;font-weight:500">$3,500</div></div>
-        <div style="display:flex;gap:6px"><button class="btn btn-approve" onclick="approveJob(this,3500)">Approve</button><button class="btn btn-adjust">Adjust</button></div>
+        <div class="approval-actions"><button class="btn btn-approve" onclick="approveJob(this,3500)">Approve</button><button class="btn btn-adjust">Adjust</button></div>
       </div>
     </div>
   </div>
@@ -412,7 +455,7 @@
   </div>
   <div class="voice-layout">
     <div class="card">
-      <div class="card-header"><div class="card-title">Recent calls</div><span style="font-size:12px;color:var(--gray-light)">(804) 555-0190</span></div>
+      <div class="card-header"><div class="card-title">Recent calls</div><span style="font-size:12px;color:var(--gray-light)">(804) 523-9955</span></div>
       <div class="call-row"><div class="call-icon ci-inbound">↙</div><div class="call-info"><div class="call-name">Thompson, R. — New lead</div><div class="call-detail">Today 9:14am · Residential re-roof inquiry</div><div class="call-outcome" style="color:var(--teal)">✓ Appointment booked — Thu 2pm</div></div><div class="call-duration">4:12</div></div>
       <div class="call-row"><div class="call-icon ci-inbound">↙</div><div class="call-info"><div class="call-name">Unknown caller</div><div class="call-detail">Today 8:32am · Commercial inquiry</div><div class="call-outcome" style="color:var(--gray-mid)">→ Transferred to Sam</div></div><div class="call-duration">2:08</div></div>
       <div class="call-row"><div class="call-icon ci-inbound">↙</div><div class="call-info"><div class="call-name">Williams, D. — Existing lead</div><div class="call-detail">Yesterday 4:15pm · Confirmed walkthrough</div><div class="call-outcome" style="color:var(--teal)">✓ Confirmed Wed 3:30pm</div></div><div class="call-duration">1:54</div></div>
@@ -467,6 +510,68 @@
   </div>
 </div>
 
+<!-- ══ MY JOBS (crew) ══ -->
+<div class="page" id="page-myjobs">
+  <div class="myjobs-hero">
+    <h2>Today — Wed Apr 22</h2>
+    <p>3 jobs on your schedule · 1 starts in <strong style="color:#2ECC71">45 min</strong></p>
+  </div>
+
+  <div class="job-card" style="border-left:3px solid var(--teal)">
+    <div class="job-top">
+      <div>
+        <div class="job-customer">Johnson</div>
+        <div class="job-type">Re-roof inspection · Crew A</div>
+      </div>
+      <div class="job-time-pill">8:00 AM</div>
+    </div>
+    <div class="job-addr">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 7.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/><path d="M7 13s-5-4-5-7a5 5 0 1110 0c0 3-5 7-5 7z"/></svg>
+      4821 Crestwood Dr, Richmond · ~22 min drive
+    </div>
+    <div class="job-notes">
+      <div class="job-notes-label">Notes</div>
+      Gate code 4821. Customer home — Sarah Johnson. Inspect north slope and flashing around chimney, photos needed for estimate. Dog friendly.
+    </div>
+  </div>
+
+  <div class="job-card">
+    <div class="job-top">
+      <div>
+        <div class="job-customer">Patterson</div>
+        <div class="job-type">Repair + gutter · Crew B</div>
+      </div>
+      <div class="job-time-pill later">1:00 PM</div>
+    </div>
+    <div class="job-addr">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 7.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/><path d="M7 13s-5-4-5-7a5 5 0 1110 0c0 3-5 7-5 7z"/></svg>
+      2214 Forest Hill Ave, Richmond · ~15 min from Johnson
+    </div>
+    <div class="job-notes">
+      <div class="job-notes-label">Notes</div>
+      Active leak above master bedroom. Replace 3 rows of shingles on east slope, re-seat gutter where it pulled away. Material on truck.
+    </div>
+  </div>
+
+  <div class="job-card">
+    <div class="job-top">
+      <div>
+        <div class="job-customer">Miller — follow-up</div>
+        <div class="job-type">Post-install inspection · Crew A</div>
+      </div>
+      <div class="job-time-pill later">3:30 PM</div>
+    </div>
+    <div class="job-addr">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 7.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/><path d="M7 13s-5-4-5-7a5 5 0 1110 0c0 3-5 7-5 7z"/></svg>
+      1847 Monument Ave, Richmond
+    </div>
+    <div class="job-notes">
+      <div class="job-notes-label">Notes</div>
+      Walk-through with customer, verify punch list complete. Grab customer signature on completion form.
+    </div>
+  </div>
+</div>
+
 <!-- ══ SETTINGS ══ -->
 <div class="page" id="page-settings">
   <div class="settings-section">
@@ -477,15 +582,16 @@
     <div class="setting-row"><div class="sr-left"><div class="sr-label">QuickBooks</div><div class="sr-detail">Invoicing, P&L sync, accounting</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Not connected</span><button class="connect-btn">Connect</button></div></div>
     <div class="setting-row"><div class="sr-left"><div class="sr-label">Google Workspace</div><div class="sr-detail">Email deliverability — estimates, communications</div></div><div class="sr-right"><span style="font-size:12px;color:var(--amber)">Setup in progress</span><button class="connect-btn">Configure</button></div></div>
     <div class="setting-row"><div class="sr-left"><div class="sr-label">GitHub — Project docs</div><div class="sr-detail">Living docs — brain reads and updates automatically</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Not connected</span><button class="connect-btn">Connect</button></div></div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">AI Voice Agent</div><div class="sr-detail">Inbound call handling — (804) 555-0190</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Ready to activate</span><button class="connect-btn">Activate</button></div></div>
+    <div class="setting-row"><div class="sr-left"><div class="sr-label">AI Voice Agent</div><div class="sr-detail">Inbound call handling — (804) 523-9955</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Ready to activate</span><button class="connect-btn">Activate</button></div></div>
   </div>
   <div class="settings-section">
     <div class="settings-title">Users</div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">Sam</div><div class="sr-detail">Owner · Full access · sam@hardesty.com</div></div><div class="sr-right"><span class="badge b-won">Active</span></div></div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">Brittany</div><div class="sr-detail">Operations · Full access · brittany@hardesty.com</div></div><div class="sr-right"><span class="badge b-won">Active</span></div></div>
+    <div class="setting-row"><div class="sr-left"><div class="sr-label">Sam</div><div class="sr-detail">Owner · Full access · sam@hardestyroofing.com</div></div><div class="sr-right"><span class="badge b-won">Active</span></div></div>
+    <div class="setting-row"><div class="sr-left"><div class="sr-label">Brian</div><div class="sr-detail">Director of Marketing · Full access · brian@hardestyroofing.com</div></div><div class="sr-right"><span class="badge b-won">Active</span></div></div>
+    <div class="setting-row"><div class="sr-left"><div class="sr-label">Brittany</div><div class="sr-detail">Operations · brittany@hardestyroofing.com</div></div><div class="sr-right"><span class="badge b-won">Active</span></div></div>
     <div class="setting-row"><div class="sr-left"><div class="sr-label">Add user</div><div class="sr-detail">Invite a team member</div></div><div class="sr-right"><button class="connect-btn">+ Invite</button></div></div>
   </div>
-  <div class="settings-section">
+  <div class="settings-section" id="brain-settings-section">
     <div class="settings-title">Brain settings</div>
     <div class="setting-row"><div class="sr-left"><div class="sr-label">Nightly doc update</div><div class="sr-detail">Atlas rewrites project docs from live data each night</div></div><div class="sr-right"><div class="toggle off" onclick="this.classList.toggle('off')"></div></div></div>
     <div class="setting-row"><div class="sr-left"><div class="sr-label">Monday morning report</div><div class="sr-detail">Weekly summary auto-generated and emailed to Sam</div></div><div class="sr-right"><div class="toggle off" onclick="this.classList.toggle('off')"></div></div></div>
@@ -499,46 +605,252 @@
 const LOGO_B64 = 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAA7fUlEQVR4nO2debhlRXX237o90SCCyKTIrIAIAooyOYBINCIQB9AoIiRx+jRKFEKixmhQoyFqSJyixgEUBaOiqFERFIyoRARRFGXGFhFkRobuvvf3/bFqda1dZ59zz7lTX7r3+zznOfeeXbuqdu1atcZaJXXo0KFDhw5TQVrdHeggAfV7iP/TuJAS6jBn6AhkjpCJIEkaiz+nlMZHrGeBynvDPx3hzA46ApklAGOy8U2SxgdNYGCxbKIvyuU3lxHSuKS7JN2Ri65MKU0MaG9MhWBay3UYDR2BzBAyhxiTpDauAGwiaStJ20vaSUYE20naRNLGsom9MNexaf5eKemPMgJJku6VdI2k6yVdLulXkq6U9JuU0r0t/VmQ653oOMzU0BHINDCIKICtJO0uaR9JT5f0SEkbzkI3JiT9TtIVkn4k6UJJF6eUrqn6s1BTEOnWdnQEMgX46pxSWhl+W1fS4yT9maT9ZVxivfpW2YT21dxFsBp9lXQVvUMy4hxTL+6X9GNJ35N0tqQfOIcJRN1xlSHQEcgIcL3CV+GsMO8r6YWSniVpm+qWcdlkdn1ECop1VTYq3z1N57oiUvjEOl20irhC0lmSzkopfTc8z0IZoXT6Sh90BDIEMiGsUnyBh0l6uaTnSdo1FpVNZCeIySbuTKGNECfCb5HL/K+kT0j675TSnVLv83Uo6AhkAFo4xmMkvULSiyVt5MXUSxQTahd/Vki6QdJVkm6SdKOkX8hEoqsl3R3qUPh7HUk7yES2HSRtIVPkt5P0CPW+x4mqD/5/5FLXSzpD0odSSlfn51ugTvRqoCOQFtQ6BvAUSW+S9FRJS3KxleqdgAurqm6UdJFMeb5YRgzLUkrLZ6if68isYntI2k/SXjKi2SAUq4nDRTXnZndJ+rikf4+E0inzho5AKsTJAWwn6W8kvSYUcW4h2cSrnX8/kfRNSedJujCldFtV/1hKaQJ4lEyhXz/fv7PMD9LaLZl590ZJP5B0Xr9VHthcZjk7VNKTZQQU+67Q33EVor5LJnq9N6V0nTs2O7GrgyTjGllpFbAucDxwK4YJYGX+9r8jfgGcBDx+yLa2AG5h6vhfYJdc10Jggfe9amcpcCDwn8CNVR3+DBPAivD7H4DXZwLx+tfahXStffAImlzjMEn/LOnR+fJKlVV2XEU0WSnjFB+S9K2U0op8/0skvUiSe8cjkozrbClpR5lOkqrrfbsZyiyQ6TAHSPqlwkpPH98M8BBJh0h6qaSnhTpd/HJdyp/1PEmvTSldWo9Rh7UE9HKN/wgr6Yq8usbVFuBu4FPAHlU9i4GTR+ACE9X/K3Obgz5+z/35+/zcfpsvxPu1AFO+4+/7AF+o+tLGUe4B3gesn+/r4VId1lDESQXsD/w0T4rx/Kn/XgF8HNgh3JeApfnvQ3K55Xmy+WdF9f/KUOd04BP6abn9gSZkCrHE596bJqG4GBnrB7gU2NfHjbVI5FprHjSCLC7kyX2SpFepxD75Khn/Pl3SP6eUfhrq2FzSTUG0+Zykw9VuzXJRxv92i5L7R+6S9EZJ9/TpcpK0rqS/l/QwFXFogaSPpZReDiyMnv1Jnt9FMO/73pLeoSJ6ed1R7Foh6fiU0sn5nk7kWhNBEam2An6cV8gJmlzDV9FfA8+P9wKbAV8G7gB+juksAv6vZeWtlfk2OJfacYi+Pyvc42LQWfnayE7IzA0WhP+PAX7bwk3imJyRF4cptdlhnoIsYuS/9wduyC98eZ+J+1Fg01x+CaajLAT+K0wagDuBRZhe4vK7X7sIeDSwJ3AE8Of5+3thEjoRPTfXvyR/x4//9thcNuoJZ+Y+jjRZ83iMOZGQuQrwcOAzYRzadJPrKCJXp5c80OGTIf99fJjAcYX3CXAuA8y1wDcouoUT17OBZ1Z1+uR/UksdH81lIjE9M1/rmegUrveqcJ+38+V+9/Xp/1i/NoBF4f/DKItINCg4kSwHDg33rpHi+hpP/QSvOPAuSSeo6V2OWCnpEkkHYaKVxzitioCVOfMWqMQ6IelvUkoHAldL2lZF31gg6SOZ4FaqeLJdnIqT6r4B/Xe8Mn97X5DketGkE5SmOfvBMn1mhaRrQtTAIllc1peBSyW9XxaI6aErC1X0rC8Dx6eU/jUTXaeTPJCQOYc7vE4PK5+viLWpdVS44/B+YENMhIqrrK/yL8x9GMPMwVeH625i3dXLVP1flP9+c1Wnc54n5+uTWbGcCz0Ks8bdEPp+GfAO4OF97v0ovQ7SqLf9g7fBGspJ1jjkyZho6g0rqhccJ5pjMn9EXd7rfFlu98ehHieA71AIdRvg3qrtGym+hhT672Lh31cT1L9/SGW67TMWrns9H/OU98MfMELZEtgFOA7z2t9JczGJC4w//4m5jX7hMh3mC8icAyOOL1cTOa5894UJN5mTrp/vwuv9r9z2fvn/5RQL1T3k1Rl4Ur4efSwXV/331X4M+EDot09Mb/PAXK4v96BwoJdWfZ4In2gVA3OG9uOu3udIJK6LHRf732EeguA9phDH8vAyfSIcDzwOM+VOBz7ZTgl9OKUqswxYL187Iv/mRAlwWr62kEIc2wDfrdqA4kX/z1xuGOJw5T46KaN1ql9cVjQG1ETUr47j/Vlm7y3PHdaIh6iwMKW0AjhZFtG6QqZYu7NuoaS3pJROkiRgN1n06w5qKs++2UiS7pRtjDpEvdtkvc7v5PoWSnq1pAdLeoIsZuqElNIfc/nH5u8Yp+WK9sKU0n3AQZJOkSV2cIcl+VkWSzpT0l9n4uiX5WRBHocjJX1AzT0r0RHYSO4Q/paKMcLLj8liv14p6dmSjg/9c0frvwBKKZ3ECM7LDnOAsPq+Oq9mbZwjKpQDZfdQ78uA39N0mMX6fwqsQxWGge1T9799Nf9ky+p8KEVPeE7LKh/bPSU8Z6tCHOo6pOV+H4dzgcdg0b7fYHJcAbymeqbjqzrjOB8V30mH1YwwKV4SXlo9KVaxf4oy7CJZdMwtzr9tgHmOa0T94buYODSW73XH28LQtzHKpP5Y6JMTwFPytadTxKA2Ijk+9LkfcbhxYisspD7qXE7Qp9f3Y4TyP5j+4e3fCJwNvJwsIvpYh/H+12qMXdy6j+xPovO4r15QrD27YzJ624q5inNMUpd7mB9E0QGWt9QHcMIQfVtQEch/UVZan/yfwCJsfc9GDJAEMwvvH+rra0oNE/czVR3+fTphUajHBNurshOwA7BBVXe9sDhXPLlqw/v/W+BhBEdthzlGeNlLKBG5PvF8xXR9Y1J2TyE2V/BdKY7iw5XAvsCDMTHlMcDOLZ+Hhnp9Mr2mmkw1akI8m2IBG2hCDX3fmWJFixP2DELITS67tL6/rpM+/o1YF/D5qt/+Dv6XYjTpfCRzDcoq+OHqBa2KVRr0kqu6atk96jCOz2Kr4gcw8+0g3Jwnzta53jFgU+B2mhYl53jejrf71fB8k4opoewrwhh4Gz8ji465zHbAOZiF7VOYo3NVSDxDhrWHe5ZixACFOPwdvDf2r8McIbzsF1cvxF/QJeHFD/OyfQX+Ps1ttj5p3c7/uQFE0YargY1Cf18b+lnvF3HiOAcLgmys+JP03wnk/WE8fExegU36JZhudWXVxw/EOkZ8Dz5uj6B46Gsxcf/4zjrMMijK6PaYYhn3jI8Dd5E3Nw3zUiiy9baYWBXrupsSTLhLePHRG19/oIRygG3FFZaoWpTQkTZ8A3gII8rugUDeThEJfYK+O5Q7Ov92fyjz8zgOo4JC/E8OdcZF5pe0WPo6zBLCC/lqftk1Wz8yXx9qRQz1HRgmfe3IWwwcEK4PA58ovkIvoqy4TwA+gokmFwFfzJPX+zKSYhsIJDojndDvwRyGh2JilROyP+Opo4xXn/Zdz3pD9S783Xxkum10GAJhAh3R50V8LF8fOi4o1Pl0esMvPh/KHVu1CRbDtCx8bg3XvE9fq9qZLH5q5FWWwgW3wDho7bdpg/dvr9i/qYDmHv9vVvX7ePUN6+8wA6CYYdfDNu5EsWYCk/c3IAT7DVlvNBVPVJ/7gFdim5puyi86ytlPx8SH9fP3E2mKGGD6UEMXovhMfGK7P2bKIkggwPdVE9P7EvUqv/bFOAbTAUX03QJbKPy9+Pfl+d11Vq3ZQJgArojWEa4HxHIj1p0wEeiXFQG0wa/fgaXUifVsCvwxl/M6bsL2YExZzh/yGWK4/MVVHyJ8vK7HdhGOtKBM0gfnIi+tCNG//ymW6zBD8FUH2C28+LhKe0TtlAY+vNi/yfVFH0i9+vq1f/V7KVHEiyhWIu/jcorRYFacZhROtBEWtn4FTfNxTRz3ULbOzqjIQ1nIzgpt+qJyJ2Zm7hyIMwmKGPS1sCL5oN8MbDKdlZAivi2h7Buv0/hEU+zPMLFqlWUm9DHK4D4hD8rXZlz+Dn3fgOIwrRH1qnsoKYNmfCWnv5XR2//EbLW9VoLCPfaiKf745HtFLjetAae5Cg/yd3wfOwahFmuck8Twi3pT1WxMSOd+b81t3Uszx1XcDfhTYJ/Z6kvok3ORd4WxiP3ZixH8PB0GIAz218Mgu/hyGcUDPG35nqYi/WfAacAPgAuwcI0XUHEM/xvjPgk4soVA3pTLzdik9AlGCbK8jKYvJuIK4ARyRO5sT0wKV1sfi8vyhc2J9etz0Y81HjSdUG3c40X5+kxPvMlCU6L1qU7v+Vehj04gbn6ekX62tLkDTZ3DdZ+vAy8EHhTKzonsT+Fsr6/e2Sq9jE4XmR6gEQLig+wy7Y8xpXhWViGf/BQFPP7f0HewEPPXYPpLHVE8QdkFOG0CCWMyhkUCH0AR66JIdWq4J9HMuzXrk5ImF4lhKLUu0nGRqYCi7O1B+5ZRzxgyZ8oeldyM7UM/DbPOtMGV+tfORF+h4Sjtp5D7+BwzWV3Msj+CXi4SfTP3A9vn6x0XGRVhcP8pDG6MUF00lwNbEcYTsWjhemJGk6YTx13A5gwZODmgfeccJ4Y2va0YA+YWo4cCG2NhJp/CklWfgWUs2aaudzZA4b7rA7+p+gc5TozOojUawsA+BLg2D2Zkz6/M5WZ9YGlmZ9wcC6+vvdQT1d+O5cAR+d4pT0QK53hGWCzijkP/uI/ma9gW3t/Qjjswj7snlJhNIhm00C2jBHF23vVhEQY1ZuXwiXc7sHG+PtsiQtQzjqZ5WlNbZg/HL7AtqbvV9UynH8D5fdqLWAmcGv53a5pzuBhLdj6w5Uz0cVDfsUVmSyzKIEZLT2CpWzuT7yigKMPfDhPCX+z7vcxs9yF/r4+JKHHC1aIC2Kr8aeAgmrlup0scbjHbHBPXag/5pcBP8udb2KJyfUVIzn1j353bXELl9Ix9pzeh9sjPE8byv8MYet++EMt0mASU1XJbmjv7fNXZPV+ftQENL3S7PAEjYfiEi4TxHoJcn++dEWtR6Mu+1WQHC5OvPflx05SPXY06mcOXqrYGruhMfb/Kn4T2/Z3eQTlWoVPWJ0MYzGPCi/YXeglFP5kV8Sq0vx8lXWedVA0s0rdBGMzCHuxJCOQLVdm98+91Ht/vA3+Jbda6rbrmdT0rPn/++1FY6qMPYPtXjgP2rPs25HPEgND6OV5NCJnvMABhQnjclYtXE8Bb8rVZGciKOO4M7UPTUXkh4agEhsiTO40+9ROxXEx6PZY84gUU0SoGc94MbBbq2ymX80nq+t1FlI1PGwIfouQSrvFVWpJuT/IcPrbvCITpbX97lLrWWoTJsEmeDD4xXUzYI1+fjaA/J8w24ogi1UnAOrnsnGQ1p4hP59CupLeJUb46vznf+yCK1WofLGgxWuBWAI/Egh4vruqJH2/rLkqG+UkndhjfPWnu4wEzvPihRZ01qx8oq8yLwgT1yflzLOZoxsWr8PIe10Ic/n0n8Jxwz5z7YIDDc19cwa77WetIFw2o0zPf30vRRfalRCP7/vyo4Ne6yy2MkP+KEpHgeZGjD+cZ8Vk7tCBMhM/Sm3zAD5GcUfHKXy5mybmiD3H8Bnist89qWOUoXMQzPno4fm3V8v9vw5TifbH4sLcC/wA8NdezIxaO7rgceGP+u1/uLq/f2wf4UK5vlPREHwztdE7DYUARr5bQ3HTkk/QcZiG4jUKUp1WTw9v9ESWB22p7eRRCXkQ5FGgQ/kgRU2t48OQ+2KE6p2LBg/9Dr8Pzt1i2lBMoFr1ohbqFIXdMhrF2a1aMHbtwmDrWWlBWyB1pXxFXkC1GjEgklD3gjdB4ekWXOoXmMmCTWHZ1Ik4eLBfxl4Cr6OUiEZETxxX7pVXd6+XJ7s8/jolfu4UyG2KcJoa4TDD8aVfR4FBvTb6bss+mI5IaFPb7vLC6UP099BkUTGI2JEcC54kR9yz4973Mgc9lVNA0w+6OWfv6EUjchxE3UY0Dl1X1JopZ28f78nxtMWUviR/sE519Q+sPFE54USAQr+ewYeuZbcxnOc/Np/EcDV9RXgK8R9I4kFJKqAXAWEppQnZuhbBwii3y5Vtlh1euyNeOlfRwlbMw/NyL16SULmEenXXhfcFEvvdJOsIvqYyRn/ch2fPUq7GfA7IzdpT07/PvSyT5vhE/J2VDYGlK6V5Jy/O1rUIZxyjj4werXiTpcWqec7KzpC+39LkDJbzEz6yIHCR60l1Zbl1lKKLaIiyR2YUUdu4r3y+BNwG7YspsDDYEOCvXMW8WEpry+7Kw+sZI3lq5Xo75PM6j7MmIm6oGwev9PBZRsBnwd/SaaO9hEk84hWvE/Fkxj7D3+4z4rB0yKLLpQkymji+IMJBQMra3nfntxLEHTVu+T4h6UoxX1z3d6NbMgkFgqqAQxytDn+uIYscdmMHhxZhfw0Uj98THIx3cCRsnaT1mYCbfu6tr3qaf196POMaq/91U/5TwDryuS+lSlPaCMrE3Cy+i32S+hpbMiZRJtHuow233tVIZwxwIZSGk85nbUWgHZcX1ve6Ra0QC/w3GFbdtqcM95B8L99WKex3129ZG/fcERnitsVs0LZPbkE/0zb9tGd6T13s7+egIOiIpoOnFrl9EJBT//cnVfTH1jXOgaJHqR2xR3JjA4qs8b9NqZ/Ph+fYOE7jeWXkPtolqo3gfwWIXxmcxZtYdlBgvwtuLn8h9oBhO6n3yLjLvCfwKM3oswzKdbJTLXBbeh39mLVpiFMwr6sQOnhzHrBhnqijMNVyBPjmldCxFafX73yfp2FBuQuVAzivz/zvk/+M1b+/clNKBFCV/tQFbQZNMcb5Y0nYqffb+/kzSX6SUfpzvWShpYrK+Y3FUT5a0QXVpIte5oaS3qBxu2gbvyy2SHinpDklywwkmFSDpHEkHqGlI+L3sgNHnSto910V+poNTSl/3dzroOdYaUMSI14WVy3Envew+Hq/s4tkWeZWKYhRY2p79KGbdvShJIKI8P44pofMiqjSMyZuqMVllSCBnK2FI7z4j6FVYZME7sb3vd2Li0DUYl52o+uTxXo1DRvN4L6Pp9e+32WtVZG+sq4MaA9tmY38PvawYygGYS/L3K6vJPoFt131IaMdf3DoY23exysMmPKnaamXvFLHooVhu3xidC0b0rldMJRdx20Yo/zQOIs3lN8Py+C6hud/ERdPbqfbdU8TD9+XyE9U9MfAxEshf5fs6AnGEwYxnfviAHUxzP7P//ql8jxNI2+lKr4pl8t++B9rDHRxnMkcpcSYD7abQOBm3zddnc9NYKyfFQlKcU8eJ/R+xTxQiXwcLnb+vhRho+e0dcQw6qDGofoBmJJDDMX8FNJXEO7Bs6r5ifT4MtL+8J+RJv4RwxABFLNsXeBsWzDfwDPK5RBiPb9G75fht+dpcpzuKPozI6V2cvYcB5nHsgNGPVYTSRiAfnevnm9cIg5+wZHBOCD5gx+Ry0TnmosaRoZ5T6Y0APm5Qm3P1jKMgEPxGGLfwZ57AVu7Vlh2dYhXbmmYCBh9vP00rpkiqc4ntjAU/3h7ujwQyrUz9axwqArmkmhBQDoGMiZAbpzfl66+tBhrMwfUVLPr1dOx4gyWh3SiLzwuCoWnahabu8ePVTdyhf21c5I9YsGkPAftYex2YbhUJxJ/xglxmXryP1Q7KijlG04vuA7dnvr4TxQsct5zumAd8G2yFrXNT1fgWtrtuXnpswyR6TZiATvQzlsJ0Gv1zLrJVJgh/V5P2MTybZ4lpC0j9YS6zWt/NaldE+6Cv/T6ldLmkH4Ry45IWS3p5Smk8pXStpPfLbOkrZHZ1crmV+XOfpIMk/VX2Fax2Z+AAbNby22Utv80p8riNpZSul/RJFb+M+51eDGwlCyiNecU8SPGZko5Sf1/XvMB8JZDJ8BEVZ9MC2Qs5mpy9MKV0vKSvyQgnqTigxmQvcHH+7VXYvvLx1b1SDcDilt9um/NetIM8bv8i6V7Z+PqCtJ6kf8gOQ5cOVpnXJf2bmk7DGqvVQet4IBGIe2aTpK9IuknlhYxJ2kjS6VjE6sEppWdLOkHS7TIiWqjyvH7fDpKekX+bb6uYh/A/On/HiTQvFNfARa6TEcmYbGJ7KP1fAo+RNJG5yMLsFT9J5p2PUQwOf+7L8/dqfS/zlUDa+uWTYlFK6S5J75VNGt+D4PsfniLpq1h06Vdk+z8OlfTXks5TEbd8pTs8r3Kte0rmAeYb4dbwyf9vkv6gsviMy97PG/P4LkoprQCOlvQa2XvzZ2sb++Utv629oBlM5yn9o5n36FxuUS6zDsUcXIduN9LzhDaeHsp4+T8QIkeZ3Ls8J6JYUGTbHJ8viWVWN0JfYzhMtGj53p2n0HsYam1ImTeGCGkecZC8ynhw4DX557aVhVz+PkkHS/qepEUq3GRMRWFE0nGYVeyFKaVvS/q5iggwLumhkg7KL2JBSmkipbSyz2c8pcRcEoosCLDGpnPU9rBwHe6Dkm5WkzOsK+mNwBaSviR7Nx6A6TpI2/ueF5xzXqxALWibfBuuupjSBLbV9veYf+QNko5TmTjRMrJSFgH7WezI47MkPUZFxELSc1NKn5OkvNrtKpP9t8t9GZd0qaQfSbowbz1dFX08Q8/cD8vUu1A8IX/PC7EwLxoLU0q3Af8u6USVSGokHSaLGt5IRe/w66dKukrSW2Xj7Jgvhoj5g8CqozOwzuYekxXEoLgtsjgSN1rF6N+YNaNm7zdi23IvYHJcg4WlbJbbnRVuQm8u3vg812F7OuaND4cinj6YZurTiNoZeDWWLOMz+f/4vufs7JcHDCgE8paWATslX2vbsRZDGLbHjh9w1Jk8hkG9BbXepATwe+Co0O5MZ3l0wn8Q5TySGF7z0ny9Z1fl6kJ4f68L7w+axOL9v5Fybsq3wzW/7km054WoNS9AWTWfSwmtiKHdfWOPqKJOgf1pcoSYfLqGe4DrHLX1FtS2bbofApbG/s/gePiE+8/QJ+/DLZRo3sWEg0Znsg8j9te5yFJKdsq2rbo3EpJeYzm2/PqqWDO/vrqeZ96BEl376JZBXUZJPNB3EuQBd0JbgFlWPHK03nswFURCc0I5m5LIesaIJDzHnlXbPia/Jufsqu5LLZ9onZs1IwOFqI+iGT8WiWMXfz4sGPPWqswdlO2480KEnBegeQbgXWHQfDI+KpabpK5VkwB4PO3cpIYTz3XYGYSvxWKh3kU52rm+3zdZnQs8wtuewTFxIolyepxMd2PHPz8VO6xzvVHrnknQjPT1XYdxD4sThweL7hHe8apEdZg5vyOOCJqrXWS7Phn2z+VGObDFV7Qx7EwKn9BxxyHhN4AT+9T1OCxvrRNJHaJ9JbD1qH2cpP9j+bM5ltPK245E4rgNyw75w/D5Qf7+H0xUewMmfjo3nq0cx4eFvnp/z87XFob3ckQo5+P4lVhXh4AwcKe2DNzfxDIj1Bnz8O5H2YteY1XKn/wS14HeM/mwBM7Qvo9hVogkf+9LOfIgKsBTER2vpjhfZ5Lj+fv729DPVbsNCaJeLtdmsfzHWNfqxHxWgDxiNdr6H88UVrzs/AOz1X9fZpM/TtJPZbFatT/htpxmNDoJJ/LLHUspvVvSkbJoYQ+GXCiz428v6Vxg65xhxWX+KR/LlttekFK6QNJzcp+9vXGV9zihEuHc9vFo5glJ20r6BHBi7udMEYmP5R4t1y4LmVb8+3H5252HkmVviXV1cFBY9MF5NYki1k/rclOtP/z/9pYV7Pn5WttehkRJlPAsmgfMQJOTbNOvD1MhlDA2O1IOuKmxss+nLZ+Wiz6PZYZ2J1IOx7mspZ2n5TLOPdahuUPUk2e4dW4+L+CrBxSZewN6U+Pfj6X7X9/LTrGNRFES25xUR+RrA7PC5+9BRPIzbEfgnwGHYkdDx3MCp3yUcv77UEyv+AW2F3zYRHCOOvHFtLgIRRTclmI59D7dSTlezQlkb5rJ4sBOEJs3yvlql/FakDLLP0TNeB3J9kacImkZ8O6U0vvzS6Ffhvc+DQCsyP9uHi75ePwqfw/auLUCE9m+jh3J9iVZTJiLWxOSdlHZ3OW4A/iqpL9LKS1jxOR0eWz8mb8i6St5Qm0h24OxXctt68hCZ3aUtK8swZtUwnEOATZIKd3BgGz5Q8DD3feWZYmPoSM/TSndREmEJ0kHqoSd+P2XerxblzCuAkWEOD6scrXyGU2sPckBRmjLRYEftdS7cy4zjDk5cpJ4nrt/R4dnXOGXYXslpsMJe3JXDXHP+pily1d3f+7n+phMpS+5bucMH851Rq78L/naIgqniR70Lh/WIATieHYY3GghWhF+Gw+T8Y3x/iHbcovWUuB3FYHcTE4yx5CsPkyMP8GcXNF8HNP1+O/e92uxpHDTkv8ppvF4glb9WUgRKz0UJ07gz+Zr0yEQ78fPcp2RAF1s9QWl7QTjcUZYnNYq5MFdjB1XMCg1pcPL3Etx0A2bTjNmG/9NRSA3ULziwxKIc6NNsBCQaP6tOaD/70Ti8v+0V0yC57zPdc8H9uLwzHFfzIajPHdVt3OF3WmeXQimo22Zr/uxBy8IfXDOern3cRrDMKOYF1SKyZtIerZKEmPfs4HsFKW/lPSPku5RMf8hk6+fm/8f9nn8BWyhkhTBf4v1DwuXl18pC+n23XSuP31RlkjimvC76ylHAA/NiQymFHiYiXNBSgn/UPwNcbKN53H+pizJtHML3xdzoD/PFLrhY3+Iyn4c161+mFL6TSYi78Pzvfuh3JnZvN45CCMoIsp7aAYOgmVqj2VfGlYeF7lOjfUM0V5bzJe39+1YZsT6zqapc0wAbwrlHozl/HJxwsu8gsK1Rmm3IZplgng4+bTZun/5bxdlv5ifN4pZp8UyoyCMwfnV+8HHgCJebUyJv4rWvydOtf01GoFA/FjjOm3oYmDd/L0ZxZs8pSRj4WXu1EIg58YyQ9bnIlut8C/H0qIuoGShj3mufIKARb8eOWzb8Vmx0JFPY8GLf8T0qvOwWDLPQeyE4WLWn4e+eh+WkQl1FITx3D68G5/448De+brrQC9rec+XMA8ikmvMCxEr4N7wt4s5O6SUlktanr+3VEn142Wuzd8zsfJMJ91MfLGebWXDLH55veu23IPM9Hoq8Eb32vdrhGyKxRxtp0n6jqQXS3pUrn9zWfKKkyX9H7BPMA+7iHO2bNeej9mETOTcL7cxylh6X58tM8WvDM9/de5DkrQy98GPno4pmb6ex2nBNMzMayYoHCQeXeBK3s3A0zCL064005JOKZFzWPF2pOlZBjgvlhmyPl+dv0KviHgq5fyOHTDLVdtuu2jx6WvJoViK1sGyQ3rfV4Q6/NsNAXcDT/C+hv6eFcbbx/LfRxlL7yfNI52jeOXm3SW5755KtT7rZV4cOTEvESbsDtVEiRag62my7zi4u8V6hmgv7ta7qarrVmyPwtCsnkLgLwoTLvbzN5h+Up+72JbRYwL4f7Heqi2f3L7rMo5JrM+fx4nkMnIIefj+i9Cuj/lPGCEUhiIWxYnfSAmby7mo97GWNr9LJrJh2lwrEV78R1pefES94n8y3zfS4FJMs/8X6vM6n5PLDMuR4hkYv676129fdltYiBPIa9rap0nYf6DXnAp2IJCHedSRxkfn+11Z3hIzk0eOdhsjmHsp7y36VvzZv+fPQcnje1foc+0j6ZyD/UARHdbFVrE42HW8DmFwD6HPIS+TtOer/j9XbU1gm6vazKSD6vOJ8hSae05qi1V0cv4IO6sdmpyzNVgytHFYGAOfbLdgjspFmOh4QajX+3Gm10Ph2udUda1kyAM0KZujHkHzGAR/jhfkcq6c/0cYF3+XN2CJG+aVcj4vEV7aJsDXGIzagjUqB/HJ9gSaK6jX+558fSpEcjDFS0w1aRznYVtpbw8Ty/djt0azUoj62DDRvN5j8zXnDtuHSetlLs7XYjaYC8Nzu5d/KG926M8/hv74c9yEcTrnrlvSfpbIibGuDpOApvnyMOALlJDoOOniZH5uLj+SghcmtB/5tqL6fnu+PhUi2Qk4jWLvJ0+MXwJvxVbxqLPUaf/bFHSfkK9tue8QjHsspcj7V1fPs4pA8veGmEgFZYG4iRItPWjvv0/8B2E6Vp3Q4p25XBv38PbuIW8JaHveDn1AxW4xFrwr5gTz3YAuek1gPgRPSTo0m6aICLvSPIE1vsiRVziaIembYFzqMMwxGTOvnEYzg8oE8E/92gsE8pctBPK5quxBFLHUy1xU1bMXTREQzBI1qbgT6nh96Itzh7swjuHWLece9RkiH67Hq8MIIJgkw29Ppyk21CLGqLqIr/hvyPW4fhCJZBUnGaHevlYZjCOtT7GgRRHvgNivus78vUuYbITv0zDx7q+ruv05XGx0r3102NX5xwbthYlJ4n5LL/f4WC7n3KPtFKrbMKV9tRwjt0YhvBBftb7UZ8AfPmhiDqg/5p+qicT/fkssO2LfPaI2PsMBud5ofPgtsIHfN0lfo3LthNAPrhR7eL2LYNFA4ZP7DZM9Z+jDu8P9/izLMXO9E/PeNDmdl/2HqYxnhwGgiESPDi89chOPJZrqJF4InJHrins7/KX+aS4/E3sm/q1lcn44lhlw7wuwcJI6K0vcXht9EQD/5n0P9cTQHh/DF03SB38Hj8L8OvU78GdYlMczmtF9MbsF8zXNm9SpawzCy42bcmD6CntMsvb5qm6fBL/H0u9M2alFIcZLQ92rJid9TNYU65TrHwTicPHGJ3okEjBDxyKKU8/H8LTwnEN5tOk1bMSJfxsWiFiLrbXx4/WD2ugwDVAUv82wBG/j1ed3lNVpVFHL645EUosGZ+Sy04l43ZHmKj+ZebcmjriHYtA+9Pux1Kg+Yd165QTy2RYCeXK/5wv1PK/P2HjIzxi2L/0OmgQEFiq0ilhHHcMOQyC8qEOqF+Qv7Av5+sibbyhEMob5KmK9/j2luCHvD03Lzyp/Tp40i2ke2uP6QiSOifA3WGK412Knxn4fiwl7G1nnyPdHq+AgAnlS27NR9MCNsfShcVGawEzKS8O7ObvP2O3dVn+HGUZ4yf1W+lfEciPW7S95S8yPUTu3fC/8KFatmC4oEp7X+aoB97YRh0/o86n2f9TPQrVIMFjEao3mbbmnHu/DQtljq2v+3XOERYdZAkUU2gyL+I2rmcvhU16twoSIGQJ9Ei2jROj2szZFxT9uWHoIlgJnovq8DNuPfzwmux8PHAf8S24zxlz5c14L7NzWh9x+a7JqeheXaCjoSZoQyj8vlI9EclYouzdNn5L39XrMMdkFJc4VKCv9c6sXF9n+JrnMVPSRhCnlnp8rTtKelZYSv9XmBd80T553hT4Oi34m3Pswp9wVWPLs92J5w3Yne8Pr8cof52TvC+PmY9eIJA7jsAVmpKh1vpvzGCWMANx7XzsFPWlcJ1rNJcKL/Gh42VBWt28xRaWQolTHhNWuXP9tvuY6Qy3GbAwciOkC38GibwdNeOd8K1o+U8ENud9/B+xDyPpOIeS2/LmrPPk0LV7nhjEglD861PuF6pp/vy++qw5zCIoo82As1Bt690J8MJcdKSlCmByepysq1afRa23aBROPvoHZ+mu0bZTy3+MW1X6EsoKmKBnv83v6ZYO5FjONP4OS2f0l4bl8Mp/uzx6eP6ZnJbRxRnj2k/uU+RGd1Wr1grLS74qJHFGZdSLxlXFoIqE3T3DcM3JhvrYNpitc0DI53T8Rw9Jrn8UgD/gwiJwnxqfF3+s2fg2ciB2VVsdiebCki2FH5d9r8fW3wMNzmddXZbzOO3iA59ldYygaSwO6EjtD/BRZ5vVF0qrjnhdKOial9ElgUUppxYDqvM6xvD98d1nGcd8rnWQZ1s+XdJCkpeG2lfm6TwhPa5PUf8/83fm+a3PZP8pOfo2pg/xIZU8bumVu90F96uzXjzG15yLwa9dK2i2ldCewp+yY7cUqc8VPEH5GSuls4FBJX1bJMu/HcS+UdFRK6VS6NKLzAxSR4N9bVjRfIY/OZVo5CcXe7z6JRMl+0m+1j2Ev0OQ0dblfYOEsJ2Ke870xJXejEZ91g3zfPlgiuBMx7/ZVLe061xqv/o/P43/fg0VPb0FJqleLrG/NfTgs/xafvebYnd4xX0DILUvTxu8TwF/00bmMy8Y9h+RU9b4x3xcnvRPdZCLSxZh8/hxCEN8kzxDPE4yfSdPiYMkR9sDSC51OOZXK0Y94/ZkAjqQ3GNLH8czczmEYMcRxdeL4eC7TEcd8Q5hgibLtNAYeNoik5f7FeSL/KWaBOj/cOxkmMNPr6ZjPYOOW+uvJP6VcUH4PkxA4Zrx4BqagX1P1tx+hxOeJ5X6V6zyYZiQ1FAI6D9ubv0Yo5Q/4B2hDnihIeogszeaeKnKxy+ILJL1D0jdkRwPsLmkH2fEBW6l5NEQ8gmEyrJD0E1k+qMsl/VLSJZKujXoPmdPNtGxOOV7Aj0gYD9fWk3SwpGMkPTPc5npFhOsk/r1MdhrUHpK+7vWrHF+wUNKVkp6aUrqBEY916DDHoFi2NqKEXNfHEwxCtEBNF/djGc9PxuLHHhz66Vxgto5lXrUfpfp9L4on3Z+3LQOLb43dDTvfsQ4+dM5xHbBVrrtzBj4QQNFH2ojEJ0Xc8lqbSYfxS8SsKzEUZJBfYhm2OWvfqr+zmtk8EEsMfakJpQ33Y6flxqO5I3FcATwyjnmHBwgqIvlGfqEz4X/oh34EV1uSHBdgvob16j7P8riM0QyT+VPsLHhXvAc9H+E5rmAN5hxrpA5SgyAPYxaWY1Ry5bZZlf4o6WZJd4b/r6jKuG/iYZI2kfkjNle7X8J9MdEv4bK9v4OrZLl0P5FSuhvjJGOz7T/AuMmCfKTcI2T60kPUPHXW++u/uT/ol5KelVK6juyHms2+dphFEKJIsfgkR226ncA2Xf3FiPUvwiKL98FSep6E7YlYRi+i3yR6sX1FfhVlc9OsWoMoVr+lNJPNEfpW99H/fqY/+2z1r8Mcgmbw3aFYdKpP2Dax4kxgr3D/Espe61Wm1UETGMsbtS+WC+v8qv56Z2CchN8n7+7L9cyK+BKe4egwFvQZj9rseyZd+Pqah0Ak21I2L0XLzEQ1GU6meXxzW/TusH6JJ2B7PK4dklDeSwkunFHHm/c1//2/FOen9+XnwOFYqqWvhf457qFsJ1grxPW1BmFiLADeQdNjXK+UYNzmbeS0PH7vEO1EoombltbHQk1+XBFKbNsn409oHl8w5clIiDYIv+1N2cTlot8d5KyHoZynKY1EPO1MLx3mKQjiESYG1ZOVsKo6rsR0BF/VRzo6mV7rkacgbWvbCRbMuuS7/UbyvNPiC8m/HQB8jibn9LbPyeWWYPrJGM2wd19IXpjLdWElayoo3GQd4ATKXo44YeLuOLC9J68MdYyUIbAmLIoecGMgkomWv99NIep+sWMxnqves7IF8HLKYTc1vJ1l5EUg3Bv3//tYHB7HsMMaCprOs+2xYMeoF/TTES4g5+LK904lk0oklIdRDpmBdgI9nbIn3mO5XIxrS9ezMRYb9hlKsmqvM9Zf+zj+G0sQtznwpuqal+/ONV9bQJW0DXgS8O1qsvYjlLPJekK+dyqJIiKhvITCTSLn8kiAHwMP7VPPUuCx2Eamr9Lc7ls/R80ZJ6rv+zF9pL5/Iveh4ZnvsBaAXj3hGfTqCG2EshzbG791rGvEtmPI/pY0s9k7fEL/BDu8Zgssm/txWN7i6+hFnZK0Dnu/nSJa1rms/DnJ9zqRPjv3s1PQ10bQdC4uxFb1i6uJ2mbxugVbvReGe0cVu+K9nx7Q3q2YBaoN/bb7RvwOMyVvjZmgvS5P3ROdhbF9zxTfEcfaDprcZCG2oeiKaiJCr7hyAfD4cO+UUg/lv9+Z66yDIgl/D9qXTlX221guro2rNp9EOwdy3A8c7+NC5//oILVanTbARJrfh8nTplDfD7yZwBGm2i62S7Amkqhc121H3Iv5Md5MPhU4tOEpfrydjTFr3jnYttvrMXHuw5QjFDq9o0MvWgjlEdgeeF/N23LngnGTx+Z7piNyHdlCJP1wI+YBfzWwfVWf77uvIwJqs/A65AN3wm+dWLU2gcpMOszqSK/Fay/gm2FytnGTu4Bjwv2jilyeiufIUG8tbl2KBUs+kXycc1VH37339bO1EE9nsVqbwOBj0oYKwqOXoxyNiSQ1Ijf5MCHUZcQ+O5G8LtdV77e/lWaQY990qEO21x3PvDaimtSbY6bcP8e2xG7ZVm6S+qLFaxPg45ljREU6cpPvkVP9TINIPM9vTOoG5gzcvFvxO0wJFGX0kcAX6XWE3Y15q3eO5Yese0n4+2fVxHX4hL6covSOepSCP8MXc111eh5PIdrpCx2GR1jlD8ecYw6390dR6G4sc+CkE43mXpPFlLxckTiiAu8T+XdY5sZRCdEP+Vk3E1psy+t+/qj1dliLEVbdParJFHf21Wn7VwBPjPfnvxv7P8Lvu9Du/W7LYujX/xgIceTz2LGwknsDAcYzOR5Md1hmh2FAsc542Egtu1P979f/L9/nmRjbAgI3xY4TuLua/HEj1ida2ohtPT3XNQqRONc6rmrXv0c+473DWoiw2u5TTUxfzX+FnadxRfW7T7Q6RU/CTot6OvABSmBhXbcT2T/n+w6l6Dy17+RWik4yrHHAiX4M2xUY6xvHQke2Ygpm5Q5rEcJK+54wcV0U+TawNF9fB/hkNdEmMIX7S/nz1UxQN9FEvz0cJ+W6l+Tv/SgxTzUn+R2wUy431ISmEP/umOe+5oAfiOU6dOhBIJDPhcnjE2n/fM2J5JH0T+RQow7ii4r+fcDLc52+b8NNtPvRzknAiPEhDKk7UOK1NsC4EDQP2LmbKR5Ft7ZjbRystjxT91KsWwtk+bA8D5TngJqQ5aAdz58JNXNFeb0L8udcSXunlD5CPh8jpUTOP7UwpfR9SU/LbXkO3AW5jV0knZpzeQ0TEOjXHy3LaVX3az1JL8tl1sZ33mEyBA7yCYqI5Sv2x6uyb6J9u23bcWg1zgf+PNTVKtaE/jgnibFVLhqdEMsO8WzHVvdH7nQtXf6qDv1AkdMPr8QZn5TnYHs4Pl/9PhnuwpTjd5HNwbmdSZViirj17DCxXSxyAnxS7P8kz/al6tlqInnmZHV1aGKtsY1TxJSlspSZW6qINZ4GdFVx2di4qHKtpHdWvyE73uCalNINVTtDpwwlHweHJYD4kMpRAn4kwa9lRw7cJ4mUEtX9KaUEpj9dIWmL0H+H1/nplNJL6NKEdmhDWGk9ZHw5TQU5il3jlEDA501S7ypT6xT75SLSBysOUJuIe0St8ExPrrhFhHPD6wihMB069CBMqDeECVQfb9DIbJjL+3no9elQ01Z6KR75pVg2Q5/orgfdj52T2CO2BeJ6c0VUNZxwnhrHoUOHHgQieRFwdZ8JdR05gTVzsLWUZhhM5Gw+4U+N5cJ9ftycp1Dtl/DO6+kO1+wwOcKEXBdTkt+GBRi+FfgzSt6pOdPTAjf4cDWpPU5sN5qRvG6a3pLe07PuwJIxxPsBvhPv7dChLyYTM+ZaDMncYBHwwzCxI6F8KvaLspf8qMA9/J4LgO3oPTLtNnI+rbkk/g4PUEDPdttVJ8/OcT+cexwRJrvDTb/3k/eWE3J3YaEvfo8Tk4e3/DoQmxPJU/K1Tg+ZBGs9m83e7fGU0srqm8nvnhlkYpzAcuG+U71mWveIL5Z0VP5tYUppHNhO0kH5njEVr/xZudzP87d7/iVp51BvhwFY6wlknmBBDit5raTtVfwyfmS1VN7VUZjPw/0YR8kIZ1yFSH4u6fv5+iUt7e3c8luHDvMPFCvUo7ADaQYdMOoi0oH53qUUK1zMmvhPof7DgvjlYtu38rVOxJoEHQdZ/RjL4tw7ZV5+B5L+oHJ4qItISHpB/u0ZkrZVOSB0gczj/ulQz5UqnMWxadZ5JtShw3xFUMxfUCnm/v06bIMVNIMjr873ndOinJ9Z1b05veeb38xqMGN36DA0gmi1Fc1oXv++BrOobYlZr6CIXrdh2RLjb05Uz6KZQGIBcFVV5hZKyqGOQDrML1BitxLw3WryOic4LJddQDkbsN9pV05UV2IhMauSveV2rqrKQcmk0onZA9ANzurBghxN+w5JT5VZpBbIdImFkk5PKX0ZWJKjgr+Z73PTc8rlFH5Pkt6bUlqe6wfbqLVSpodInc7RYb4jiD6HBY7hotU4li1+E7JXPZd1PaQtjZA7EW8BHlpxD3cknlW11XGQIdENzhzCV3RgV0mfU9mP4vtMxiQdk1K6Of/mvo6fS1qeyzpcd3AL1n+klG5R5h5V052e0WF+I6zm22InyLpOACXQ8ORcxrmMc4KlWLaTyDkGco+qza91HGRq6AZnDpA5xziwgaTPy3b9jcvGf6WkRZLOl3RcJo7xcK9zkj/4T6Fq5x7vz9xjrE+ITLd7sMP8RFjFNwB+EFbyyEGuBh6ey9Ubojyk/VuVHuIWqdsC94hHWcfUqJeEezsOMgK6wZlFYHu/x7Hw8m9I2ltlf7h7xe+SdHhK6YbMafpZmuoNTm65OjFwj8a9gZts6D+Fy92777D6QLFAPRrzT8TVP+7P8Liq1h1+gYNEr7nfexXm9+hJMEdTf7k+3AuW1X6zWK5DhzkBTS/2k4DfVmJV3Ar7V7lc3+2vFI/7uWGS+/3H9Ls/ENY2lVgGljJ1Pe/vbIxDhw49IGy0ws5UXx4mtU/QUYjD61oHO202TnKAnemTfysQyF40j3cA00lGPki0Q4cpg2bs00mBW9TJqSNxDMx0SFHw96TpTARzKG6Qr/dM9HDvMbl8zNbyjVimQ390mS2miTzJJrID8PGS3i9Txt2MO6aSBO5uSS9NKX0RU+BXTFK9T/yDVXYVetK6i1JKdwA9ynl1706xu/n7qqpMhw4zC5p7whcAJ2Abnny1pvp7GWUv+KQLk4tOwBKawYZe36sG1RVErG+Gfvi9xw7bjw4dRkIkjPz/ART/BrRH3P4M2DqXH2pSUkS2vwj1xuMMtsjX28Qr112W0PTau3h2UL7eiVgdpg+Kwy2GcexFSXTtK3S9NwPgU5TNSSMdKY05F6+n6B9OcJ8bVF/gHjtVhEUmrlanZIcOQyMQxcLq972AMwIBREU8co07gJeG+4aejBQfyikVwflkf9ygOil7TdoU9B9SxWx16DAUAlHU6T3Xw7bFui/C0W8D09nAo/O9I+XYCsThuYNXVN+neL0D6nDd6PPhXr//g/lap3906I/IIWjxCeRr+2DnflwzgDCiOHUD8LpQxyin1UYH46sqonD94VbgYQw4e4Sif2yImYLrfg517nsHw1qxiuRJ4xNiIqU0keOUxqtym0naT9KfSHqymvmj6iPWpGYmkU9IenuOqVqUr00MSyR5599K4NUyU7Gbhh1jkl6fUvoddoTBeB8iWQCMS3qCpE1VzjNZIIv7+kHu04yKWd15I2sYgI0xB9xLgA9hlqjbK04RT3qqfx/H9mi8l5wAYZr9WQd4f+BQ9aGg7xixvpgA27nHF6fbz7UNa7SiRjl9aV3ZIZa7S9pY0laStpa0QcttMUNhP8XaHW4/kGUuXChpXTXTew4Ld/ztKTu8M5525RG798p2IC7Ivw1Ki+r1PU/S+qH8mKQLZadr+Q7G6QJJKySdn1L6jHOkuUzbOttYYwkkv6wkaYmkr8pOlO0pphJ2nmSTaHWOSS1WPZDgx7v18+w/ILEmE8hYSmkC2E22yq9QORo5fqaDqXCMfhjEsaTC2YaF73WPmMn+OmLWxi2zjrTGEMlaoaRn+GSZTERZXZjpyTvUIaIzAOe+Hie2RmFNJhCylecKSd+VtP9q7c2aj7eHXZFzRZyzjjWO4iOCkr5E0hEys2eHmYNzj5+llL7l4726O9Whw7zDTPpU5hPWyIeqUTkKO8w8WJPEqg4dOnTo0KFDhw4dOnTo0KFDhw4dOnTo0KFDh7UB/x+wuuL1GEI5igAAAABJRU5ErkJggg==';
 const logoSrc = 'data:image/png;base64,' + LOGO_B64;
 
-let currentUser = 'brittany';
-let history = [];
-let loading = false;
+// ── ROLE DEFINITIONS ──
+// Each role has: displayName, visibleTabs, defaultTab, whether approvals are actionable
+const ROLES = {
+  owner: {
+    displayName: 'Sam',
+    visibleTabs: ['atlas','sales','marketing','finance','voice','strategy','settings'],
+    defaultTab: 'atlas',
+    canApprove: true,
+    seeBrainSettings: true
+  },
+  owner_brian: {
+    displayName: 'Brian',
+    visibleTabs: ['atlas','sales','marketing','finance','voice','strategy','settings'],
+    defaultTab: 'atlas',
+    canApprove: true,
+    seeBrainSettings: true
+  },
+  ops: {
+    displayName: 'Brittany',
+    visibleTabs: ['atlas','operations','sales','voice','settings'],
+    defaultTab: 'atlas',
+    canApprove: false,
+    seeBrainSettings: false
+  },
+  crew: {
+    displayName: 'Crew',
+    visibleTabs: ['atlas','myjobs'],
+    defaultTab: 'myjobs',
+    canApprove: false,
+    seeBrainSettings: false
+  },
+  admin: {
+    displayName: 'Admin',
+    visibleTabs: ['atlas','operations','sales','marketing','finance','voice','strategy','myjobs','settings'],
+    defaultTab: 'atlas',
+    canApprove: true,
+    seeBrainSettings: true
+  }
+};
 
 const PROMPTS = {
-  brittany: [
+  ops: [
     "What needs attention today?",
     "Draft Henderson follow-up",
     "Fill Crew B Thursday gap",
     "Draft estimate intro — Westover HOA",
     "What's my priority right now?"
   ],
-  sam: [
+  owner: [
     "Close rate this month",
     "Revenue if all quotes close?",
     "Best lead source?",
     "Westover Hills HOA status",
     "Should we add a 4th crew?"
+  ],
+  owner_brian: [
+    "Marketing ROI this month",
+    "Best performing lead source",
+    "Cost per lead trend",
+    "Which channels should we double down on?",
+    "Draft campaign idea for commercial leads"
+  ],
+  crew: [
+    "What's my schedule today?",
+    "Directions to next job",
+    "Who's on my crew today?",
+    "What materials are on the truck?",
+    "Call customer to confirm"
+  ],
+  admin: [
+    "Project status",
+    "What's still blocked?",
+    "Show me the skills library",
+    "Draft update for client"
   ]
 };
 
-const GREETINGS = {
-  brittany: "Morning Brittany. Johnson inspection at 8am, Williams walkthrough at 3:30. Henderson hasn't responded to their quote in 6 days — that needs a follow-up today. 3 approvals sitting for Sam totaling $47,200. What do you want to tackle first?",
-  sam: "Hey Sam. 3 quotes waiting on your approval — $47,200 total. Close rate is 34% this month, up 8 points. Westover Hills HOA is an $89k commercial job in quote stage. What do you need?"
-};
+function getGreeting(role, firstName) {
+  const name = firstName || ROLES[role].displayName;
+  if (role === 'owner') {
+    return `Hey ${name}. 3 quotes waiting on your approval — $47,200 total. Close rate is 34% this month, up 8 points. Westover Hills HOA is an $89k commercial job in quote stage. What do you need?`;
+  }
+  if (role === 'owner_brian') {
+    return `Hey ${name}. Marketing ROI is 6.2x this month — first time we can actually track that. Referrals are doing the heavy lifting at 41% of won jobs with a $12,400 avg. Google leads are cheap but converting at 24% vs referral's 58%. What are you digging into?`;
+  }
+  if (role === 'crew') {
+    return `Morning. You've got 3 jobs today — Johnson at 8am for a re-roof inspection, Patterson at 1pm for a repair, Miller follow-up at 3:30. First stop is 4821 Crestwood Dr. Anything you need?`;
+  }
+  if (role === 'admin') {
+    return `Admin view — all tabs unlocked, can toggle any role. Current previewing: ${ROLES.admin.displayName}. Switch via the role toggle in the header.`;
+  }
+  // ops
+  return `Morning ${name}. Johnson inspection at 8am, Williams walkthrough at 3:30. Henderson hasn't responded to their quote in 6 days — that needs a follow-up today. 3 approvals sitting for Sam totaling $47,200. What do you want to tackle first?`;
+}
 
-function buildKB() {
-  return `You are the AI Brain for Hardesty Roofing — a mid-size residential and commercial roofing contractor in Richmond, Virginia. 6–15 employees, multiple crews.
+let currentRole = 'ops';
+let currentFirstName = null;
+let isAdmin = false;
+let history = [];
+let loading = false;
 
-TEAM: Sam (owner, approves all re-roof pricing), Brittany (operations/scheduling — all scheduling, quotes, comms flow through her), Crew A Marcus, Crew B Derek, Crew C Tony. Geographic rule: never book New Kent and Charlottesville same day.
+// NOTE: The KB (system prompt) is now assembled by the backend /api/claude
+// from live GitHub repo docs via /api/context. Frontend just sends role + messages.
 
-PIPELINE: 8 new leads, 7 appointments this week, 11 quotes out ($218,400 total), 3 pending Sam approval (Oakridge Commercial $34,500 · Henderson $9,200 · Nguyen $3,500), close rate 34% MTD (up 8pts), revenue MTD $84,200 (up 22%), 9 jobs won.
+// ── URL-BASED ROLE DETECTION ──
+function detectRoleFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const email = (params.get('email') || '').toLowerCase();
+  const name = params.get('name') || '';
+  const explicitRole = (params.get('role') || '').toLowerCase();
 
-KEY LEADS: Thompson new residential Chesterfield called today unscheduled. Williams walkthrough today 3:30pm ~$18k. Henderson quote 6 days no response needs followup. Sunrise Apartments $67k commercial quote 2 days ago. Westover Hills HOA $89k commercial quote yesterday. Johnson re-roof inspection today 8am Crew A.
+  if (name) currentFirstName = name;
 
-WHAT THIS SYSTEM SOLVED: Estimates now professional (were terrible). Email in inbox (was 98% spam). Sam approval is one-click. Follow-ups automated (were paper). Full pipeline visibility.
+  // Explicit role param wins (admin override for testing)
+  if (explicitRole === 'admin') return 'admin';
+  if (explicitRole === 'owner') return 'owner';
+  if (explicitRole === 'ops' || explicitRole === 'operations') return 'ops';
+  if (explicitRole === 'crew') return 'crew';
+  if (explicitRole === 'brian') return 'owner_brian';
 
-CURRENT USER: ${currentUser === 'sam' ? 'Sam (owner) — revenue, close rates, ROI, utilization, approves re-roof pricing.' : 'Brittany (operations) — what needs doing now, not overwhelmed, scheduling, not chasing things manually.'}
+  // Email-based detection
+  // Obsidian Labs staff = admin
+  if (email.includes('labsobsidian') || email.includes('@obsidianlabs') || email.includes('garrett')) {
+    return 'admin';
+  }
+  // Hardesty team
+  if (email.includes('brian')) return 'owner_brian';
+  if (email.includes('sam') && email.includes('hardesty')) return 'owner';
+  if (email.includes('britt')) return 'ops';
 
-Be direct and operational. Draft messages ready to send. Use real names and numbers. Keep answers tight.`;
+  // Safe default — ops gets the least-sensitive view
+  return 'ops';
+}
+
+// ── APPLY ROLE: tab visibility, user label, admin banner ──
+function applyRole(role) {
+  currentRole = role;
+  const roleDef = ROLES[role];
+
+  // Show/hide tabs based on role
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const tab = item.getAttribute('data-tab');
+    if (roleDef.visibleTabs.includes(tab)) {
+      item.classList.remove('hidden');
+    } else {
+      item.classList.add('hidden');
+    }
+  });
+
+  // Approval buttons: hide Approve/Adjust + replace with locked tag if role can't approve
+  document.querySelectorAll('.approval-actions').forEach(el => {
+    if (roleDef.canApprove) {
+      el.innerHTML = el.getAttribute('data-original-html') || el.innerHTML;
+      if (!el.getAttribute('data-original-html')) {
+        el.setAttribute('data-original-html', el.innerHTML);
+      }
+    } else {
+      if (!el.getAttribute('data-original-html')) {
+        el.setAttribute('data-original-html', el.innerHTML);
+      }
+      el.innerHTML = '<span class="owner-lock"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="8" height="6" rx="1"/><path d="M5 6V4a2 2 0 014 0v2"/></svg>Owner approval required</span>';
+    }
+  });
+
+  // Sales alert bar: different copy for ops (they can see it but can't action it)
+  const alertText = document.getElementById('sales-alert-text');
+  if (alertText) {
+    if (roleDef.canApprove) {
+      alertText.innerHTML = '3 quotes awaiting approval — <strong style="margin-left:4px">$47,200 total.</strong>';
+    } else {
+      alertText.innerHTML = '3 quotes awaiting owner approval — <strong style="margin-left:4px">$47,200 total.</strong> Sam will review.';
+    }
+  }
+
+  // Brain settings section: only owners/admin see it
+  const brainSettings = document.getElementById('brain-settings-section');
+  if (brainSettings) {
+    if (roleDef.seeBrainSettings) {
+      brainSettings.classList.remove('hidden');
+    } else {
+      brainSettings.classList.add('hidden');
+    }
+  }
+
+  // Admin banner
+  const adminBanner = document.getElementById('admin-banner');
+  const userTabsEl = document.getElementById('user-tabs');
+  const userLabel = document.getElementById('current-user-label');
+
+  if (isAdmin) {
+    adminBanner.classList.add('visible');
+    userTabsEl.classList.remove('hidden');
+    userLabel.style.display = 'none';
+    // Update admin banner label based on currently-previewed role
+    const previewName = role === 'admin' ? 'Admin (all views)' :
+                        role === 'owner_brian' ? 'Brian (owner)' :
+                        role === 'owner' ? 'Sam (owner)' :
+                        role === 'ops' ? 'Brittany (operations)' :
+                        role === 'crew' ? 'Crew' : role;
+    document.getElementById('admin-current-role').textContent = previewName;
+    // Highlight the right tab
+    document.querySelectorAll('.user-tab').forEach(t => t.classList.remove('active'));
+    // Map role → button data-role
+    const btnRole = role === 'owner_brian' ? 'brian' :
+                    role === 'owner' ? 'sam' :
+                    role === 'ops' ? 'brittany' :
+                    role === 'admin' ? null : role;
+    if (btnRole) {
+      const btn = document.querySelector(`.user-tab[data-role="${btnRole}"]`);
+      if (btn) btn.classList.add('active');
+    }
+  } else {
+    adminBanner.classList.remove('visible');
+    userTabsEl.classList.add('hidden');
+    userLabel.style.display = 'block';
+    const displayName = currentFirstName
+      ? currentFirstName.charAt(0).toUpperCase() + currentFirstName.slice(1).toLowerCase()
+      : roleDef.displayName;
+    userLabel.textContent = displayName;
+  }
+
+  // Switch to role's default tab
+  const defaultTabBtn = document.querySelector(`.nav-item[data-tab="${roleDef.defaultTab}"]`);
+  if (defaultTabBtn) showPage(roleDef.defaultTab, defaultTabBtn);
+
+  // Reset chat + greeting + prompts
+  history = [];
+  document.getElementById('chat-messages').innerHTML = '';
+  buildQuickStrip(role);
+  const displayName = currentFirstName && role !== 'admin' ? currentFirstName : null;
+  addMsg('brain', getGreeting(role, displayName));
+}
+
+// Admin uses this to switch between previewed roles
+function switchRole(buttonRole, btn) {
+  // Map button data-role → internal role keys
+  const roleMap = {
+    'brittany': 'ops',
+    'sam': 'owner',
+    'brian': 'owner_brian',
+    'crew': 'crew'
+  };
+  const role = roleMap[buttonRole] || 'ops';
+  // When admin toggles, pretend to BE that role (not admin) for view purposes,
+  // but keep isAdmin true so toggle stays visible
+  applyRole(role);
 }
 
 function initLogo() {
@@ -546,10 +858,11 @@ function initLogo() {
   document.getElementById('clogo').src = logoSrc;
 }
 
-function buildQuickStrip(user) {
+function buildQuickStrip(role) {
   const strip = document.getElementById('quick-strip');
   strip.innerHTML = '';
-  PROMPTS[user].forEach(p => {
+  const prompts = PROMPTS[role] || PROMPTS.ops;
+  prompts.forEach(p => {
     const btn = document.createElement('button');
     btn.className = 'qchip';
     btn.textContent = p;
@@ -561,18 +874,9 @@ function buildQuickStrip(user) {
 function showPage(id, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  el.classList.add('active');
-}
-
-function setUser(u, btn) {
-  currentUser = u;
-  document.querySelectorAll('.user-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  history = [];
-  document.getElementById('chat-messages').innerHTML = '';
-  buildQuickStrip(u);
-  addMsg('brain', GREETINGS[u]);
+  const page = document.getElementById('page-' + id);
+  if (page) page.classList.add('active');
+  if (el) el.classList.add('active');
 }
 
 function addMsg(role, text) {
@@ -585,28 +889,18 @@ function addMsg(role, text) {
     const img = document.createElement('img');
     img.src = logoSrc; img.style.cssText = 'width:18px;height:18px;object-fit:contain;display:block;';
     av.appendChild(img);
-  } else { av.textContent = currentUser === 'sam' ? 'S' : 'B'; }
+  } else {
+    // User avatar letter from current role/name
+    const letter = currentFirstName
+      ? currentFirstName.charAt(0).toUpperCase()
+      : (ROLES[currentRole].displayName.charAt(0));
+    av.textContent = letter;
+  }
   const b = document.createElement('div');
   b.className = 'msg-bubble'; b.style.whiteSpace = 'pre-wrap'; b.textContent = text;
   d.appendChild(av); d.appendChild(b); c.appendChild(d);
   c.scrollTop = c.scrollHeight;
 }
-
-function addLoading() {
-  const c = document.getElementById('chat-messages');
-  const d = document.createElement('div');
-  d.className = 'msg brain'; d.id = 'loading-msg';
-  const av = document.createElement('div'); av.className = 'msg-av brain';
-  const img = document.createElement('img');
-  img.src = logoSrc; img.style.cssText = 'width:18px;height:18px;object-fit:contain;display:block;';
-  av.appendChild(img);
-  const b = document.createElement('div');
-  b.className = 'msg-bubble'; b.style.color = 'var(--gray-light)'; b.style.fontStyle = 'italic';
-  b.textContent = 'Thinking...';
-  d.appendChild(av); d.appendChild(b); c.appendChild(d); c.scrollTop = c.scrollHeight;
-}
-
-function removeLoading() { const el = document.getElementById('loading-msg'); if (el) el.remove(); }
 
 function addStreamingMsg() {
   const c = document.getElementById('chat-messages');
@@ -637,15 +931,13 @@ async function run(text) {
   addMsg('user', text);
   history.push({ role: 'user', content: text });
 
-  // Create streaming bubble
-  removeLoading();
   const bubble = addStreamingMsg();
   let fullReply = '';
 
   try {
     const resp = await fetch('/api/claude', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1000, system: buildKB(), messages: history })
+      body: JSON.stringify({ role: currentRole, messages: history })
     });
 
     if (!resp.ok) throw new Error('API error');
@@ -701,7 +993,14 @@ function approveJob(btn, amount) {
 
 window.addEventListener('load', () => {
   initLogo();
-  setUser('brittany', document.querySelector('.user-tab.active'));
+
+  // Detect role from URL params (email, name, role)
+  const detectedRole = detectRoleFromUrl();
+
+  // Admin flag: either detected as admin, OR a non-admin role was forced via explicit role= param AND email was admin
+  isAdmin = (detectedRole === 'admin');
+
+  applyRole(detectedRole);
 });
 </script>
 </body>
