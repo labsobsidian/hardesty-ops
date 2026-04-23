@@ -1,5 +1,5 @@
 # GO_LIVE_CHECKLIST.md — Hardesty Roofing
-_Last updated: 2026-04-22_
+_Last updated: 2026-04-23_
 
 ---
 
@@ -11,8 +11,9 @@ _Last updated: 2026-04-22_
 - [x] Deployed to Vercel — hardesty-b120v3g2a-labsobsidians-projects.vercel.app
 - [x] Voice agent spec written (hardesty-voice-agent-spec.md)
 - [x] Booking form built (hardesty-booking-form.html)
+- [x] Custom domain configured — hardesty-atlas.labsobsidian.co
 - [ ] Demo run-through with Garrett before Friday
-- [ ] Clean up Vercel URL → custom domain (e.g. hardesty.labsobsidian.co)
+- [ ] GHL custom menu link configured (see CONSTANTS.md for URL pattern)
 
 ---
 
