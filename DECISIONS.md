@@ -1,60 +1,44 @@
-# GO_LIVE_CHECKLIST.md — Hardesty Roofing
-_Last updated: 2026-04-22_
+# DECISIONS.md — Hardesty Roofing
+_Append-only. Newest at bottom._
 
 ---
 
-## Demo (by Friday 2026-04-25)
+## 2026-04-22: Demo with seeded data, wire live sync post-demo
 
-- [ ] hardesty-ops five living docs scaffolded and pushed to GitHub
-- [ ] Hardesty Brain demo app built with seeded data
-- [ ] Ops dashboard: pipeline view, daily schedule, quote queue
-- [ ] AI Brain: Hardesty-specific KB, answers real questions
-- [ ] Demo deployed to Vercel
-- [ ] GHL custom menu link configured
-- [ ] Demo run-through completed before Friday
+**Context:** AccuLynx API credentials not yet available. Friday demo is hard deadline.
 
----
+**Decision:** Build demo with realistic seeded data (roofing jobs, pipeline, crew schedule). Wire real AccuLynx → Supabase sync after demo once credentials received.
 
-## Phase 1 — GHL Comms (post-demo, week 1-2)
+**Reasoning:** Demo doesn't need live data to be convincing — it needs to show the future state accurately. Seeded data lets us build faster and control the narrative. Real data comes in week 2.
 
-- [ ] GHL sub-account fully configured
-- [ ] Google Workspace domain set up (fix deliverability)
-- [ ] Professional quote packet template built
-- [ ] Lead intake workflow published
-- [ ] Appointment confirmation sequence published
-- [ ] Post-appointment data capture form built
-- [ ] Sam approval workflow published
-- [ ] Quote delivery workflow published (Google Workspace email)
-- [ ] Follow-up sequences published
-- [ ] Brittany trained on new workflow
+**Revisit if:** Sam/Brittany specifically ask to see their live AccuLynx data during demo (have a fallback answer ready).
 
 ---
 
-## Phase 2 — Data Sync (post-demo, week 2-3)
+## 2026-04-22: GHL replaces AccuLynx comms immediately; AccuLynx retained as job record source of truth short-term
 
-- [ ] AccuLynx API credentials received from Brittany/Sam
-- [ ] Supabase project created (standard schema)
-- [ ] n8n AccuLynx → Supabase nightly sync built and tested
-- [ ] Atlas Brain switched from seeded to live data
-- [ ] Sales order replication built (job number, field team format)
-- [ ] Brittany scans and sends QuickBooks sales order examples
+**Context:** AccuLynx does two things: job management/quoting (useful) and communications (broken — spam problem). GHL does comms better. Full AccuLynx replacement is a bigger lift.
 
----
+**Decision:** Phase 1 — GHL takes all customer comms (estimates, follow-ups, confirmations). AccuLynx stays for job records. Phase 2 — sync AccuLynx to Supabase. Phase 3 — evaluate full AccuLynx replacement once GHL is stable.
 
-## Phase 3 — Full Atlas (week 3-4)
-
-- [ ] Master Atlas Brain wired to Hardesty Supabase
-- [ ] Reporting dashboard live (close rate, marketing ROI, pipeline by stage)
-- [ ] Sam has access to pipeline visibility he's never had
-- [ ] Capacity planning (crew territories, geographic scheduling)
-- [ ] Go-live sign-off from Sam and Brittany
+**Reasoning:** Solves the biggest pain (spam, ugly estimates) fastest without a rip-and-replace that will scare Brittany.
 
 ---
 
-## Final Sign-Off
+## 2026-04-22: Standard Supabase schema from day one
 
-- [ ] 98% spam problem eliminated (test email deliverability)
-- [ ] Estimate going out looking professional
-- [ ] Brittany's manual touches reduced by >50%
-- [ ] Sam can see close rate and marketing ROI on demand
-- [ ] System handles double lead volume without adding headcount
+**Context:** Hardesty is client #2. Master Atlas Brain needs to query all clients with a common data shape.
+
+**Decision:** Hardesty's Supabase schema follows the cross-client standard (jobs, contacts, pipeline_stages, revenue_events, crews). No custom schema.
+
+**Reasoning:** Retrofitting Chem-Dry was already noted as technical debt. Don't repeat it with Hardesty.
+
+---
+
+## 2026-04-23: Atlas Brain pinned to hardesty-atlas.labsobsidian.co custom domain
+
+**Context:** Raw Vercel URL (hardesty-b120v3g2a-labsobsidians-projects.vercel.app) is ugly and would break if we redeploy. Need a stable URL for GHL custom menu link embed.
+
+**Decision:** Use hardesty-atlas.labsobsidian.co as the canonical Atlas Brain URL. All GHL custom menu links, iframe embeds, and shared links point here.
+
+**Reasoning:** Predictable, white-labeled, survives Vercel project changes. Matches the client-scoped subdomain pattern (Chem-Dry uses chemdrybooking.labsobsidian.co etc.).
