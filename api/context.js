@@ -21,7 +21,8 @@ const LIVING_DOCS = [
   'CONSTANTS.md',
   'DECISIONS.md',
   'GO_LIVE_CHECKLIST.md',
-  'DEMO_CONTEXT.md'
+  'DEMO_CONTEXT.md',
+  'BRAND_STYLE.md'
 ];
 
 // In-memory cache. Vercel serverless instances each have their own copy;

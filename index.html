@@ -5,9 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Atlas — Hardesty Roofing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  /* ═══════════════════════════════════════════════════════════════════
+     CSS TOKENS — Atlas UI + Hardesty Brand
+     Atlas tokens power the internal UI (sidebars, tabs, etc.)
+     Hardesty tokens power customer-facing rich output (slides, emails, etc.)
+     Rule: never flood --hardesty-red as a background; accent only.
+     ═══════════════════════════════════════════════════════════════════ */
   :root {
+    /* Atlas UI palette */
     --black:#111111; --black-soft:#2A2A2A; --gray-dark:#3A3A3A;
     --gray-mid:#6B6B6B; --gray-light:#9A9A9A; --gray-border:#E2E2E2;
     --gray-surface:#F5F5F5; --gray-bg:#FAFAFA; --white:#FFFFFF;
@@ -17,17 +24,22 @@
     --blue-light:#EBF5FB; --blue-text:#1A5276;
     --success:#1E8449; --success-bg:#E8F8F0;
     --purple-light:#EEEDFE; --purple-text:#3C3489;
+
+    /* Hardesty brand tokens — used by rich output renderers (slides, email, etc.) */
+    --hardesty-red:#CD3134;
+    --hardesty-red-dark:#A82428;
+    --hardesty-red-light:#FDECEC;
+    --hardesty-black:#000000;
+    --hardesty-charcoal:#1A1A1A;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'DM Sans',sans-serif;background:var(--gray-bg);color:var(--black);min-height:100vh;font-size:14px;}
 
-  /* Admin banner */
+  /* ═══ HEADER / NAV / ADMIN ═══ */
   .admin-banner{background:#1A2332;color:#F5F5F5;padding:6px 24px;font-size:12px;display:none;align-items:center;justify-content:space-between;border-bottom:1px solid #2A3548;}
   .admin-banner.visible{display:flex;}
   .admin-banner-left{display:flex;align-items:center;gap:8px;}
   .admin-pill{background:#D4860A;color:white;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:0.04em;text-transform:uppercase;}
-
-  /* Header */
   .header{background:var(--black);padding:0 24px;height:54px;display:flex;align-items:center;justify-content:space-between;}
   .header-left{display:flex;align-items:center;gap:14px;}
   .header-logo{height:26px;width:26px;object-fit:contain;}
@@ -40,8 +52,6 @@
   .user-tab{padding:4px 14px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.4);background:transparent;transition:all 0.15s;font-family:'DM Sans',sans-serif;}
   .user-tab.active{background:rgba(255,255,255,0.1);color:white;border-color:rgba(255,255,255,0.35);}
   .current-user-label{color:rgba(255,255,255,0.6);font-size:12px;font-weight:500;}
-
-  /* Nav */
   .nav{background:var(--white);border-bottom:1px solid var(--gray-border);padding:0 24px;display:flex;overflow-x:auto;}
   .nav-item{padding:13px 15px;font-size:13px;color:var(--gray-mid);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
   .nav-item.active{color:var(--black);border-bottom-color:var(--black);font-weight:500;}
@@ -49,33 +59,29 @@
   .nav-item.hidden{display:none;}
   .nav-badge{background:var(--red);color:white;border-radius:10px;padding:1px 6px;font-size:10px;}
 
-  /* Layout */
+  /* ═══ LAYOUT ═══ */
   .main{max-width:1140px;margin:0 auto;padding:24px;}
   .page{display:none;}
   .page.active{display:block;}
 
-  /* Stats */
+  /* ═══ SHARED: STATS, CARDS, ROWS, BADGES, BUTTONS ═══ */
   .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
   .stat-card{background:var(--white);border:1px solid var(--gray-border);border-radius:10px;padding:16px 18px;}
   .stat-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--gray-mid);margin-bottom:6px;}
   .stat-value{font-size:24px;font-weight:500;color:var(--black);}
   .stat-sub{font-size:12px;color:var(--gray-light);margin-top:3px;}
   .stat-up{color:var(--teal);}
-
-  /* Cards */
+  .stat-down{color:var(--red);}
   .card{background:var(--white);border:1px solid var(--gray-border);border-radius:10px;margin-bottom:16px;overflow:hidden;}
   .card-header{padding:14px 18px;border-bottom:1px solid var(--gray-border);display:flex;align-items:center;justify-content:space-between;}
   .card-title{font-size:13px;font-weight:600;color:var(--black);}
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
   .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
-
-  /* Rows */
   .row{display:flex;gap:10px;padding:11px 18px;border-bottom:1px solid var(--gray-border);align-items:center;}
   .row:last-child{border-bottom:none;}
   .row-name{font-size:13px;font-weight:500;flex:1;}
   .row-detail{font-size:12px;color:var(--gray-mid);}
   .row-amount{font-size:13px;font-weight:500;min-width:76px;text-align:right;}
-
   .badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:500;}
   .b-new{background:var(--purple-light);color:var(--purple-text);}
   .b-scheduled{background:var(--amber-light);color:#784212;}
@@ -84,29 +90,25 @@
   .b-won{background:var(--success-bg);color:var(--success);}
   .b-lost{background:var(--gray-surface);color:var(--gray-mid);}
   .b-locked{background:var(--gray-surface);color:var(--gray-mid);border:1px solid var(--gray-border);}
-
   .sched-time{font-size:12px;color:var(--gray-mid);min-width:72px;padding-top:2px;}
   .sched-name{font-size:13px;font-weight:500;}
   .sched-addr{font-size:12px;color:var(--gray-mid);}
   .sched-crew{font-size:11px;color:var(--gray-light);margin-top:2px;}
   .cdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;}
-
   .alert-bar{background:var(--red-light);border:1px solid #F1948A;border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:13px;color:#922B21;}
   .alert-dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;}
-
   .btn{font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 12px;border-radius:6px;border:none;cursor:pointer;font-weight:500;transition:all 0.15s;}
   .btn-approve{background:var(--success-bg);color:var(--success);}
   .btn-adjust{background:var(--amber-light);color:#784212;margin-left:6px;}
   .btn-black{background:var(--black);color:white;}
   .btn-black:hover{opacity:0.8;}
-
-  /* Owner-approval locked tag (for Brittany's view of pending approvals) */
+  .btn-ghost{background:var(--white);color:var(--black);border:1px solid var(--gray-border);}
+  .btn-ghost:hover{background:var(--gray-surface);}
   .owner-lock{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:4px 10px;border-radius:6px;background:var(--gray-surface);color:var(--gray-mid);border:1px solid var(--gray-border);font-weight:500;}
   .owner-lock svg{width:11px;height:11px;flex-shrink:0;}
 
-  /* ── ATLAS TAB ── */
+  /* ═══ ATLAS TAB (chat) ═══ */
   .atlas-layout{display:grid;grid-template-columns:1fr 280px;gap:16px;height:calc(100vh - 142px);min-height:540px;}
-
   .chat-outer{border:1px solid var(--gray-border);border-radius:10px;overflow:hidden;background:var(--white);display:flex;flex-direction:column;}
   .chat-header{background:var(--black);padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
   .chat-logo-wrap{width:30px;height:30px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -115,7 +117,6 @@
   .chat-title{color:white;font-size:13px;font-weight:500;line-height:1.3;}
   .chat-subtitle{color:rgba(255,255,255,0.35);font-size:11px;}
   .online-dot{width:7px;height:7px;background:#2ECC71;border-radius:50%;}
-
   .chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
   .msg{display:flex;gap:10px;align-items:flex-start;}
   .msg.user{flex-direction:row-reverse;}
@@ -126,23 +127,22 @@
   .msg-bubble{max-width:80%;padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.7;}
   .msg.brain .msg-bubble{background:var(--gray-surface);color:var(--black);border-radius:2px 10px 10px 10px;border:1px solid var(--gray-border);}
   .msg.user .msg-bubble{background:var(--black);color:white;border-radius:10px 2px 10px 10px;}
-
-  /* Quick prompts above input */
+  .msg.brain .msg-bubble.rich{max-width:100%;width:100%;padding:0;overflow:hidden;background:var(--white);}
+  .msg.brain .msg-bubble.rich-mixed{max-width:95%;width:100%;padding:0;background:var(--white);}
+  .msg.brain .msg-bubble.rich-mixed .prose{padding:12px 14px;border-bottom:1px solid var(--gray-border);white-space:pre-wrap;}
+  .msg.brain .msg-bubble.rich-mixed .prose:last-child{border-bottom:none;}
   .quick-strip{padding:8px 14px 0;display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0;border-top:1px solid var(--gray-border);}
   .qchip{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--gray-border);background:var(--white);color:var(--gray-mid);cursor:pointer;white-space:nowrap;transition:all 0.15s;font-family:'DM Sans',sans-serif;}
   .qchip:hover{border-color:var(--black);color:var(--black);background:var(--gray-surface);}
-
+  .qchip.rich{border-color:var(--hardesty-red);color:var(--hardesty-red);}
+  .qchip.rich:hover{background:var(--hardesty-red);color:white;border-color:var(--hardesty-red);}
   .chat-input-area{padding:10px 14px;display:flex;gap:8px;flex-shrink:0;}
   .chat-input-area textarea{flex:1;border:1px solid var(--gray-border);border-radius:8px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;resize:none;outline:none;line-height:1.5;background:var(--gray-bg);color:var(--black);}
   .chat-input-area textarea:focus{border-color:var(--black-soft);background:var(--white);}
   .send-btn{width:38px;height:38px;border-radius:8px;background:var(--black);border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity 0.15s;}
   .send-btn:hover{opacity:0.8;}
   .send-btn:disabled{background:var(--gray-border);cursor:not-allowed;}
-
-  /* Atlas sidebar */
   .atlas-sidebar{display:flex;flex-direction:column;gap:12px;overflow-y:auto;}
-
-  /* Data connections — white card */
   .conn-card{background:var(--white);border:1px solid var(--gray-border);border-radius:10px;overflow:hidden;}
   .conn-card-header{padding:11px 14px;border-bottom:1px solid var(--gray-border);font-size:11px;font-weight:600;color:var(--gray-mid);text-transform:uppercase;letter-spacing:0.07em;}
   .conn-row{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--gray-border);}
@@ -154,14 +154,7 @@
   .cs-pending{background:var(--gray-surface);color:var(--gray-mid);}
   .cs-error{background:var(--red-light);color:#922B21;}
 
-  /* Voice status card */
-  .voice-status-card{background:var(--black);border-radius:10px;padding:14px;}
-  .vs-title{color:white;font-size:12px;font-weight:500;margin-bottom:4px;}
-  .vs-sub{color:rgba(255,255,255,0.38);font-size:11px;line-height:1.6;}
-  .vs-row{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:#2ECC71;}
-  .vs-dot{width:6px;height:6px;background:#2ECC71;border-radius:50%;}
-
-  /* ── VOICE TAB ── */
+  /* ═══ VOICE TAB ═══ */
   .voice-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
   .call-row{display:flex;gap:12px;padding:10px 18px;border-bottom:1px solid var(--gray-border);align-items:flex-start;}
   .call-row:last-child{border-bottom:none;}
@@ -185,7 +178,7 @@
   .voice-stat{background:var(--white);border:1px solid var(--gray-border);border-radius:10px;padding:16px 18px;}
   .voice-stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
 
-  /* ── SETTINGS TAB ── */
+  /* ═══ SETTINGS ═══ */
   .settings-section{margin-bottom:24px;}
   .settings-section.hidden{display:none;}
   .settings-title{font-size:13px;font-weight:600;color:var(--black);margin-bottom:12px;}
@@ -193,7 +186,6 @@
   .setting-row:first-of-type{border-radius:10px 10px 0 0;border:1px solid var(--gray-border);border-bottom:none;}
   .setting-row:last-of-type{border-radius:0 0 10px 10px;border:1px solid var(--gray-border);}
   .setting-row:not(:first-of-type):not(:last-of-type){border-left:1px solid var(--gray-border);border-right:1px solid var(--gray-border);}
-  .sr-left{}
   .sr-label{font-size:13px;font-weight:500;color:var(--black);}
   .sr-detail{font-size:12px;color:var(--gray-light);margin-top:2px;}
   .sr-right{display:flex;align-items:center;gap:10px;}
@@ -201,14 +193,12 @@
   .connect-btn:hover{background:var(--gray-surface);}
   .connect-btn.connected{background:var(--success-bg);color:var(--success);border-color:#A9DFBF;}
 
-  /* ── FINANCE TAB ── */
+  /* ═══ FINANCE / STRATEGY / MY JOBS ═══ */
   .finance-layout{display:grid;grid-template-columns:2fr 1fr;gap:16px;}
   .kpi-row{display:flex;justify-content:space-between;padding:9px 18px;border-bottom:1px solid var(--gray-border);font-size:13px;align-items:center;}
   .kpi-row:last-child{border-bottom:none;}
   .kpi-label{color:var(--gray-mid);}
   .kpi-value{font-weight:500;}
-
-  /* ── STRATEGY TAB ── */
   .strategy-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
   .goal-row{padding:12px 18px;border-bottom:1px solid var(--gray-border);}
   .goal-row:last-child{border-bottom:none;}
@@ -216,8 +206,6 @@
   .goal-bar-wrap{height:5px;background:var(--gray-surface);border-radius:3px;margin-bottom:4px;}
   .goal-bar{height:100%;background:var(--black);border-radius:3px;}
   .goal-meta{font-size:11px;color:var(--gray-light);}
-
-  /* ── MY JOBS TAB (crew) ── */
   .myjobs-hero{background:var(--black);color:white;padding:20px 24px;border-radius:10px;margin-bottom:16px;}
   .myjobs-hero h2{font-size:20px;font-weight:500;margin-bottom:4px;}
   .myjobs-hero p{font-size:13px;color:rgba(255,255,255,0.5);}
@@ -231,9 +219,314 @@
   .job-notes{background:var(--gray-surface);border-radius:6px;padding:10px 12px;margin-top:10px;font-size:12px;color:var(--gray-dark);line-height:1.5;}
   .job-notes-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--gray-mid);margin-bottom:4px;}
 
-  /* data banner */
   .demo-banner{background:var(--gray-surface);border:1px solid var(--gray-border);border-radius:8px;padding:8px 14px;margin-bottom:16px;font-size:12px;color:var(--gray-mid);display:flex;align-items:center;gap:8px;}
   .demo-dot{width:7px;height:7px;border-radius:50%;background:var(--amber);flex-shrink:0;}
+
+</style>
+<style>
+  /* ═══════════════════════════════════════════════════════════════════
+     MARKETING MODULE — sub-nav, AEO, Competitors, Ad Perf, Content Studio, Monday Brief
+     ═══════════════════════════════════════════════════════════════════ */
+  .sub-nav{display:flex;gap:4px;padding:4px;background:var(--white);border:1px solid var(--gray-border);border-radius:10px;margin-bottom:20px;overflow-x:auto;}
+  .sub-nav-item{padding:8px 14px;font-size:12px;font-weight:500;color:var(--gray-mid);cursor:pointer;border-radius:7px;white-space:nowrap;transition:all 0.15s;display:flex;align-items:center;gap:6px;}
+  .sub-nav-item:hover{color:var(--black);background:var(--gray-surface);}
+  .sub-nav-item.active{background:var(--black);color:white;}
+  .sub-nav-item.active:hover{background:var(--black);}
+  .sn-icon{width:14px;height:14px;flex-shrink:0;opacity:0.7;}
+  .sub-nav-item.active .sn-icon{opacity:1;}
+  .sub-nav-item .sn-pill{background:var(--hardesty-red);color:white;font-size:9px;padding:1px 6px;border-radius:10px;font-weight:600;letter-spacing:0.05em;margin-left:2px;}
+  .sub-page{display:none;}
+  .sub-page.active{display:block;}
+
+  /* AEO Monitor */
+  .aeo-hero{background:linear-gradient(135deg, var(--hardesty-charcoal) 0%, #2A2A2A 100%);color:white;border-radius:10px;padding:24px;margin-bottom:16px;display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center;position:relative;overflow:hidden;}
+  .aeo-hero::before{content:'';position:absolute;top:0;right:0;bottom:0;width:4px;background:var(--hardesty-red);}
+  .aeo-hero-left h3{font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
+  .aeo-hero-left h2{font-size:22px;font-weight:500;margin-bottom:8px;line-height:1.3;}
+  .aeo-hero-left p{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;}
+  .aeo-score-ring{position:relative;width:160px;height:160px;margin:0 auto;}
+  .aeo-score-value{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+  .aeo-score-num{font-size:38px;font-weight:500;color:white;line-height:1;}
+  .aeo-score-label{font-size:11px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px;}
+  .aeo-score-sub{text-align:center;font-size:12px;color:rgba(255,255,255,0.65);margin-top:10px;}
+
+  .aeo-engines{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+  .engine-card{background:var(--white);border:1px solid var(--gray-border);border-radius:10px;padding:14px;}
+  .engine-name{font-size:12px;font-weight:600;color:var(--black);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+  .engine-dot{width:8px;height:8px;border-radius:50%;}
+  .engine-stat{font-size:20px;font-weight:500;margin-bottom:2px;}
+  .engine-sub{font-size:11px;color:var(--gray-mid);}
+
+  .query-table-row{display:grid;grid-template-columns:2.2fr 0.8fr 0.8fr 0.8fr 0.8fr 1fr;gap:10px;padding:11px 18px;border-bottom:1px solid var(--gray-border);align-items:center;font-size:12px;}
+  .query-table-row.header{background:var(--gray-surface);font-size:10px;font-weight:600;color:var(--gray-mid);text-transform:uppercase;letter-spacing:0.07em;padding:10px 18px;}
+  .query-text{font-size:13px;color:var(--black);}
+  .query-text .vol{font-size:11px;color:var(--gray-light);display:block;margin-top:2px;}
+  .cite-indicator{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:600;}
+  .cite-yes{background:var(--teal-light);color:var(--teal);}
+  .cite-no{background:var(--hardesty-red-light);color:var(--hardesty-red);}
+  .cite-partial{background:var(--amber-light);color:var(--amber);}
+  .cite-comp{background:var(--gray-surface);color:var(--gray-mid);border:1px solid var(--gray-border);}
+  .trend-up{color:var(--teal);font-size:11px;}
+  .trend-down{color:var(--hardesty-red);font-size:11px;}
+  .trend-flat{color:var(--gray-mid);font-size:11px;}
+
+  .rec-card{display:flex;gap:14px;padding:14px 18px;border-bottom:1px solid var(--gray-border);align-items:flex-start;}
+  .rec-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;font-weight:600;}
+  .ri-high{background:var(--hardesty-red-light);color:var(--hardesty-red);}
+  .ri-med{background:var(--amber-light);color:var(--amber);}
+  .ri-low{background:var(--teal-light);color:var(--teal);}
+  .rec-body{flex:1;}
+  .rec-title{font-size:13px;font-weight:600;margin-bottom:3px;}
+  .rec-detail{font-size:12px;color:var(--gray-mid);line-height:1.5;}
+  .rec-impact{font-size:11px;color:var(--teal);font-weight:500;margin-top:4px;}
+  .rec-btn{font-size:11px;padding:5px 10px;border-radius:6px;background:var(--black);color:white;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;flex-shrink:0;}
+  .rec-btn:hover{opacity:0.85;}
+
+  /* Competitors */
+  .comp-row{display:grid;grid-template-columns:0.3fr 2fr 1fr 1fr 1fr 1fr 0.8fr;gap:10px;padding:12px 18px;border-bottom:1px solid var(--gray-border);align-items:center;font-size:12px;}
+  .comp-row.header{background:var(--gray-surface);font-size:10px;font-weight:600;color:var(--gray-mid);text-transform:uppercase;letter-spacing:0.07em;padding:10px 18px;}
+  .comp-rank{font-size:16px;font-weight:500;color:var(--gray-mid);text-align:center;}
+  .comp-rank.us{color:var(--hardesty-red);font-weight:600;}
+  .comp-name{font-size:13px;font-weight:500;}
+  .comp-name .comp-url{font-size:11px;color:var(--gray-light);font-weight:400;display:block;margin-top:1px;}
+  .comp-name.us{color:var(--hardesty-red);}
+  .comp-name.us::after{content:'YOU';font-size:9px;background:var(--hardesty-red);color:white;padding:2px 6px;border-radius:10px;margin-left:6px;font-weight:600;letter-spacing:0.05em;}
+  .comp-score{font-weight:500;}
+  .comp-score.high{color:var(--teal);}
+  .comp-score.mid{color:var(--amber);}
+  .comp-score.low{color:var(--hardesty-red);}
+  .comp-bar{height:4px;background:var(--gray-surface);border-radius:3px;width:100%;position:relative;overflow:hidden;}
+  .comp-bar-fill{height:100%;background:var(--black);border-radius:3px;}
+
+  .gap-card{padding:14px 18px;}
+  .gap-card-title{font-size:13px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+  .gap-card-title .gap-tag{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;}
+  .gap-crit{background:var(--hardesty-red-light);color:var(--hardesty-red);}
+  .gap-opp{background:var(--amber-light);color:var(--amber);}
+  .gap-win{background:var(--teal-light);color:var(--teal);}
+  .gap-card-body{font-size:12px;color:var(--gray-mid);line-height:1.6;}
+
+  /* Ad Performance */
+  .channel-row{display:grid;grid-template-columns:1.2fr 0.8fr 0.8fr 0.8fr 0.8fr 0.8fr 1fr;gap:10px;padding:12px 18px;border-bottom:1px solid var(--gray-border);align-items:center;font-size:12px;}
+  .channel-row.header{background:var(--gray-surface);font-size:10px;font-weight:600;color:var(--gray-mid);text-transform:uppercase;letter-spacing:0.07em;padding:10px 18px;}
+  .channel-name{font-size:13px;font-weight:500;}
+  .channel-status{font-size:11px;padding:2px 7px;border-radius:10px;font-weight:500;display:inline-block;}
+  .cs-scale{background:var(--teal-light);color:var(--teal);}
+  .cs-hold{background:var(--amber-light);color:#784212;}
+  .cs-kill{background:var(--hardesty-red-light);color:var(--hardesty-red);}
+  .cs-test{background:var(--blue-light);color:var(--blue-text);}
+  .campaign-row{display:grid;grid-template-columns:2fr 0.8fr 0.8fr 0.8fr 0.8fr 1fr;gap:10px;padding:12px 18px;border-bottom:1px solid var(--gray-border);align-items:center;font-size:12px;}
+  .campaign-row.header{background:var(--gray-surface);font-size:10px;font-weight:600;color:var(--gray-mid);text-transform:uppercase;letter-spacing:0.07em;padding:10px 18px;}
+
+  /* Content Studio */
+  .studio-hero{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+  .studio-card{background:var(--white);border:1px solid var(--gray-border);border-radius:10px;padding:16px;cursor:pointer;transition:all 0.15s;text-align:left;font-family:'DM Sans',sans-serif;}
+  .studio-card:hover{border-color:var(--hardesty-red);transform:translateY(-1px);box-shadow:0 4px 12px rgba(205,49,52,0.06);}
+  .studio-card-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:16px;}
+  .sc-blog{background:var(--blue-light);color:var(--blue-text);}
+  .sc-social{background:var(--purple-light);color:var(--purple-text);}
+  .sc-ad{background:var(--amber-light);color:var(--amber);}
+  .sc-case{background:var(--hardesty-red-light);color:var(--hardesty-red);}
+  .studio-card h4{font-size:13px;font-weight:600;margin-bottom:4px;}
+  .studio-card p{font-size:11px;color:var(--gray-mid);line-height:1.5;}
+
+  .content-row{display:grid;grid-template-columns:0.15fr 1.5fr 0.8fr 0.8fr 0.6fr 1fr;gap:10px;padding:12px 18px;border-bottom:1px solid var(--gray-border);align-items:center;font-size:12px;}
+  .content-row.header{background:var(--gray-surface);font-size:10px;font-weight:600;color:var(--gray-mid);text-transform:uppercase;letter-spacing:0.07em;padding:10px 18px;}
+  .content-type-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;}
+  .content-title{font-size:13px;font-weight:500;}
+  .content-title .content-sub{font-size:11px;color:var(--gray-light);font-weight:400;display:block;margin-top:1px;}
+  .c-status{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500;}
+  .cst-draft{background:var(--gray-surface);color:var(--gray-mid);}
+  .cst-review{background:var(--amber-light);color:#784212;}
+  .cst-ready{background:var(--teal-light);color:var(--teal);}
+  .cst-pub{background:var(--success-bg);color:var(--success);}
+  .draft-it-btn{font-size:11px;padding:5px 12px;border-radius:6px;background:var(--hardesty-red);color:white;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;display:inline-flex;align-items:center;gap:5px;transition:opacity 0.15s;}
+  .draft-it-btn:hover{opacity:0.85;}
+  .draft-it-btn svg{width:11px;height:11px;}
+
+  /* Monday Brief */
+  .brief-frame{background:var(--white);border:1px solid var(--gray-border);border-radius:12px;padding:0;max-width:680px;margin:0 auto;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.04);}
+  .brief-header-env{background:var(--gray-surface);padding:10px 20px;border-bottom:1px solid var(--gray-border);font-size:11px;color:var(--gray-mid);display:flex;justify-content:space-between;}
+  .brief-header-env strong{color:var(--black);font-weight:500;}
+  .brief-inner{padding:32px 32px 28px;}
+  .brief-eyebrow{font-size:11px;font-weight:600;color:var(--hardesty-red);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
+  .brief-title{font-size:22px;font-weight:500;margin-bottom:6px;line-height:1.3;}
+  .brief-dateline{font-size:12px;color:var(--gray-mid);margin-bottom:20px;}
+  .brief-section{margin-bottom:24px;}
+  .brief-section-title{font-size:13px;font-weight:600;color:var(--black);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+  .brief-section-title::before{content:'';width:3px;height:14px;background:var(--hardesty-red);border-radius:2px;}
+  .brief-metric{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
+  .brief-metric-cell{background:var(--gray-bg);border-radius:8px;padding:12px;}
+  .brief-metric-label{font-size:10px;color:var(--gray-mid);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;font-weight:600;}
+  .brief-metric-val{font-size:17px;font-weight:500;}
+  .brief-metric-sub{font-size:10px;color:var(--gray-mid);margin-top:2px;}
+  .brief-list{font-size:12.5px;line-height:1.7;color:var(--gray-dark);}
+  .brief-list li{list-style:none;padding:6px 0;display:flex;gap:8px;align-items:flex-start;}
+  .brief-list li::before{content:'→';color:var(--hardesty-red);font-weight:500;flex-shrink:0;}
+  .brief-cta-row{display:flex;gap:8px;margin-top:16px;}
+  .brief-cta{flex:1;padding:10px 14px;border-radius:8px;border:1px solid var(--gray-border);font-size:12px;font-weight:500;cursor:pointer;background:var(--white);font-family:'DM Sans',sans-serif;transition:all 0.15s;text-align:center;}
+  .brief-cta:hover{background:var(--gray-surface);}
+  .brief-cta.primary{background:var(--hardesty-red);color:white;border-color:var(--hardesty-red);}
+  .brief-cta.primary:hover{background:var(--hardesty-red-dark);}
+  .brief-footer{padding:14px 32px;background:var(--gray-bg);border-top:1px solid var(--gray-border);font-size:10px;color:var(--gray-light);text-align:center;}
+  .brief-settings{background:var(--white);border:1px solid var(--gray-border);border-radius:10px;padding:20px;margin-bottom:16px;}
+  .brief-settings h4{font-size:13px;font-weight:600;margin-bottom:12px;}
+  .bs-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px;}
+  .bs-label{color:var(--gray-mid);}
+  .bs-val{font-weight:500;}
+
+  /* ═══════════════════════════════════════════════════════════════════
+     RICH CHAT OUTPUT RENDERERS — slides, social, ad, email, blog
+     Uses Hardesty brand tokens for customer-facing output.
+     ═══════════════════════════════════════════════════════════════════ */
+  .rich-skeleton{padding:20px;display:flex;align-items:center;gap:14px;background:linear-gradient(90deg, var(--gray-bg) 25%, var(--gray-surface) 50%, var(--gray-bg) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;}
+  @keyframes shimmer { 0% {background-position:200% 0;} 100% {background-position:-200% 0;} }
+  .rich-skeleton-icon{width:32px;height:32px;border-radius:8px;background:var(--hardesty-red);color:white;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+  .rich-skeleton-text{flex:1;}
+  .rich-skeleton-title{font-size:12px;font-weight:600;color:var(--black);margin-bottom:4px;}
+  .rich-skeleton-sub{font-size:11px;color:var(--gray-mid);}
+
+  /* SLIDES */
+  .atlas-slides{background:var(--white);overflow:hidden;}
+  .slides-toolbar{background:var(--hardesty-black);padding:10px 14px;display:flex;align-items:center;gap:10px;color:white;}
+  .slides-title{font-size:12px;font-weight:500;flex:1;}
+  .slides-counter{font-size:11px;color:rgba(255,255,255,0.5);}
+  .slides-tools{display:flex;gap:6px;}
+  .slides-tool{background:rgba(255,255,255,0.1);border:none;color:white;font-size:11px;padding:4px 9px;border-radius:5px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.15s;}
+  .slides-tool:hover{background:var(--hardesty-red);}
+  .slides-stage{position:relative;aspect-ratio:16/9;overflow:hidden;background:#f8f8f8;}
+  .slide{position:absolute;inset:0;padding:38px 48px;display:none;flex-direction:column;justify-content:center;}
+  .slide.active{display:flex;animation:slideFade 0.35s ease-out;}
+  @keyframes slideFade { from{opacity:0;transform:translateX(12px);} to{opacity:1;transform:translateX(0);} }
+  .slide-mark{font-size:10px;font-weight:600;color:var(--hardesty-red);text-transform:uppercase;letter-spacing:0.15em;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+  .slide-mark::before{content:'';width:24px;height:2px;background:var(--hardesty-red);}
+  .slide-title{font-size:30px;font-weight:500;color:var(--hardesty-black);line-height:1.15;letter-spacing:-0.01em;margin-bottom:14px;}
+  .slide-subtitle{font-size:15px;color:var(--gray-mid);line-height:1.55;max-width:82%;}
+  .slide.cover{background:var(--hardesty-charcoal);color:white;position:relative;overflow:hidden;}
+  .slide.cover::before{content:'';position:absolute;top:0;right:0;bottom:0;width:5px;background:var(--hardesty-red);}
+  .slide.cover::after{content:'EST. 1990';position:absolute;top:30px;right:58px;font-size:10px;font-weight:600;color:rgba(255,255,255,0.4);letter-spacing:0.2em;}
+  .slide.cover .slide-mark{color:var(--hardesty-red);}
+  .slide.cover .slide-mark::before{background:var(--hardesty-red);}
+  .slide.cover .slide-title{color:white;font-size:34px;max-width:88%;}
+  .slide.cover .slide-subtitle{color:rgba(255,255,255,0.7);}
+  .slide.cover .slide-logo{position:absolute;bottom:32px;left:48px;font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:0.15em;text-transform:uppercase;display:flex;align-items:center;gap:10px;}
+  .slide.cover .slide-logo strong{color:white;font-weight:500;}
+  .slide-body-list{list-style:none;margin-top:10px;}
+  .slide-body-list li{font-size:14px;color:var(--gray-dark);line-height:1.55;padding:9px 0 9px 26px;position:relative;border-bottom:1px solid var(--gray-border);}
+  .slide-body-list li:last-child{border-bottom:none;}
+  .slide-body-list li::before{content:'';position:absolute;left:0;top:17px;width:16px;height:2px;background:var(--hardesty-red);}
+  .slide-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px;}
+  .slide-stat{background:var(--white);border:1px solid var(--gray-border);border-radius:10px;padding:18px;position:relative;overflow:hidden;}
+  .slide-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--hardesty-red);}
+  .slide-stat-val{font-size:28px;font-weight:500;line-height:1;margin-bottom:6px;color:var(--hardesty-black);}
+  .slide-stat-val.red{color:var(--hardesty-red);}
+  .slide-stat-label{font-size:11px;color:var(--gray-mid);line-height:1.4;}
+  .slide.result{background:linear-gradient(135deg, var(--hardesty-red-light) 0%, #FFF 100%);}
+  .slide-result-number{font-size:72px;font-weight:500;color:var(--hardesty-red);line-height:1;margin-bottom:8px;letter-spacing:-0.02em;}
+  .slide-result-caption{font-size:15px;color:var(--gray-dark);max-width:70%;line-height:1.5;}
+  .slide.quote{background:var(--gray-surface);position:relative;}
+  .slide.quote::before{content:'';position:absolute;left:48px;top:38px;width:44px;height:3px;background:var(--hardesty-red);}
+  .slide-quote-text{font-size:20px;font-weight:500;color:var(--hardesty-black);line-height:1.4;max-width:88%;margin-top:22px;margin-bottom:18px;font-style:italic;}
+  .slide-quote-attr{font-size:13px;color:var(--gray-mid);}
+  .slide-quote-attr strong{color:var(--hardesty-black);font-weight:500;}
+  .slides-nav{display:flex;align-items:center;padding:10px 14px;background:var(--white);border-top:1px solid var(--gray-border);gap:8px;}
+  .slides-nav-btn{background:var(--gray-surface);border:none;width:30px;height:30px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--hardesty-black);transition:all 0.15s;}
+  .slides-nav-btn:hover:not(:disabled){background:var(--hardesty-red);color:white;}
+  .slides-nav-btn:disabled{opacity:0.3;cursor:not-allowed;}
+  .slides-dots{display:flex;gap:5px;flex:1;justify-content:center;}
+  .slides-dot{width:6px;height:6px;border-radius:50%;background:var(--gray-border);cursor:pointer;transition:all 0.15s;}
+  .slides-dot.active{background:var(--hardesty-red);width:20px;border-radius:3px;}
+
+  /* SOCIAL */
+  .atlas-social-wrap{padding:16px;}
+  .social-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+  .social-label{font-size:11px;font-weight:600;color:var(--gray-mid);text-transform:uppercase;letter-spacing:0.08em;}
+  .social-card{background:var(--white);border:1px solid var(--gray-border);border-radius:10px;overflow:hidden;max-width:420px;margin:0 auto;font-family:'Inter','DM Sans',sans-serif;}
+  .sc-top{display:flex;align-items:center;padding:12px 14px;}
+  .sc-avatar{width:32px;height:32px;border-radius:50%;background:var(--hardesty-red);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;margin-right:10px;letter-spacing:0.05em;}
+  .sc-user-info{flex:1;}
+  .sc-username{font-size:13px;font-weight:600;line-height:1.2;}
+  .sc-location{font-size:11px;color:var(--gray-mid);}
+  .sc-menu{color:var(--gray-light);font-size:18px;line-height:0;cursor:pointer;}
+  .sc-image{aspect-ratio:1/1;background:var(--gray-surface);position:relative;overflow:hidden;}
+  .sc-image-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gray-mid);gap:10px;}
+  .sc-before-after{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;}
+  .sc-ba-half{position:relative;display:flex;align-items:center;justify-content:center;color:white;font-weight:600;font-size:14px;letter-spacing:0.1em;}
+  .sc-ba-half.before{background:linear-gradient(135deg, #7F8C8D, #546E7A);}
+  .sc-ba-half.after{background:linear-gradient(135deg, var(--hardesty-red), var(--hardesty-red-dark));}
+  .sc-ba-label{background:rgba(0,0,0,0.7);padding:4px 10px;border-radius:4px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;}
+  .sc-ba-divider{position:absolute;top:0;bottom:0;left:50%;width:2px;background:white;}
+  .sc-actions{padding:10px 14px;display:flex;gap:14px;}
+  .sc-action{width:22px;height:22px;color:var(--hardesty-black);cursor:pointer;}
+  .sc-action svg{width:100%;height:100%;}
+  .sc-likes{padding:0 14px 4px;font-size:13px;font-weight:600;}
+  .sc-caption{padding:4px 14px 10px;font-size:13px;line-height:1.4;}
+  .sc-caption strong{font-weight:600;margin-right:4px;}
+  .sc-hashtags{color:var(--blue-text);font-size:13px;line-height:1.5;}
+  .sc-time{padding:0 14px 12px;font-size:10px;color:var(--gray-light);text-transform:uppercase;letter-spacing:0.05em;}
+  .sc-engagement{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px;background:var(--gray-bg);border-top:1px solid var(--gray-border);}
+  .sc-eng-cell{text-align:center;}
+  .sc-eng-val{font-size:14px;font-weight:600;color:var(--hardesty-black);}
+  .sc-eng-label{font-size:10px;color:var(--gray-mid);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;}
+
+  /* AD */
+  .atlas-ad-wrap{padding:16px;}
+  .ad-label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .ad-label{font-size:11px;font-weight:600;color:var(--gray-mid);text-transform:uppercase;letter-spacing:0.08em;}
+  .ad-meta{font-size:11px;color:var(--gray-light);}
+  .serp-preview{background:var(--white);border:1px solid var(--gray-border);border-radius:10px;padding:18px 20px;margin-bottom:12px;font-family:Arial, sans-serif;}
+  .serp-sponsored{font-size:11px;color:var(--gray-mid);font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:4px;}
+  .serp-sponsored::before{content:'';width:5px;height:5px;background:currentColor;border-radius:50%;}
+  .serp-url{font-size:12px;color:var(--gray-dark);margin-bottom:2px;}
+  .serp-headline{font-size:18px;color:#1a0dab;line-height:1.3;margin-bottom:4px;font-weight:400;}
+  .serp-headline:hover{text-decoration:underline;cursor:pointer;}
+  .serp-description{font-size:13px;color:#4d5156;line-height:1.5;}
+  .serp-extensions{margin-top:8px;display:flex;gap:16px;flex-wrap:wrap;}
+  .serp-ext{font-size:12px;color:#1a0dab;}
+  .ad-variants{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+  .ad-variant{background:var(--gray-bg);border:1px solid var(--gray-border);border-radius:8px;padding:12px 14px;}
+  .ad-variant-label{font-size:10px;font-weight:600;color:var(--hardesty-red);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
+  .ad-variant-body{font-size:12.5px;line-height:1.5;}
+  .ad-variant-body strong{font-weight:600;display:block;margin-bottom:2px;color:var(--hardesty-black);}
+
+  /* EMAIL */
+  .atlas-email-wrap{padding:16px;}
+  .email-preview{background:var(--white);border:1px solid var(--gray-border);border-radius:10px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.04);}
+  .email-header{background:var(--gray-surface);padding:10px 18px;border-bottom:1px solid var(--gray-border);font-size:11px;color:var(--gray-mid);display:flex;justify-content:space-between;}
+  .email-header strong{color:var(--hardesty-black);font-weight:500;}
+  .email-body{padding:28px;}
+  .email-eyebrow{font-size:11px;font-weight:600;color:var(--hardesty-red);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
+  .email-subject{font-size:20px;font-weight:500;margin-bottom:6px;line-height:1.3;}
+  .email-greeting{font-size:13px;color:var(--gray-mid);margin-bottom:18px;}
+  .email-section{margin-bottom:20px;}
+  .email-h{font-size:13px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .email-h::before{content:'';width:3px;height:13px;background:var(--hardesty-red);border-radius:2px;}
+  .email-text{font-size:13px;line-height:1.65;color:var(--gray-dark);}
+  .email-list{list-style:none;margin-top:6px;}
+  .email-list li{padding:5px 0;display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:1.6;}
+  .email-list li::before{content:'→';color:var(--hardesty-red);flex-shrink:0;}
+  .email-cta-row{display:flex;gap:8px;margin-top:14px;}
+  .email-cta{flex:1;padding:9px 14px;border-radius:6px;border:1px solid var(--gray-border);font-size:12px;font-weight:500;cursor:pointer;background:var(--white);font-family:'DM Sans',sans-serif;text-align:center;}
+  .email-cta.primary{background:var(--hardesty-red);color:white;border-color:var(--hardesty-red);}
+
+  /* BLOG */
+  .atlas-blog-wrap{padding:16px;}
+  .blog-preview{background:var(--white);border:1px solid var(--gray-border);border-radius:10px;overflow:hidden;}
+  .blog-header-strip{background:var(--hardesty-black);color:white;padding:10px 18px;font-size:11px;display:flex;justify-content:space-between;align-items:center;}
+  .blog-header-strip strong{font-weight:500;}
+  .blog-body{padding:28px 32px;max-height:500px;overflow-y:auto;}
+  .blog-eyebrow{font-size:10px;font-weight:600;color:var(--hardesty-red);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;}
+  .blog-title{font-size:24px;font-weight:500;line-height:1.25;margin-bottom:10px;letter-spacing:-0.01em;}
+  .blog-meta{display:flex;gap:14px;font-size:11px;color:var(--gray-mid);margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--gray-border);}
+  .blog-meta span{display:flex;align-items:center;gap:4px;}
+  .blog-lead{font-size:14px;line-height:1.7;color:var(--gray-dark);margin-bottom:16px;font-weight:500;border-left:3px solid var(--hardesty-red);padding-left:14px;}
+  .blog-body h3{font-size:16px;font-weight:600;margin:22px 0 10px;color:var(--hardesty-black);}
+  .blog-body p{font-size:13px;line-height:1.75;color:var(--gray-dark);margin-bottom:12px;}
+  .blog-body ul{margin:10px 0 14px 20px;}
+  .blog-body li{font-size:13px;line-height:1.75;color:var(--gray-dark);margin-bottom:5px;}
+  .blog-footer{padding:14px 32px;background:var(--gray-bg);border-top:1px solid var(--gray-border);display:flex;gap:8px;justify-content:flex-end;}
+  .blog-footer-btn{font-size:11px;padding:6px 12px;border-radius:6px;border:1px solid var(--gray-border);background:var(--white);cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;}
+  .blog-footer-btn.primary{background:var(--hardesty-red);color:white;border-color:var(--hardesty-red);}
 </style>
 </head>
 <body>
@@ -256,14 +549,12 @@
       <div class="header-client">Hardesty Roofing</div>
     </div>
   </div>
-  <!-- User switcher — only shown in admin mode -->
   <div class="user-tabs hidden" id="user-tabs">
     <button class="user-tab active" data-role="brittany" onclick="switchRole('brittany',this)">Brittany</button>
     <button class="user-tab" data-role="sam" onclick="switchRole('sam',this)">Sam</button>
     <button class="user-tab" data-role="brian" onclick="switchRole('brian',this)">Brian</button>
     <button class="user-tab" data-role="crew" onclick="switchRole('crew',this)">Crew</button>
   </div>
-  <!-- Current user label — shown for non-admin users -->
   <div class="current-user-label" id="current-user-label" style="display:none;"></div>
 </div>
 
@@ -281,7 +572,9 @@
 
 <div class="main">
 
-<!-- ══ ATLAS ══ -->
+<!-- ══════════════════════════════════════════════════════════════════
+     ATLAS — AI Brain chat page
+     ══════════════════════════════════════════════════════════════════ -->
 <div class="page active" id="page-atlas">
   <div class="atlas-layout">
     <div class="chat-outer">
@@ -314,7 +607,9 @@
   </div>
 </div>
 
-<!-- ══ OPERATIONS ══ -->
+<!-- ══════════════════════════════════════════════════════════════════
+     OPERATIONS — Brittany's dashboard
+     ══════════════════════════════════════════════════════════════════ -->
 <div class="page" id="page-operations">
   <div class="demo-banner"><div class="demo-dot"></div>Demo mode — live data connects via GHL + AccuLynx once credentials are received.</div>
   <div class="stats-row">
@@ -326,7 +621,7 @@
   <div class="two-col">
     <div class="card">
       <div class="card-header"><div class="card-title">Today's schedule</div><span style="font-size:12px;color:var(--gray-light)">Wed Apr 22</span></div>
-      <div class="row"><div class="sched-time">8:00 AM</div><div><div class="sched-name">Johnson — Re-roof inspection</div><div class="sched-addr">4821 Crestwood Dr, Richmond</div><div class="sched-crew"><span class="cdot" style="background:#1D9E75"></span>Crew A · Marcus</div></div></div>
+      <div class="row"><div class="sched-time">8:00 AM</div><div><div class="sched-name">Johnson — Roof inspection</div><div class="sched-addr">4821 Crestwood Dr, Richmond</div><div class="sched-crew"><span class="cdot" style="background:#1D9E75"></span>Crew A · Marcus</div></div></div>
       <div class="row"><div class="sched-time">10:30 AM</div><div><div class="sched-name">Midlothian Commercial — Estimate</div><div class="sched-addr">901 Commonwealth Blvd, Midlothian</div><div class="sched-crew"><span class="cdot" style="background:#D4860A"></span>Sam · Commercial</div></div></div>
       <div class="row"><div class="sched-time">1:00 PM</div><div><div class="sched-name">Patterson — Repair + gutter</div><div class="sched-addr">2214 Forest Hill Ave, Richmond</div><div class="sched-crew"><span class="cdot" style="background:#6B6B6B"></span>Crew B · Derek</div></div></div>
       <div class="row"><div class="sched-time">3:30 PM</div><div><div class="sched-name">Williams — New lead walkthrough</div><div class="sched-addr">7703 Ridgefield Rd, Chesterfield</div><div class="sched-crew"><span class="cdot" style="background:#D4860A"></span>Sam</div></div></div>
@@ -345,11 +640,13 @@
     <div class="card-header"><div class="card-title">Needs attention</div></div>
     <div class="row"><div style="flex:1"><div class="row-name">Thompson — new lead</div><div class="row-detail">Called this morning, not yet scheduled</div></div><span class="badge b-new">Schedule</span></div>
     <div class="row"><div style="flex:1"><div class="row-name">Crew B — Thursday afternoon</div><div class="row-detail">No jobs assigned — available for bookings</div></div><span class="badge b-scheduled">Assign</span></div>
-    <div class="row"><div style="flex:1"><div class="row-name">Johnson re-roof</div><div class="row-detail">Post-inspection — estimate due today</div></div><span class="badge b-quote">Action needed</span></div>
+    <div class="row"><div style="flex:1"><div class="row-name">Johnson roof</div><div class="row-detail">Post-inspection — estimate due today</div></div><span class="badge b-quote">Action needed</span></div>
   </div>
 </div>
 
-<!-- ══ SALES ══ -->
+<!-- ══════════════════════════════════════════════════════════════════
+     SALES — pipeline + approvals
+     ══════════════════════════════════════════════════════════════════ -->
 <div class="page" id="page-sales">
   <div class="alert-bar" id="sales-alert-bar"><div class="alert-dot"></div><span id="sales-alert-text">3 quotes awaiting approval — <strong style="margin-left:4px">$47,200 total.</strong></span></div>
   <div class="stats-row">
@@ -375,48 +672,722 @@
         <div class="approval-actions"><button class="btn btn-approve" onclick="approveJob(this,34500)">Approve</button><button class="btn btn-adjust">Adjust</button></div>
       </div>
       <div style="padding:12px 18px;border-bottom:1px solid var(--gray-border)">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px"><div><div style="font-size:13px;font-weight:500">Henderson re-roof</div><div style="font-size:12px;color:var(--gray-mid);margin-top:2px">Arch shingle · Derek · 1 day ago</div></div><div style="font-size:14px;font-weight:500">$9,200</div></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px"><div><div style="font-size:13px;font-weight:500">Henderson roof replacement</div><div style="font-size:12px;color:var(--gray-mid);margin-top:2px">Arch shingle · Derek · 1 day ago</div></div><div style="font-size:14px;font-weight:500">$9,200</div></div>
         <div class="approval-actions"><button class="btn btn-approve" onclick="approveJob(this,9200)">Approve</button><button class="btn btn-adjust">Adjust</button></div>
       </div>
       <div style="padding:12px 18px">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px"><div><div style="font-size:13px;font-weight:500">Nguyen — Re-roof + fascia</div><div style="font-size:12px;color:var(--gray-mid);margin-top:2px">Chesterfield · Marcus · Today</div></div><div style="font-size:14px;font-weight:500">$3,500</div></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px"><div><div style="font-size:13px;font-weight:500">Nguyen — Replacement + fascia</div><div style="font-size:12px;color:var(--gray-mid);margin-top:2px">Chesterfield · Marcus · Today</div></div><div style="font-size:14px;font-weight:500">$3,500</div></div>
         <div class="approval-actions"><button class="btn btn-approve" onclick="approveJob(this,3500)">Approve</button><button class="btn btn-adjust">Adjust</button></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ MARKETING ══ -->
+<!-- ══════════════════════════════════════════════════════════════════
+     MARKETING — sub-nav + 5 sub-pages
+     Default sub-tab for Brian: AEO Monitor
+     Draft-It buttons fire fireFromMarketing(prompt) which switches to Atlas
+     tab + auto-sends the prompt through the live chat API.
+     ══════════════════════════════════════════════════════════════════ -->
 <div class="page" id="page-marketing">
   <div class="stats-row">
     <div class="stat-card"><div class="stat-label">Leads this month</div><div class="stat-value">31</div><div class="stat-sub stat-up">↑ 18% vs last month</div></div>
     <div class="stat-card"><div class="stat-label">Cost per lead</div><div class="stat-value">$42</div><div class="stat-sub stat-up">↓ $8 vs last month</div></div>
-    <div class="stat-card"><div class="stat-label">Best source</div><div class="stat-value">Referral</div><div class="stat-sub">41% of won jobs</div></div>
+    <div class="stat-card"><div class="stat-label">AI visibility</div><div class="stat-value">23%</div><div class="stat-sub stat-down">↓ vs market avg 41%</div></div>
     <div class="stat-card"><div class="stat-label">Marketing ROI</div><div class="stat-value">6.2x</div><div class="stat-sub stat-up">First time trackable</div></div>
   </div>
-  <div class="two-col">
-    <div class="card">
-      <div class="card-header"><div class="card-title">Lead sources</div><span style="font-size:12px;color:var(--gray-light)">Last 30 days</span></div>
-      <div class="row"><div class="row-name">Referral</div><div style="flex:1;padding:0 12px"><div style="height:5px;background:var(--gray-surface);border-radius:3px"><div style="width:70%;height:100%;background:var(--black);border-radius:3px"></div></div></div><span style="font-size:12px;color:var(--gray-mid);min-width:60px;text-align:right">13 leads</span><span style="font-size:12px;font-weight:500;min-width:40px;text-align:right">41%</span></div>
-      <div class="row"><div class="row-name">Google</div><div style="flex:1;padding:0 12px"><div style="height:5px;background:var(--gray-surface);border-radius:3px"><div style="width:45%;height:100%;background:var(--gray-dark);border-radius:3px"></div></div></div><span style="font-size:12px;color:var(--gray-mid);min-width:60px;text-align:right">8 leads</span><span style="font-size:12px;font-weight:500;min-width:40px;text-align:right">26%</span></div>
-      <div class="row"><div class="row-name">Website</div><div style="flex:1;padding:0 12px"><div style="height:5px;background:var(--gray-surface);border-radius:3px"><div style="width:25%;height:100%;background:var(--gray-mid);border-radius:3px"></div></div></div><span style="font-size:12px;color:var(--gray-mid);min-width:60px;text-align:right">5 leads</span><span style="font-size:12px;font-weight:500;min-width:40px;text-align:right">16%</span></div>
-      <div class="row"><div class="row-name">Yard signs</div><div style="flex:1;padding:0 12px"><div style="height:5px;background:var(--gray-surface);border-radius:3px"><div style="width:15%;height:100%;background:var(--gray-light);border-radius:3px"></div></div></div><span style="font-size:12px;color:var(--gray-mid);min-width:60px;text-align:right">3 leads</span><span style="font-size:12px;font-weight:500;min-width:40px;text-align:right">10%</span></div>
-      <div class="row"><div class="row-name">Other</div><div style="flex:1;padding:0 12px"><div style="height:5px;background:var(--gray-surface);border-radius:3px"><div style="width:8%;height:100%;background:var(--gray-border);border-radius:3px"></div></div></div><span style="font-size:12px;color:var(--gray-mid);min-width:60px;text-align:right">2 leads</span><span style="font-size:12px;font-weight:500;min-width:40px;text-align:right">7%</span></div>
+
+  <div class="sub-nav" id="marketing-sub-nav">
+    <div class="sub-nav-item active" data-sub="aeo" onclick="showSub('aeo',this)">
+      <svg class="sn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 2v12M2 8h12"/></svg>
+      AEO Monitor <span class="sn-pill">NEW</span>
     </div>
-    <div class="card">
-      <div class="card-header"><div class="card-title">Source performance</div></div>
-      <div class="kpi-row"><span class="kpi-label">Referral avg job value</span><span class="kpi-value">$12,400</span></div>
-      <div class="kpi-row"><span class="kpi-label">Google avg job value</span><span class="kpi-value">$7,800</span></div>
-      <div class="kpi-row"><span class="kpi-label">Referral close rate</span><span class="kpi-value" style="color:var(--teal)">58%</span></div>
-      <div class="kpi-row"><span class="kpi-label">Google close rate</span><span class="kpi-value">24%</span></div>
-      <div class="kpi-row"><span class="kpi-label">Avg follow-ups to close</span><span class="kpi-value">2.3</span></div>
-      <div class="kpi-row"><span class="kpi-label">Email open rate</span><span class="kpi-value" style="color:var(--teal)">61% ↑</span></div>
-      <div class="kpi-row"><span class="kpi-label">Previous email open rate</span><span class="kpi-value" style="color:var(--red)">~3% (spam)</span></div>
+    <div class="sub-nav-item" data-sub="competitors" onclick="showSub('competitors',this)">
+      <svg class="sn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 13L8 3l6 10M5 10h6"/></svg>
+      Competitors
+    </div>
+    <div class="sub-nav-item" data-sub="ads" onclick="showSub('ads',this)">
+      <svg class="sn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h12v8H2z"/><path d="M2 7h12M6 4v8"/></svg>
+      Ad Performance
+    </div>
+    <div class="sub-nav-item" data-sub="content" onclick="showSub('content',this)">
+      <svg class="sn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 2h7l3 3v9H3zM10 2v3h3"/></svg>
+      Content Studio
+    </div>
+    <div class="sub-nav-item" data-sub="brief" onclick="showSub('brief',this)">
+      <svg class="sn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l6 4 6-4M2 4v8h12V4"/></svg>
+      Monday Brief
     </div>
   </div>
-</div>
 
-<!-- ══ FINANCE ══ -->
+  <!-- ═══ AEO Monitor ═══ -->
+  <div class="sub-page active" id="sub-aeo">
+    <div class="aeo-hero">
+      <div class="aeo-hero-left">
+        <h3>AI Search Visibility</h3>
+        <h2>Hardesty shows up in 23% of AI answers for Richmond roofing queries.</h2>
+        <p>When someone asks ChatGPT, Gemini, or Perplexity for a roofer in Richmond, you're cited less than half as often as Capital Roofing. Fix the gap and you own this channel for free — almost no one else in Richmond is optimizing for it.</p>
+      </div>
+      <div>
+        <div class="aeo-score-ring">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="10"/>
+            <circle cx="80" cy="80" r="68" fill="none" stroke="#CD3134" stroke-width="10" stroke-dasharray="427" stroke-dashoffset="329" stroke-linecap="round" transform="rotate(-90 80 80)"/>
+          </svg>
+          <div class="aeo-score-value">
+            <div class="aeo-score-num">23%</div>
+            <div class="aeo-score-label">Visibility</div>
+          </div>
+        </div>
+        <div class="aeo-score-sub">Tracked across 18 priority queries · updated weekly</div>
+      </div>
+    </div>
+
+    <div class="aeo-engines">
+      <div class="engine-card">
+        <div class="engine-name"><span class="engine-dot" style="background:#10A37F"></span>ChatGPT</div>
+        <div class="engine-stat">4<span style="color:var(--gray-light);font-size:13px">/18</span></div>
+        <div class="engine-sub">22% cited · ↑ 2 vs last week</div>
+      </div>
+      <div class="engine-card">
+        <div class="engine-name"><span class="engine-dot" style="background:#4285F4"></span>Google AI</div>
+        <div class="engine-stat">5<span style="color:var(--gray-light);font-size:13px">/18</span></div>
+        <div class="engine-sub">28% cited · flat</div>
+      </div>
+      <div class="engine-card">
+        <div class="engine-name"><span class="engine-dot" style="background:#8E75D8"></span>Gemini</div>
+        <div class="engine-stat">3<span style="color:var(--gray-light);font-size:13px">/18</span></div>
+        <div class="engine-sub">17% cited · ↓ 1 vs last week</div>
+      </div>
+      <div class="engine-card">
+        <div class="engine-name"><span class="engine-dot" style="background:#1FBED6"></span>Perplexity</div>
+        <div class="engine-stat">5<span style="color:var(--gray-light);font-size:13px">/18</span></div>
+        <div class="engine-sub">28% cited · ↑ 1 vs last week</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Priority queries — citation status</div>
+        <button class="btn btn-ghost" onclick="fireFromMarketing('Run a fresh AEO check across all tracked queries for Hardesty Roofing')">↻ Refresh check</button>
+      </div>
+      <div class="query-table-row header">
+        <div>Query</div><div>ChatGPT</div><div>Google AI</div><div>Gemini</div><div>Perplexity</div><div>Trend</div>
+      </div>
+      <div class="query-table-row">
+        <div class="query-text">best roofer in Richmond VA<span class="vol">~880 searches/mo</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-comp">C</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div class="trend-down">↓ Losing ground</div>
+      </div>
+      <div class="query-table-row">
+        <div class="query-text">roof replacement cost Chesterfield<span class="vol">~590 searches/mo</span></div>
+        <div><span class="cite-indicator cite-yes">✓</span></div>
+        <div><span class="cite-indicator cite-yes">✓</span></div>
+        <div><span class="cite-indicator cite-partial">~</span></div>
+        <div><span class="cite-indicator cite-yes">✓</span></div>
+        <div class="trend-up">↑ Strong</div>
+      </div>
+      <div class="query-table-row">
+        <div class="query-text">hail damage roof inspection Henrico<span class="vol">~320 searches/mo</span></div>
+        <div><span class="cite-indicator cite-yes">✓</span></div>
+        <div><span class="cite-indicator cite-yes">✓</span></div>
+        <div><span class="cite-indicator cite-yes">✓</span></div>
+        <div><span class="cite-indicator cite-yes">✓</span></div>
+        <div class="trend-up">↑ Dominant</div>
+      </div>
+      <div class="query-table-row">
+        <div class="query-text">commercial roofer Richmond<span class="vol">~480 searches/mo</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-comp">C</span></div>
+        <div><span class="cite-indicator cite-comp">C</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div class="trend-down">↓ Competitors winning</div>
+      </div>
+      <div class="query-table-row">
+        <div class="query-text">metal roof installation Richmond<span class="vol">~260 searches/mo</span></div>
+        <div><span class="cite-indicator cite-partial">~</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-partial">~</span></div>
+        <div class="trend-flat">→ Flat</div>
+      </div>
+      <div class="query-table-row">
+        <div class="query-text">storm damage roof repair Richmond<span class="vol">~410 searches/mo</span></div>
+        <div><span class="cite-indicator cite-yes">✓</span></div>
+        <div><span class="cite-indicator cite-yes">✓</span></div>
+        <div><span class="cite-indicator cite-partial">~</span></div>
+        <div><span class="cite-indicator cite-yes">✓</span></div>
+        <div class="trend-up">↑ Trending up</div>
+      </div>
+      <div class="query-table-row">
+        <div class="query-text">do I need a new roof or repairs<span class="vol">~1,200 searches/mo (natl)</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div class="trend-flat">→ Never cited</div>
+      </div>
+      <div class="query-table-row">
+        <div class="query-text">average roof replacement cost Virginia<span class="vol">~720 searches/mo</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-partial">~</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div class="trend-flat">→ Opportunity</div>
+      </div>
+      <div class="query-table-row">
+        <div class="query-text">roofer near me Midlothian<span class="vol">~390 searches/mo</span></div>
+        <div><span class="cite-indicator cite-comp">C</span></div>
+        <div><span class="cite-indicator cite-comp">C</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-comp">C</span></div>
+        <div class="trend-down">↓ Comp dominant</div>
+      </div>
+      <div class="query-table-row">
+        <div class="query-text">how long does a roof last in Virginia<span class="vol">~540 searches/mo</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div><span class="cite-indicator cite-no">✕</span></div>
+        <div class="trend-flat">→ Open lane</div>
+      </div>
+      <div style="padding:12px 18px;background:var(--gray-surface);font-size:12px;color:var(--gray-mid);text-align:center;">+ 8 more queries tracked</div>
+      <div style="padding:10px 18px;font-size:11px;color:var(--gray-light);display:flex;gap:16px;justify-content:center;border-top:1px solid var(--gray-border);">
+        <span><span class="cite-indicator cite-yes" style="width:14px;height:14px;font-size:9px">✓</span> Hardesty cited</span>
+        <span><span class="cite-indicator cite-partial" style="width:14px;height:14px;font-size:9px">~</span> Partial mention</span>
+        <span><span class="cite-indicator cite-no" style="width:14px;height:14px;font-size:9px">✕</span> Not cited</span>
+        <span><span class="cite-indicator cite-comp" style="width:14px;height:14px;font-size:9px">C</span> Competitor cited</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Atlas recommendations — biggest wins</div>
+        <span style="font-size:12px;color:var(--gray-light)">Ranked by projected impact</span>
+      </div>
+      <div class="rec-card">
+        <div class="rec-icon ri-high">!</div>
+        <div class="rec-body">
+          <div class="rec-title">Publish the 2026 Richmond Roof Replacement Cost Guide</div>
+          <div class="rec-detail">Capital Roofing ranks #1 for cost queries because they have a dedicated pricing page with structured data. No other Richmond roofer has one.</div>
+          <div class="rec-impact">Projected: cited in 3 AI engines within 4 weeks · +2-4 leads/mo</div>
+        </div>
+        <button class="rec-btn" onclick="fireFromMarketing('Draft the 2026 Richmond Roof Replacement Cost Guide blog post for Hardesty Roofing. Include price ranges by roof type, material, and square footage for the Richmond VA market. Return the output as atlas-blog rich format.')">Draft it →</button>
+      </div>
+      <div class="rec-card">
+        <div class="rec-icon ri-high">!</div>
+        <div class="rec-body">
+          <div class="rec-title">Add FAQ schema to 4 service pages</div>
+          <div class="rec-detail">AI engines strongly prefer structured FAQ markup. Hardesty's replacement, repair, commercial, and gutters pages have FAQ content but no schema — invisible to LLMs.</div>
+          <div class="rec-impact">Projected: 6-8 new query citations within 30 days</div>
+        </div>
+        <button class="rec-btn" onclick="fireFromMarketing('Generate the FAQ schema JSON-LD markup for the Hardesty Roofing residential roof replacement service page')">Draft it →</button>
+      </div>
+      <div class="rec-card">
+        <div class="rec-icon ri-med">◎</div>
+        <div class="rec-body">
+          <div class="rec-title">Claim the "commercial roofer Richmond" query</div>
+          <div class="rec-detail">Competitors cited but answers are weak. A commercial case studies page with HOA + apartment testimonials would likely surface immediately.</div>
+          <div class="rec-impact">Projected: high-intent commercial leads · 1-2 $40k+ jobs/quarter</div>
+        </div>
+        <button class="rec-btn" onclick="fireFromMarketing('Outline a commercial roofing case studies page for Hardesty Roofing. Use the Westover Hills HOA and Sunrise Apartments jobs as featured examples.')">Draft it →</button>
+      </div>
+      <div class="rec-card">
+        <div class="rec-icon ri-med">◎</div>
+        <div class="rec-body">
+          <div class="rec-title">Write "How long does a roof last in Virginia?"</div>
+          <div class="rec-detail">540 searches/mo, zero Richmond roofer is cited. Virginia climate angle (humidity, hail, heat) differentiates from generic content.</div>
+          <div class="rec-impact">Projected: top-funnel traffic + early-stage lead capture</div>
+        </div>
+        <button class="rec-btn" onclick="fireFromMarketing('Draft a blog post titled How Long Does a Roof Last in Virginia for Hardesty Roofing. Cover material lifespans, Richmond climate impacts, and signs of wear. Return as atlas-blog rich format.')">Draft it →</button>
+      </div>
+      <div class="rec-card">
+        <div class="rec-icon ri-low">✓</div>
+        <div class="rec-body">
+          <div class="rec-title">Maintain dominance on "hail damage inspection Henrico"</div>
+          <div class="rec-detail">Cited in all 4 engines. Add quarterly content refresh to protect this lane — post-storm content especially.</div>
+          <div class="rec-impact">Protecting ~$18k/mo in attributed revenue</div>
+        </div>
+        <button class="rec-btn" onclick="fireFromMarketing('Draft a post-storm hail damage inspection blog piece tailored to Henrico County for Hardesty Roofing. Return as atlas-blog rich format.')">Draft it →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Competitors ═══ -->
+  <div class="sub-page" id="sub-competitors">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-label">Tracked competitors</div><div class="stat-value">8</div><div class="stat-sub">Richmond metro</div></div>
+      <div class="stat-card"><div class="stat-label">Your rank — AI visibility</div><div class="stat-value">#4</div><div class="stat-sub stat-down">↓ vs #3 last quarter</div></div>
+      <div class="stat-card"><div class="stat-label">Your rank — Google ads</div><div class="stat-value">#2</div><div class="stat-sub">By estimated spend</div></div>
+      <div class="stat-card"><div class="stat-label">Review rating</div><div class="stat-value">4.7★</div><div class="stat-sub stat-up">Tied for #1</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Richmond roofing landscape</div>
+        <span style="font-size:12px;color:var(--gray-light)">Ranked by composite visibility score</span>
+      </div>
+      <div class="comp-row header">
+        <div>#</div><div>Company</div><div>AI Visibility</div><div>Google Rank</div><div>Est. Ad Spend</div><div>Reviews</div><div>Share</div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-rank">1</div>
+        <div class="comp-name">Capital Roofing<span class="comp-url">capitalroofingva.com</span></div>
+        <div class="comp-score high">67%</div>
+        <div>#1-2</div>
+        <div>~$8.5k/mo</div>
+        <div>4.8★ (312)</div>
+        <div><div class="comp-bar"><div class="comp-bar-fill" style="width:100%"></div></div></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-rank">2</div>
+        <div class="comp-name">Ridgeline Roofing<span class="comp-url">ridgelineroofing.com</span></div>
+        <div class="comp-score high">54%</div>
+        <div>#2-3</div>
+        <div>~$6.2k/mo</div>
+        <div>4.6★ (189)</div>
+        <div><div class="comp-bar"><div class="comp-bar-fill" style="width:78%"></div></div></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-rank">3</div>
+        <div class="comp-name">Crown Roofing &amp; Siding<span class="comp-url">crown-rva.com</span></div>
+        <div class="comp-score mid">38%</div>
+        <div>#3-4</div>
+        <div>~$4.8k/mo</div>
+        <div>4.5★ (156)</div>
+        <div><div class="comp-bar"><div class="comp-bar-fill" style="width:58%"></div></div></div>
+      </div>
+      <div class="comp-row" style="background:var(--hardesty-red-light);">
+        <div class="comp-rank us">4</div>
+        <div class="comp-name us">Hardesty Roofing<span class="comp-url" style="color:var(--hardesty-red)">hardestyroofing.com</span></div>
+        <div class="comp-score mid">23%</div>
+        <div>#3-5</div>
+        <div>~$5.4k/mo</div>
+        <div>4.7★ (142)</div>
+        <div><div class="comp-bar"><div class="comp-bar-fill" style="width:42%;background:var(--hardesty-red)"></div></div></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-rank">5</div>
+        <div class="comp-name">Shingle Masters VA<span class="comp-url">shinglemastersva.com</span></div>
+        <div class="comp-score mid">19%</div>
+        <div>#5-7</div>
+        <div>~$3.2k/mo</div>
+        <div>4.4★ (98)</div>
+        <div><div class="comp-bar"><div class="comp-bar-fill" style="width:34%"></div></div></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-rank">6</div>
+        <div class="comp-name">Piedmont Exteriors<span class="comp-url">piedmontexteriors.com</span></div>
+        <div class="comp-score low">14%</div>
+        <div>#7-9</div>
+        <div>~$2.1k/mo</div>
+        <div>4.3★ (76)</div>
+        <div><div class="comp-bar"><div class="comp-bar-fill" style="width:24%"></div></div></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-rank">7</div>
+        <div class="comp-name">James River Roofing<span class="comp-url">jamesriverroofing.net</span></div>
+        <div class="comp-score low">11%</div>
+        <div>#8-10</div>
+        <div>~$1.5k/mo</div>
+        <div>4.6★ (54)</div>
+        <div><div class="comp-bar"><div class="comp-bar-fill" style="width:18%"></div></div></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-rank">8</div>
+        <div class="comp-name">Old Dominion Roofworks<span class="comp-url">odroofworks.com</span></div>
+        <div class="comp-score low">8%</div>
+        <div>#9-12</div>
+        <div>~$900/mo</div>
+        <div>4.2★ (42)</div>
+        <div><div class="comp-bar"><div class="comp-bar-fill" style="width:12%"></div></div></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Where Capital Roofing beats you</div></div>
+        <div class="gap-card" style="border-bottom:1px solid var(--gray-border);">
+          <div class="gap-card-title">Dedicated pricing page <span class="gap-tag gap-crit">CRITICAL GAP</span></div>
+          <div class="gap-card-body">Their "/cost-guide" page ranks #1 for cost queries because it has structured data (Price, Service schema) and answers specific questions with specific numbers. Hardesty's pricing info is scattered across service pages.</div>
+        </div>
+        <div class="gap-card" style="border-bottom:1px solid var(--gray-border);">
+          <div class="gap-card-title">HOA case studies hub <span class="gap-tag gap-opp">OPPORTUNITY</span></div>
+          <div class="gap-card-body">They have 12 HOA project pages with testimonials — each ranks for neighborhood-specific queries ("roofer Westover Hills"). Hardesty has one unlisted case study.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-card-title">Blog cadence <span class="gap-tag gap-opp">OPPORTUNITY</span></div>
+          <div class="gap-card-body">They publish ~2 posts/month on seasonal topics. Hardesty's last post was 7 months ago. Consistent fresh content is the #2 AEO ranking factor after schema.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Where you beat them</div></div>
+        <div class="gap-card" style="border-bottom:1px solid var(--gray-border);">
+          <div class="gap-card-title">Response time <span class="gap-tag gap-win">ADVANTAGE</span></div>
+          <div class="gap-card-body">Hardesty review mentions of "called me back within an hour" are 3x theirs. Lean into this in ad copy — Capital is "slow to respond" in 14% of their 3-star reviews.</div>
+        </div>
+        <div class="gap-card" style="border-bottom:1px solid var(--gray-border);">
+          <div class="gap-card-title">Hail damage expertise <span class="gap-tag gap-win">DOMINANT</span></div>
+          <div class="gap-card-body">Cited in all 4 AI engines for Henrico hail queries. Capital is cited in 0. This is the moat — protect it with quarterly storm-season content.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-card-title">Owner-operator trust <span class="gap-tag gap-win">ADVANTAGE</span></div>
+          <div class="gap-card-body">Reviews mention Sam by name 47 times in the last 90 days. Capital feels corporate in reviews. Personal brand is underutilized in Hardesty's ad copy.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Keywords competitors bid on — you don't</div>
+        <button class="btn btn-ghost" onclick="fireFromMarketing('Draft Google Ad campaigns for Hardesty Roofing targeting the keyword gaps competitors are bidding on. Return ad copy as atlas-ad rich format.')">Draft ad campaign →</button>
+      </div>
+      <div class="row"><div class="row-name">"emergency roof repair Richmond"</div><div class="row-detail" style="flex:1">Capital + Ridgeline both bidding · ~$11 CPC · high intent</div><span class="badge b-new">Gap</span></div>
+      <div class="row"><div class="row-name">"roof financing Virginia"</div><div class="row-detail" style="flex:1">Crown bidding solo · ~$6 CPC · mid-funnel</div><span class="badge b-new">Gap</span></div>
+      <div class="row"><div class="row-name">"commercial flat roof Richmond"</div><div class="row-detail" style="flex:1">Capital bidding · ~$14 CPC · high value</div><span class="badge b-new">Gap</span></div>
+      <div class="row"><div class="row-name">"roof insurance claim help Virginia"</div><div class="row-detail" style="flex:1">Ridgeline bidding · ~$9 CPC · storm season relevant</div><span class="badge b-new">Gap</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ Ad Performance ═══ -->
+  <div class="sub-page" id="sub-ads">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-label">Ad spend MTD</div><div class="stat-value">$3,820</div><div class="stat-sub">71% of monthly budget</div></div>
+      <div class="stat-card"><div class="stat-label">Blended CPL</div><div class="stat-value">$42</div><div class="stat-sub stat-up">↓ $8 vs last month</div></div>
+      <div class="stat-card"><div class="stat-label">Ad-driven revenue</div><div class="stat-value">$23,400</div><div class="stat-sub">6.1x ROAS</div></div>
+      <div class="stat-card"><div class="stat-label">Atlas kill/scale</div><div class="stat-value">3 actions</div><div class="stat-sub" style="color:var(--amber)">Needs review</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">Channel performance — last 30 days</div></div>
+      <div class="channel-row header">
+        <div>Channel</div><div>Spend</div><div>Leads</div><div>CPL</div><div>Close rate</div><div>ROAS</div><div>Atlas says</div>
+      </div>
+      <div class="channel-row">
+        <div class="channel-name">Referral</div>
+        <div>$0</div><div>13</div>
+        <div style="color:var(--teal);font-weight:500">$0</div>
+        <div style="color:var(--teal);font-weight:500">58%</div>
+        <div>∞</div>
+        <div><span class="channel-status cs-scale">Double down</span></div>
+      </div>
+      <div class="channel-row">
+        <div class="channel-name">Google — Hail damage</div>
+        <div>$780</div><div>7</div>
+        <div style="color:var(--teal);font-weight:500">$28</div>
+        <div style="color:var(--teal);font-weight:500">38%</div>
+        <div>9.2x</div>
+        <div><span class="channel-status cs-scale">Scale +50%</span></div>
+      </div>
+      <div class="channel-row">
+        <div class="channel-name">Google — Roof repair</div>
+        <div>$1,240</div><div>14</div>
+        <div>$87</div>
+        <div style="color:var(--hardesty-red);font-weight:500">12%</div>
+        <div style="color:var(--hardesty-red)">2.1x</div>
+        <div><span class="channel-status cs-kill">Kill</span></div>
+      </div>
+      <div class="channel-row">
+        <div class="channel-name">Google — Replacement keywords</div>
+        <div>$960</div><div>6</div>
+        <div>$52</div><div>31%</div><div>5.8x</div>
+        <div><span class="channel-status cs-hold">Hold</span></div>
+      </div>
+      <div class="channel-row">
+        <div class="channel-name">Facebook — Local awareness</div>
+        <div>$540</div><div>4</div>
+        <div>$68</div><div>18%</div><div>3.2x</div>
+        <div><span class="channel-status cs-hold">Hold</span></div>
+      </div>
+      <div class="channel-row">
+        <div class="channel-name">Yard signs</div>
+        <div>$120</div><div>3</div>
+        <div style="color:var(--teal);font-weight:500">$18</div>
+        <div>42%</div><div>7.8x</div>
+        <div><span class="channel-status cs-scale">More signs</span></div>
+      </div>
+      <div class="channel-row">
+        <div class="channel-name">Google Service Ads <span style="font-size:10px;color:var(--gray-light)">(not running)</span></div>
+        <div>$0</div><div>0</div>
+        <div>—</div><div>—</div><div>—</div>
+        <div><span class="channel-status cs-test">Test</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Active campaigns — top + bottom performers</div>
+      </div>
+      <div class="campaign-row header">
+        <div>Campaign</div><div>Impr.</div><div>CTR</div><div>CPL</div><div>Leads</div><div>Action</div>
+      </div>
+      <div class="campaign-row">
+        <div class="channel-name">Hail Damage Inspection — Henrico <span style="font-size:11px;color:var(--teal)">★ Top performer</span></div>
+        <div>12,400</div><div>4.8%</div>
+        <div style="color:var(--teal);font-weight:500">$28</div>
+        <div>7</div>
+        <div><button class="rec-btn" onclick="fireFromMarketing('Draft a budget increase plan for the Hail Damage Inspection Henrico campaign. Current spend $780/mo, suggest a 50% scale-up plan.')">Scale plan →</button></div>
+      </div>
+      <div class="campaign-row">
+        <div class="channel-name">Roof Replacement Chesterfield</div>
+        <div>8,900</div><div>3.2%</div>
+        <div>$48</div><div>5</div>
+        <div><button class="rec-btn" onclick="fireFromMarketing('Draft 3 new Google Ad copy variations for the Roof Replacement Chesterfield campaign to push CTR above 4%. Return as atlas-ad rich format.')">New creative →</button></div>
+      </div>
+      <div class="campaign-row">
+        <div class="channel-name">Generic Roof Repair Richmond <span style="font-size:11px;color:var(--hardesty-red)">⚠ Bleeding budget</span></div>
+        <div>15,600</div><div>2.1%</div>
+        <div style="color:var(--hardesty-red);font-weight:500">$87</div>
+        <div>14</div>
+        <div><button class="rec-btn" onclick="fireFromMarketing('Explain why the Generic Roof Repair Richmond campaign is underperforming and recommend whether to pause or restructure it.')">Diagnose →</button></div>
+      </div>
+      <div class="campaign-row">
+        <div class="channel-name">Commercial — Apartments &amp; HOA</div>
+        <div>4,200</div><div>5.1%</div>
+        <div>$62</div><div>3</div>
+        <div><button class="rec-btn" onclick="fireFromMarketing('Build out the Commercial Apartments and HOA campaign for Hardesty Roofing. Suggest ad groups, keywords, and landing page improvements.')">Expand →</button></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">Projected impact of Atlas recommendations</div></div>
+      <div class="kpi-row"><span class="kpi-label">Current monthly ad spend</span><span class="kpi-value">$5,400</span></div>
+      <div class="kpi-row"><span class="kpi-label">Current monthly leads from ads</span><span class="kpi-value">22</span></div>
+      <div class="kpi-row"><span class="kpi-label">Kill "Generic Roof Repair" campaign</span><span class="kpi-value" style="color:var(--teal)">−$1,240 · keep 6 leads</span></div>
+      <div class="kpi-row"><span class="kpi-label">Scale "Hail Damage Henrico" +50%</span><span class="kpi-value" style="color:var(--teal)">+$390 · +4 leads</span></div>
+      <div class="kpi-row"><span class="kpi-label">Launch Google Service Ads test</span><span class="kpi-value">+$600 · +5-8 leads (est.)</span></div>
+      <div class="kpi-row" style="background:var(--hardesty-red-light);"><span class="kpi-label" style="font-weight:500;color:var(--hardesty-black)">Projected next month</span><span class="kpi-value" style="color:var(--hardesty-red)">$5,150 spend · 33-36 leads · +$14k revenue</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ Content Studio ═══ -->
+  <div class="sub-page" id="sub-content">
+    <div class="studio-hero">
+      <button class="studio-card" onclick="fireFromMarketing('Draft a new blog post for Hardesty Roofing. Pick a high-value SEO topic based on our AEO gaps and seasonal relevance — heading into storm season. Return as atlas-blog rich format.')">
+        <div class="studio-card-icon sc-blog">📝</div>
+        <h4>Blog Post</h4>
+        <p>SEO-targeted · 800-1200 words · matches Atlas-recommended topics</p>
+      </button>
+      <button class="studio-card" onclick="fireFromMarketing('Draft a social media post for Hardesty Roofing. Before/after style post for a recently completed roof replacement job. Include caption, hashtags, CTA. Return as atlas-social rich format.')">
+        <div class="studio-card-icon sc-social">📸</div>
+        <h4>Social Post</h4>
+        <p>Instagram/Facebook · caption + hashtags + CTA</p>
+      </button>
+      <button class="studio-card" onclick="fireFromMarketing('Draft Google Ad copy for Hardesty Roofing. 3 headline variations and 2 description variations for a hail damage inspection campaign targeting Henrico residents. Return as atlas-ad rich format.')">
+        <div class="studio-card-icon sc-ad">🎯</div>
+        <h4>Ad Copy</h4>
+        <p>Headlines · descriptions · 3-5 variants per request</p>
+      </button>
+      <button class="studio-card" onclick="fireFromMarketing('Generate a case study slide deck for the Westover Hills HOA project for Hardesty Roofing. Use problem/approach/stats/result/quote structure, 6 slides total. Return as atlas-slides rich format.')">
+        <div class="studio-card-icon sc-case">📊</div>
+        <h4>Case Study Deck</h4>
+        <p>Problem · Approach · Result · 5-slide pitch format</p>
+      </button>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Content calendar — next 30 days</div>
+          <button class="btn btn-ghost" onclick="fireFromMarketing('Generate a 30-day content calendar for Hardesty Roofing covering blog, social, and email. Align with storm season, Richmond roofing queries, and our AEO gaps.')">Generate plan →</button>
+        </div>
+        <div class="content-row header">
+          <div></div><div>Topic</div><div>Type</div><div>Publish</div><div>Status</div><div></div>
+        </div>
+        <div class="content-row">
+          <div class="content-type-icon sc-blog">📝</div>
+          <div class="content-title">2026 Richmond Roof Replacement Cost Guide<span class="content-sub">Target: cost cluster · AEO priority</span></div>
+          <div>Blog · SEO</div>
+          <div>Apr 28</div>
+          <div><span class="c-status cst-ready">Ready</span></div>
+          <div><button class="draft-it-btn" onclick="fireFromMarketing('Draft the full 2026 Richmond Roof Replacement Cost Guide blog post for Hardesty Roofing. 1000-1200 words, include pricing tables for asphalt, metal, and specialty materials by square footage. Optimize for AI citation with clear structured answers. Return as atlas-blog rich format.')"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 7l4 4 6-8"/></svg>Draft</button></div>
+        </div>
+        <div class="content-row">
+          <div class="content-type-icon sc-social">📸</div>
+          <div class="content-title">Miller Roof Replacement — Before/After<span class="content-sub">Completed last week · 3 photos on hand</span></div>
+          <div>Instagram</div>
+          <div>Apr 25</div>
+          <div><span class="c-status cst-ready">Ready</span></div>
+          <div><button class="draft-it-btn" onclick="fireFromMarketing('Draft an Instagram post for the Miller roof replacement job. Before/after format, include caption with story, relevant hashtags, CTA to DM for a free estimate. Return as atlas-social rich format.')"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 7l4 4 6-8"/></svg>Draft</button></div>
+        </div>
+        <div class="content-row">
+          <div class="content-type-icon sc-case">📊</div>
+          <div class="content-title">Westover Hills HOA Case Study<span class="content-sub">$89k commercial · for sales enablement</span></div>
+          <div>Slide deck</div>
+          <div>May 2</div>
+          <div><span class="c-status cst-draft">Outline</span></div>
+          <div><button class="draft-it-btn" onclick="fireFromMarketing('Generate the Westover Hills HOA case study as a 6-slide deck for Hardesty Roofing. Structure: cover / problem (aging roof, 47 units, tight budget) / approach (phased replacement, minimal disruption) / stats / result / quote. Return as atlas-slides rich format.')"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 7l4 4 6-8"/></svg>Draft</button></div>
+        </div>
+        <div class="content-row">
+          <div class="content-type-icon sc-blog">📝</div>
+          <div class="content-title">How long does a roof last in Virginia?<span class="content-sub">540 searches/mo · zero Richmond roofer cited</span></div>
+          <div>Blog · SEO</div>
+          <div>May 5</div>
+          <div><span class="c-status cst-ready">Ready</span></div>
+          <div><button class="draft-it-btn" onclick="fireFromMarketing('Draft a blog post titled How Long Does a Roof Last in Virginia for Hardesty Roofing. Cover material lifespans, Richmond climate factors, and signs it is time to replace. 900 words, structured for AI citation. Return as atlas-blog rich format.')"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 7l4 4 6-8"/></svg>Draft</button></div>
+        </div>
+        <div class="content-row">
+          <div class="content-type-icon sc-social">📸</div>
+          <div class="content-title">Storm season tips — carousel post<span class="content-sub">Educational · drive profile follows</span></div>
+          <div>Instagram</div>
+          <div>May 7</div>
+          <div><span class="c-status cst-draft">Outline</span></div>
+          <div><button class="draft-it-btn" onclick="fireFromMarketing('Draft an Instagram carousel post for Hardesty Roofing with 5 slides of storm season preparation tips for Richmond VA homeowners. Main caption, slide-by-slide captions, hashtags. Return as atlas-social rich format.')"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 7l4 4 6-8"/></svg>Draft</button></div>
+        </div>
+        <div class="content-row">
+          <div class="content-type-icon sc-ad">🎯</div>
+          <div class="content-title">Hail damage campaign refresh<span class="content-sub">Current CTR 4.8% · test new variants</span></div>
+          <div>Google Ads</div>
+          <div>May 10</div>
+          <div><span class="c-status cst-draft">Outline</span></div>
+          <div><button class="draft-it-btn" onclick="fireFromMarketing('Draft 3 new Google Ad headline + description variations for the Hardesty Hail Damage Henrico campaign. Lean on response time advantage and owner-operator trust. Return as atlas-ad rich format.')"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 7l4 4 6-8"/></svg>Draft</button></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Recently drafted — awaiting Brian</div></div>
+        <div class="row">
+          <div style="flex:1">
+            <div class="row-name">Spring Roof Maintenance Checklist</div>
+            <div class="row-detail">Blog post · 847 words · drafted Apr 20</div>
+          </div>
+          <span class="badge b-quote">Review</span>
+        </div>
+        <div class="row">
+          <div style="flex:1">
+            <div class="row-name">5 Signs Your Roof Needs Replacement</div>
+            <div class="row-detail">Instagram carousel · 5 slides · drafted Apr 18</div>
+          </div>
+          <span class="badge b-quote">Review</span>
+        </div>
+        <div class="row">
+          <div style="flex:1">
+            <div class="row-name">Commercial Apartments campaign copy</div>
+            <div class="row-detail">3 headlines + 2 descriptions · drafted Apr 17</div>
+          </div>
+          <span class="badge b-scheduled">Approved</span>
+        </div>
+        <div class="row">
+          <div style="flex:1">
+            <div class="row-name">Patterson Repair — social post</div>
+            <div class="row-detail">Instagram · drafted Apr 15</div>
+          </div>
+          <span class="badge b-won">Published</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="card-title">Content performance — last 30 days</div></div>
+      <div class="kpi-row"><span class="kpi-label">Blog posts published</span><span class="kpi-value">3</span></div>
+      <div class="kpi-row"><span class="kpi-label">Blog-driven leads (attributed)</span><span class="kpi-value" style="color:var(--teal)">4</span></div>
+      <div class="kpi-row"><span class="kpi-label">Social posts published</span><span class="kpi-value">11</span></div>
+      <div class="kpi-row"><span class="kpi-label">Social-driven DMs</span><span class="kpi-value">7</span></div>
+      <div class="kpi-row"><span class="kpi-label">Case studies used in sales</span><span class="kpi-value">2 (1 closed $22k)</span></div>
+      <div class="kpi-row"><span class="kpi-label">Avg draft time (Atlas)</span><span class="kpi-value" style="color:var(--teal)">3.2 minutes</span></div>
+    </div>
+  </div>
+
+  <!-- ═══ Monday Brief ═══ -->
+  <div class="sub-page" id="sub-brief">
+    <div class="brief-settings">
+      <h4>Monday Brief settings</h4>
+      <div class="bs-row"><span class="bs-label">Auto-send every Monday at 7:00 AM</span><div class="toggle" onclick="this.classList.toggle('off')"></div></div>
+      <div class="bs-row"><span class="bs-label">Recipients</span><span class="bs-val">brian@hardestyroofing.com, sam@hardestyroofing.com</span></div>
+      <div class="bs-row"><span class="bs-label">Include draft content for approval</span><div class="toggle" onclick="this.classList.toggle('off')"></div></div>
+      <div class="bs-row"><span class="bs-label">Last sent</span><span class="bs-val">Mon Apr 21 · opened 7:04 AM · 8 drafts approved</span></div>
+    </div>
+
+    <div style="text-align:center;margin-bottom:12px;">
+      <span style="font-size:11px;font-weight:600;color:var(--gray-mid);text-transform:uppercase;letter-spacing:0.1em;">Preview · Next Monday's Brief</span>
+    </div>
+
+    <div class="brief-frame">
+      <div class="brief-header-env">
+        <span><strong>From:</strong> Atlas &lt;atlas@hardestyroofing.com&gt;</span>
+        <span>Mon Apr 28, 7:00 AM</span>
+      </div>
+      <div class="brief-inner">
+        <div class="brief-eyebrow">Monday Marketing Brief · Week 17</div>
+        <div class="brief-title">Storm season is coming in hot. Here's what to do about it.</div>
+        <div class="brief-dateline">For Brian · April 22–28 performance · 6 drafts ready for review</div>
+
+        <div class="brief-section">
+          <div class="brief-section-title">Last week — what happened</div>
+          <div class="brief-metric">
+            <div class="brief-metric-cell">
+              <div class="brief-metric-label">Leads</div>
+              <div class="brief-metric-val">31</div>
+              <div class="brief-metric-sub">↑ 18% vs prior</div>
+            </div>
+            <div class="brief-metric-cell">
+              <div class="brief-metric-label">CPL</div>
+              <div class="brief-metric-val">$42</div>
+              <div class="brief-metric-sub">↓ $8 · strong</div>
+            </div>
+            <div class="brief-metric-cell">
+              <div class="brief-metric-label">AI visibility</div>
+              <div class="brief-metric-val">23%</div>
+              <div class="brief-metric-sub">↓ vs market 41%</div>
+            </div>
+          </div>
+          <ul class="brief-list">
+            <li>Hail Damage Henrico campaign outperformed by 2x — 7 leads at $28 CPL, 38% close rate.</li>
+            <li>Generic Roof Repair campaign burned $1,240 for 14 low-intent leads (12% close). Recommend killing it.</li>
+            <li>Capital Roofing pulled ahead on "best roofer Richmond" — cited in Google AI, we aren't.</li>
+          </ul>
+        </div>
+
+        <div class="brief-section">
+          <div class="brief-section-title">This week — what I recommend</div>
+          <ul class="brief-list">
+            <li><strong>Kill the Generic Roof Repair campaign.</strong> Projected save: $1,240/mo with minimal lead loss.</li>
+            <li><strong>Scale Hail Damage Henrico 50%.</strong> Projected: +4 high-intent leads at current CPL. Storm season timing is ideal.</li>
+            <li><strong>Publish the Cost Guide.</strong> Draft ready — will close the AI visibility gap within 4 weeks based on competitor benchmarks.</li>
+            <li><strong>Launch Google Service Ads.</strong> Zero competitor running LSAs in Richmond. First-mover advantage is wide open.</li>
+          </ul>
+        </div>
+
+        <div class="brief-section">
+          <div class="brief-section-title">Drafts waiting for you</div>
+          <ul class="brief-list">
+            <li>2026 Richmond Roof Replacement Cost Guide — blog · 1,180 words</li>
+            <li>How Long Does a Roof Last in Virginia — blog · 920 words</li>
+            <li>Miller Roof Replacement before/after — Instagram post</li>
+            <li>Storm Season Tips — Instagram carousel · 5 slides</li>
+            <li>Hail Damage Henrico campaign — 3 new ad variants</li>
+            <li>Westover Hills HOA — case study slide deck · 6 slides</li>
+          </ul>
+        </div>
+
+        <div class="brief-cta-row">
+          <button class="brief-cta primary">Review all drafts</button>
+          <button class="brief-cta">Approve recommendations</button>
+          <button class="brief-cta">Ask Atlas</button>
+        </div>
+      </div>
+      <div class="brief-footer">Atlas · Hardesty Roofing · Generated Mon 6:58 AM · 2 min read</div>
+    </div>
+
+    <div style="max-width:680px;margin:16px auto 0;">
+      <div class="card">
+        <div class="card-header"><div class="card-title">Historical briefs</div></div>
+        <div class="row"><div class="row-name">Mon Apr 21 — "Commercial pipeline is heating up"</div><div class="row-detail" style="flex:1">Opened 7:04 AM · 8 drafts approved</div><span class="badge b-won">Sent</span></div>
+        <div class="row"><div class="row-name">Mon Apr 14 — "Your ad spend is leaking. Here's the patch."</div><div class="row-detail" style="flex:1">Opened 7:11 AM · 5 drafts approved · 2 actions taken</div><span class="badge b-won">Sent</span></div>
+        <div class="row"><div class="row-name">Mon Apr 7 — "Hail season prep. Three moves to make now."</div><div class="row-detail" style="flex:1">Opened 7:02 AM · 7 drafts approved · killed 1 campaign</div><span class="badge b-won">Sent</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- END MARKETING -->
+
+<!-- ══════════════════════════════════════════════════════════════════
+     FINANCE
+     ══════════════════════════════════════════════════════════════════ -->
 <div class="page" id="page-finance">
   <div class="stats-row">
     <div class="stat-card"><div class="stat-label">Revenue MTD</div><div class="stat-value">$84,200</div><div class="stat-sub stat-up">↑ 22% vs April '25</div></div>
@@ -427,10 +1398,10 @@
   <div class="two-col">
     <div class="card">
       <div class="card-header"><div class="card-title">Recent transactions</div></div>
-      <div class="kpi-row"><span class="kpi-label">Miller re-roof — Invoice #1042</span><span class="kpi-value" style="color:var(--success)">+$22,400 paid</span></div>
+      <div class="kpi-row"><span class="kpi-label">Miller roof replacement — Invoice #1042</span><span class="kpi-value" style="color:var(--success)">+$22,400 paid</span></div>
       <div class="kpi-row"><span class="kpi-label">Patterson repair — Invoice #1041</span><span class="kpi-value" style="color:var(--success)">+$4,200 paid</span></div>
       <div class="kpi-row"><span class="kpi-label">Chen commercial — Invoice #1040</span><span class="kpi-value" style="color:var(--amber)">$14,800 pending</span></div>
-      <div class="kpi-row"><span class="kpi-label">Roberts re-roof — Invoice #1039</span><span class="kpi-value" style="color:var(--amber)">$8,600 pending</span></div>
+      <div class="kpi-row"><span class="kpi-label">Roberts roof replacement — Invoice #1039</span><span class="kpi-value" style="color:var(--amber)">$8,600 pending</span></div>
       <div class="kpi-row"><span class="kpi-label">Material costs — April</span><span class="kpi-value" style="color:var(--red)">-$31,200</span></div>
       <div class="kpi-row"><span class="kpi-label">Labor costs — April</span><span class="kpi-value" style="color:var(--red)">-$28,400</span></div>
     </div>
@@ -445,7 +1416,9 @@
   </div>
 </div>
 
-<!-- ══ VOICE ══ -->
+<!-- ══════════════════════════════════════════════════════════════════
+     VOICE
+     ══════════════════════════════════════════════════════════════════ -->
 <div class="page" id="page-voice">
   <div class="voice-stats-row">
     <div class="stat-card"><div class="stat-label">Calls this week</div><div class="stat-value">14</div><div class="stat-sub stat-up">↑ 4 vs last week</div></div>
@@ -456,7 +1429,7 @@
   <div class="voice-layout">
     <div class="card">
       <div class="card-header"><div class="card-title">Recent calls</div><span style="font-size:12px;color:var(--gray-light)">(804) 523-9955</span></div>
-      <div class="call-row"><div class="call-icon ci-inbound">↙</div><div class="call-info"><div class="call-name">Thompson, R. — New lead</div><div class="call-detail">Today 9:14am · Residential re-roof inquiry</div><div class="call-outcome" style="color:var(--teal)">✓ Appointment booked — Thu 2pm</div></div><div class="call-duration">4:12</div></div>
+      <div class="call-row"><div class="call-icon ci-inbound">↙</div><div class="call-info"><div class="call-name">Thompson, R. — New lead</div><div class="call-detail">Today 9:14am · Residential roof replacement inquiry</div><div class="call-outcome" style="color:var(--teal)">✓ Appointment booked — Thu 2pm</div></div><div class="call-duration">4:12</div></div>
       <div class="call-row"><div class="call-icon ci-inbound">↙</div><div class="call-info"><div class="call-name">Unknown caller</div><div class="call-detail">Today 8:32am · Commercial inquiry</div><div class="call-outcome" style="color:var(--gray-mid)">→ Transferred to Sam</div></div><div class="call-duration">2:08</div></div>
       <div class="call-row"><div class="call-icon ci-inbound">↙</div><div class="call-info"><div class="call-name">Williams, D. — Existing lead</div><div class="call-detail">Yesterday 4:15pm · Confirmed walkthrough</div><div class="call-outcome" style="color:var(--teal)">✓ Confirmed Wed 3:30pm</div></div><div class="call-duration">1:54</div></div>
       <div class="call-row"><div class="call-icon ci-missed">✕</div><div class="call-info"><div class="call-name">Missed call</div><div class="call-detail">Yesterday 1:22pm · No voicemail</div><div class="call-outcome" style="color:var(--amber)">→ SMS follow-up sent automatically</div></div><div class="call-duration">0:00</div></div>
@@ -484,7 +1457,9 @@
   </div>
 </div>
 
-<!-- ══ STRATEGY ══ -->
+<!-- ══════════════════════════════════════════════════════════════════
+     STRATEGY
+     ══════════════════════════════════════════════════════════════════ -->
 <div class="page" id="page-strategy">
   <div class="stats-row">
     <div class="stat-card"><div class="stat-label">Q2 revenue target</div><div class="stat-value">$380k</div><div class="stat-sub" style="color:var(--teal)">On track · 34% through</div></div>
@@ -510,18 +1485,20 @@
   </div>
 </div>
 
-<!-- ══ MY JOBS (crew) ══ -->
+<!-- ══════════════════════════════════════════════════════════════════
+     MY JOBS (crew view)
+     ══════════════════════════════════════════════════════════════════ -->
 <div class="page" id="page-myjobs">
   <div class="myjobs-hero">
     <h2>Today — Wed Apr 22</h2>
     <p>3 jobs on your schedule · 1 starts in <strong style="color:#2ECC71">45 min</strong></p>
   </div>
 
-  <div class="job-card" style="border-left:3px solid var(--teal)">
+  <div class="job-card" style="border-left:3px solid var(--hardesty-red)">
     <div class="job-top">
       <div>
         <div class="job-customer">Johnson</div>
-        <div class="job-type">Re-roof inspection · Crew A</div>
+        <div class="job-type">Roof inspection · Crew A</div>
       </div>
       <div class="job-time-pill">8:00 AM</div>
     </div>
@@ -572,132 +1549,107 @@
   </div>
 </div>
 
-<!-- ══ SETTINGS ══ -->
+<!-- ══════════════════════════════════════════════════════════════════
+     SETTINGS
+     ══════════════════════════════════════════════════════════════════ -->
 <div class="page" id="page-settings">
   <div class="settings-section">
     <div class="settings-title">Integrations</div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">GoHighLevel CRM</div><div class="sr-detail">Contacts, pipeline stages, workflows, SMS</div></div><div class="sr-right"><span style="font-size:12px;color:var(--amber)">Transitioning</span><button class="connect-btn">Configure</button></div></div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">AccuLynx</div><div class="sr-detail">Job management, quotes, source of truth</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Credentials needed</span><button class="connect-btn">Connect</button></div></div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">Supabase Database</div><div class="sr-detail">Standard schema — jobs, contacts, revenue events</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Not configured</span><button class="connect-btn">Connect</button></div></div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">QuickBooks</div><div class="sr-detail">Invoicing, P&L sync, accounting</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Not connected</span><button class="connect-btn">Connect</button></div></div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">Google Workspace</div><div class="sr-detail">Email deliverability — estimates, communications</div></div><div class="sr-right"><span style="font-size:12px;color:var(--amber)">Setup in progress</span><button class="connect-btn">Configure</button></div></div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">GitHub — Project docs</div><div class="sr-detail">Living docs — brain reads and updates automatically</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Not connected</span><button class="connect-btn">Connect</button></div></div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">AI Voice Agent</div><div class="sr-detail">Inbound call handling — (804) 523-9955</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Ready to activate</span><button class="connect-btn">Activate</button></div></div>
+    <div class="setting-row"><div><div class="sr-label">GoHighLevel CRM</div><div class="sr-detail">Contacts, pipeline stages, workflows, SMS</div></div><div class="sr-right"><span style="font-size:12px;color:var(--amber)">Transitioning</span><button class="connect-btn">Configure</button></div></div>
+    <div class="setting-row"><div><div class="sr-label">AccuLynx</div><div class="sr-detail">Job management, quotes, source of truth</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Credentials needed</span><button class="connect-btn">Connect</button></div></div>
+    <div class="setting-row"><div><div class="sr-label">Supabase Database</div><div class="sr-detail">Standard schema — jobs, contacts, revenue events</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Not configured</span><button class="connect-btn">Connect</button></div></div>
+    <div class="setting-row"><div><div class="sr-label">QuickBooks</div><div class="sr-detail">Invoicing, P&L sync, accounting</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Not connected</span><button class="connect-btn">Connect</button></div></div>
+    <div class="setting-row"><div><div class="sr-label">Google Workspace</div><div class="sr-detail">Email deliverability — estimates, communications</div></div><div class="sr-right"><span style="font-size:12px;color:var(--amber)">Setup in progress</span><button class="connect-btn">Configure</button></div></div>
+    <div class="setting-row"><div><div class="sr-label">GitHub — Project docs</div><div class="sr-detail">Living docs — brain reads and updates automatically</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Not connected</span><button class="connect-btn">Connect</button></div></div>
+    <div class="setting-row"><div><div class="sr-label">AI Voice Agent</div><div class="sr-detail">Inbound call handling — (804) 523-9955</div></div><div class="sr-right"><span style="font-size:12px;color:var(--gray-light)">Ready to activate</span><button class="connect-btn">Activate</button></div></div>
   </div>
   <div class="settings-section">
     <div class="settings-title">Users</div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">Sam</div><div class="sr-detail">Owner · Full access · sam@hardestyroofing.com</div></div><div class="sr-right"><span class="badge b-won">Active</span></div></div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">Brian</div><div class="sr-detail">Director of Marketing · Full access · brian@hardestyroofing.com</div></div><div class="sr-right"><span class="badge b-won">Active</span></div></div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">Brittany</div><div class="sr-detail">Operations · brittany@hardestyroofing.com</div></div><div class="sr-right"><span class="badge b-won">Active</span></div></div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">Add user</div><div class="sr-detail">Invite a team member</div></div><div class="sr-right"><button class="connect-btn">+ Invite</button></div></div>
+    <div class="setting-row"><div><div class="sr-label">Sam</div><div class="sr-detail">Owner · Full access · sam@hardestyroofing.com</div></div><div class="sr-right"><span class="badge b-won">Active</span></div></div>
+    <div class="setting-row"><div><div class="sr-label">Brian</div><div class="sr-detail">Director of Marketing · Full access · brian@hardestyroofing.com</div></div><div class="sr-right"><span class="badge b-won">Active</span></div></div>
+    <div class="setting-row"><div><div class="sr-label">Brittany</div><div class="sr-detail">Operations · brittany@hardestyroofing.com</div></div><div class="sr-right"><span class="badge b-won">Active</span></div></div>
+    <div class="setting-row"><div><div class="sr-label">Add user</div><div class="sr-detail">Invite a team member</div></div><div class="sr-right"><button class="connect-btn">+ Invite</button></div></div>
   </div>
   <div class="settings-section" id="brain-settings-section">
     <div class="settings-title">Brain settings</div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">Nightly doc update</div><div class="sr-detail">Atlas rewrites project docs from live data each night</div></div><div class="sr-right"><div class="toggle off" onclick="this.classList.toggle('off')"></div></div></div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">Monday morning report</div><div class="sr-detail">Weekly summary auto-generated and emailed to Sam</div></div><div class="sr-right"><div class="toggle off" onclick="this.classList.toggle('off')"></div></div></div>
-    <div class="setting-row"><div class="sr-left"><div class="sr-label">Approval notifications</div><div class="sr-detail">Alert Sam when quotes need review</div></div><div class="sr-right"><div class="toggle" onclick="this.classList.toggle('off')"></div></div></div>
+    <div class="setting-row"><div><div class="sr-label">Nightly doc update</div><div class="sr-detail">Atlas rewrites project docs from live data each night</div></div><div class="sr-right"><div class="toggle off" onclick="this.classList.toggle('off')"></div></div></div>
+    <div class="setting-row"><div><div class="sr-label">Monday morning report</div><div class="sr-detail">Weekly summary auto-generated and emailed to Sam</div></div><div class="sr-right"><div class="toggle off" onclick="this.classList.toggle('off')"></div></div></div>
+    <div class="setting-row"><div><div class="sr-label">Approval notifications</div><div class="sr-detail">Alert Sam when quotes need review</div></div><div class="sr-right"><div class="toggle" onclick="this.classList.toggle('off')"></div></div></div>
   </div>
 </div>
 
 </div><!-- /main -->
 
 <script>
+/* ═══════════════════════════════════════════════════════════════════════
+   ATLAS LOGO
+   The full LOGO_B64 string from your original index.html goes here.
+   Leaving as placeholder to keep this merge file readable — when you
+   paste this into the repo, REPLACE the string below with the real
+   base64 blob from your current index.html (it starts with 'iVBOR...').
+   ═══════════════════════════════════════════════════════════════════════ */
 const LOGO_B64 = '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';
 const logoSrc = 'data:image/png;base64,' + LOGO_B64;
 
-// ── ROLE DEFINITIONS ──
-// Each role has: displayName, visibleTabs, defaultTab, whether approvals are actionable
+/* ═══════════════════════════════════════════════════════════════════════
+   ROLE DEFINITIONS
+   ═══════════════════════════════════════════════════════════════════════ */
 const ROLES = {
-  owner: {
-    displayName: 'Sam',
-    visibleTabs: ['atlas','sales','marketing','finance','voice','strategy','settings'],
-    defaultTab: 'atlas',
-    canApprove: true,
-    seeBrainSettings: true
-  },
-  owner_brian: {
-    displayName: 'Brian',
-    visibleTabs: ['atlas','sales','marketing','finance','voice','strategy','settings'],
-    defaultTab: 'atlas',
-    canApprove: true,
-    seeBrainSettings: true
-  },
-  ops: {
-    displayName: 'Brittany',
-    visibleTabs: ['atlas','operations','sales','voice','settings'],
-    defaultTab: 'atlas',
-    canApprove: false,
-    seeBrainSettings: false
-  },
-  crew: {
-    displayName: 'Crew',
-    visibleTabs: ['atlas','myjobs'],
-    defaultTab: 'myjobs',
-    canApprove: false,
-    seeBrainSettings: false
-  },
-  admin: {
-    displayName: 'Admin',
-    visibleTabs: ['atlas','operations','sales','marketing','finance','voice','strategy','myjobs','settings'],
-    defaultTab: 'atlas',
-    canApprove: true,
-    seeBrainSettings: true
-  }
+  owner: { displayName: 'Sam', visibleTabs: ['atlas','sales','marketing','finance','voice','strategy','settings'], defaultTab: 'atlas', canApprove: true, seeBrainSettings: true },
+  owner_brian: { displayName: 'Brian', visibleTabs: ['atlas','sales','marketing','finance','voice','strategy','settings'], defaultTab: 'atlas', canApprove: true, seeBrainSettings: true },
+  ops: { displayName: 'Brittany', visibleTabs: ['atlas','operations','sales','voice','settings'], defaultTab: 'atlas', canApprove: false, seeBrainSettings: false },
+  crew: { displayName: 'Crew', visibleTabs: ['atlas','myjobs'], defaultTab: 'myjobs', canApprove: false, seeBrainSettings: false },
+  admin: { displayName: 'Admin', visibleTabs: ['atlas','operations','sales','marketing','finance','voice','strategy','myjobs','settings'], defaultTab: 'atlas', canApprove: true, seeBrainSettings: true }
 };
 
+/* ═══════════════════════════════════════════════════════════════════════
+   QUICK CHIPS PER ROLE — Brian's mix general questions with rich triggers.
+   Rich triggers use .rich CSS class (red border) to signal visual output.
+   ═══════════════════════════════════════════════════════════════════════ */
 const PROMPTS = {
   ops: [
-    "What needs attention today?",
-    "Draft Henderson follow-up",
-    "Fill Crew B Thursday gap",
-    "Draft estimate intro — Westover HOA",
-    "What's my priority right now?"
+    { text: "What needs attention today?", rich: false },
+    { text: "Draft Henderson follow-up", rich: false },
+    { text: "Fill Crew B Thursday gap", rich: false },
+    { text: "Draft estimate intro — Westover HOA", rich: false },
+    { text: "What's my priority right now?", rich: false }
   ],
   owner: [
-    "Close rate this month",
-    "Revenue if all quotes close?",
-    "Best lead source?",
-    "Westover Hills HOA status",
-    "Should we add a 4th crew?"
+    { text: "Close rate this month", rich: false },
+    { text: "Revenue if all quotes close?", rich: false },
+    { text: "Best lead source?", rich: false },
+    { text: "Westover Hills HOA status", rich: false },
+    { text: "Should we add a 4th crew?", rich: false }
   ],
   owner_brian: [
-    "Marketing ROI this month",
-    "Best performing lead source",
-    "Cost per lead trend",
-    "Which channels should we double down on?",
-    "Draft campaign idea for commercial leads"
+    { text: "What needs attention this week?", rich: false },
+    { text: "Draft Westover HOA case study deck", rich: true, prompt: "Generate a case study slide deck for the Westover Hills HOA project for Hardesty Roofing. Use problem/approach/stats/result/quote structure, 6 slides. Return as atlas-slides rich format." },
+    { text: "Preview Monday Brief", rich: true, prompt: "Generate a preview of this week's Monday Marketing Brief email for Brian at Hardesty Roofing. Include last week's performance, this week's recommendations, and drafts waiting for approval. Return as atlas-email rich format." },
+    { text: "Where are we losing to competitors?", rich: false },
+    { text: "Draft hail damage social post", rich: true, prompt: "Draft an Instagram post for Hardesty Roofing about a recently completed hail damage repair in Henrico. Before/after style. Return as atlas-social rich format." }
   ],
   crew: [
-    "What's my schedule today?",
-    "Directions to next job",
-    "Who's on my crew today?",
-    "What materials are on the truck?",
-    "Call customer to confirm"
+    { text: "What's my schedule today?", rich: false },
+    { text: "Directions to next job", rich: false },
+    { text: "Who's on my crew today?", rich: false },
+    { text: "What materials are on the truck?", rich: false },
+    { text: "Call customer to confirm", rich: false }
   ],
   admin: [
-    "Project status",
-    "What's still blocked?",
-    "Show me the skills library",
-    "Draft update for client"
+    { text: "Project status", rich: false },
+    { text: "What's still blocked?", rich: false },
+    { text: "Show me the skills library", rich: false },
+    { text: "Draft update for client", rich: false }
   ]
 };
 
 function getGreeting(role, firstName) {
   const name = firstName || ROLES[role].displayName;
-  if (role === 'owner') {
-    return `Hey ${name}. 3 quotes waiting on your approval — $47,200 total. Close rate is 34% this month, up 8 points. Westover Hills HOA is an $89k commercial job in quote stage. What do you need?`;
-  }
-  if (role === 'owner_brian') {
-    return `Hey ${name}. Marketing ROI is 6.2x this month — first time we can actually track that. Referrals are doing the heavy lifting at 41% of won jobs with a $12,400 avg. Google leads are cheap but converting at 24% vs referral's 58%. What are you digging into?`;
-  }
-  if (role === 'crew') {
-    return `Morning. You've got 3 jobs today — Johnson at 8am for a re-roof inspection, Patterson at 1pm for a repair, Miller follow-up at 3:30. First stop is 4821 Crestwood Dr. Anything you need?`;
-  }
-  if (role === 'admin') {
-    return `Admin view — all tabs unlocked, can toggle any role. Current previewing: ${ROLES.admin.displayName}. Switch via the role toggle in the header.`;
-  }
-  // ops
-  return `Morning ${name}. Johnson inspection at 8am, Williams walkthrough at 3:30. Henderson hasn't responded to their quote in 6 days — that needs a follow-up today. 3 approvals sitting for Sam totaling $47,200. What do you want to tackle first?`;
+  if (role === 'owner') return `Hey ${name}. 3 quotes waiting on your approval — $47,200 total. Close rate is 34% this month, up 8 points. Westover Hills HOA is an $89k commercial job in quote stage. What do you need?`;
+  if (role === 'owner_brian') return `Hey ${name}. Marketing ROI is 6.2x this month — first time we can track it. Referrals carry 41% of won jobs at $12,400 avg. Google leads are cheap but convert at 24% vs referral's 58%. AI visibility is 23% — below the Richmond market average of 41%, which is the biggest open lane we've got. Want to dig in or have me draft something?`;
+  if (role === 'crew') return `Morning. You've got 3 jobs today — Johnson at 8am for an inspection, Patterson at 1pm for a repair, Miller follow-up at 3:30. First stop is 4821 Crestwood Dr. Anything you need?`;
+  if (role === 'admin') return `Admin view — all tabs unlocked, can toggle any role. Currently previewing: ${ROLES.admin.displayName}. Switch via the role toggle in the header.`;
+  return `Morning ${name}. Johnson inspection at 8am, Williams walkthrough at 3:30. Henderson hasn't responded to their quote in 6 days — needs a follow-up today. 3 approvals sitting for Sam totaling $47,200. What do you want to tackle first?`;
 }
 
 let currentRole = 'ops';
@@ -706,90 +1658,62 @@ let isAdmin = false;
 let history = [];
 let loading = false;
 
-// NOTE: The KB (system prompt) is now assembled by the backend /api/claude
-// from live GitHub repo docs via /api/context. Frontend just sends role + messages.
-
-// ── URL-BASED ROLE DETECTION ──
+/* ═══════════════════════════════════════════════════════════════════════
+   URL-BASED ROLE DETECTION
+   ═══════════════════════════════════════════════════════════════════════ */
 function detectRoleFromUrl() {
   const params = new URLSearchParams(window.location.search);
   const email = (params.get('email') || '').toLowerCase();
   const name = params.get('name') || '';
   const explicitRole = (params.get('role') || '').toLowerCase();
-
   if (name) currentFirstName = name;
-
-  // Explicit role param wins (admin override for testing)
   if (explicitRole === 'admin') return 'admin';
   if (explicitRole === 'owner') return 'owner';
   if (explicitRole === 'ops' || explicitRole === 'operations') return 'ops';
   if (explicitRole === 'crew') return 'crew';
   if (explicitRole === 'brian') return 'owner_brian';
-
-  // Email-based detection
-  // Obsidian Labs staff = admin
-  if (email.includes('labsobsidian') || email.includes('@obsidianlabs') || email.includes('garrett')) {
-    return 'admin';
-  }
-  // Hardesty team
+  if (email.includes('labsobsidian') || email.includes('@obsidianlabs') || email.includes('garrett')) return 'admin';
   if (email.includes('brian')) return 'owner_brian';
   if (email.includes('sam') && email.includes('hardesty')) return 'owner';
   if (email.includes('britt')) return 'ops';
-
-  // Safe default — ops gets the least-sensitive view
   return 'ops';
 }
 
-// ── APPLY ROLE: tab visibility, user label, admin banner ──
+/* ═══════════════════════════════════════════════════════════════════════
+   APPLY ROLE
+   ═══════════════════════════════════════════════════════════════════════ */
 function applyRole(role) {
   currentRole = role;
   const roleDef = ROLES[role];
 
-  // Show/hide tabs based on role
   document.querySelectorAll('.nav-item').forEach(item => {
     const tab = item.getAttribute('data-tab');
-    if (roleDef.visibleTabs.includes(tab)) {
-      item.classList.remove('hidden');
-    } else {
-      item.classList.add('hidden');
-    }
+    if (roleDef.visibleTabs.includes(tab)) item.classList.remove('hidden');
+    else item.classList.add('hidden');
   });
 
-  // Approval buttons: hide Approve/Adjust + replace with locked tag if role can't approve
   document.querySelectorAll('.approval-actions').forEach(el => {
     if (roleDef.canApprove) {
       el.innerHTML = el.getAttribute('data-original-html') || el.innerHTML;
-      if (!el.getAttribute('data-original-html')) {
-        el.setAttribute('data-original-html', el.innerHTML);
-      }
+      if (!el.getAttribute('data-original-html')) el.setAttribute('data-original-html', el.innerHTML);
     } else {
-      if (!el.getAttribute('data-original-html')) {
-        el.setAttribute('data-original-html', el.innerHTML);
-      }
+      if (!el.getAttribute('data-original-html')) el.setAttribute('data-original-html', el.innerHTML);
       el.innerHTML = '<span class="owner-lock"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="8" height="6" rx="1"/><path d="M5 6V4a2 2 0 014 0v2"/></svg>Owner approval required</span>';
     }
   });
 
-  // Sales alert bar: different copy for ops (they can see it but can't action it)
   const alertText = document.getElementById('sales-alert-text');
   if (alertText) {
-    if (roleDef.canApprove) {
-      alertText.innerHTML = '3 quotes awaiting approval — <strong style="margin-left:4px">$47,200 total.</strong>';
-    } else {
-      alertText.innerHTML = '3 quotes awaiting owner approval — <strong style="margin-left:4px">$47,200 total.</strong> Sam will review.';
-    }
+    if (roleDef.canApprove) alertText.innerHTML = '3 quotes awaiting approval — <strong style="margin-left:4px">$47,200 total.</strong>';
+    else alertText.innerHTML = '3 quotes awaiting owner approval — <strong style="margin-left:4px">$47,200 total.</strong> Sam will review.';
   }
 
-  // Brain settings section: only owners/admin see it
   const brainSettings = document.getElementById('brain-settings-section');
   if (brainSettings) {
-    if (roleDef.seeBrainSettings) {
-      brainSettings.classList.remove('hidden');
-    } else {
-      brainSettings.classList.add('hidden');
-    }
+    if (roleDef.seeBrainSettings) brainSettings.classList.remove('hidden');
+    else brainSettings.classList.add('hidden');
   }
 
-  // Admin banner
   const adminBanner = document.getElementById('admin-banner');
   const userTabsEl = document.getElementById('user-tabs');
   const userLabel = document.getElementById('current-user-label');
@@ -798,20 +1722,14 @@ function applyRole(role) {
     adminBanner.classList.add('visible');
     userTabsEl.classList.remove('hidden');
     userLabel.style.display = 'none';
-    // Update admin banner label based on currently-previewed role
     const previewName = role === 'admin' ? 'Admin (all views)' :
                         role === 'owner_brian' ? 'Brian (owner)' :
                         role === 'owner' ? 'Sam (owner)' :
                         role === 'ops' ? 'Brittany (operations)' :
                         role === 'crew' ? 'Crew' : role;
     document.getElementById('admin-current-role').textContent = previewName;
-    // Highlight the right tab
     document.querySelectorAll('.user-tab').forEach(t => t.classList.remove('active'));
-    // Map role → button data-role
-    const btnRole = role === 'owner_brian' ? 'brian' :
-                    role === 'owner' ? 'sam' :
-                    role === 'ops' ? 'brittany' :
-                    role === 'admin' ? null : role;
+    const btnRole = role === 'owner_brian' ? 'brian' : role === 'owner' ? 'sam' : role === 'ops' ? 'brittany' : role === 'admin' ? null : role;
     if (btnRole) {
       const btn = document.querySelector(`.user-tab[data-role="${btnRole}"]`);
       if (btn) btn.classList.add('active');
@@ -826,11 +1744,9 @@ function applyRole(role) {
     userLabel.textContent = displayName;
   }
 
-  // Switch to role's default tab
   const defaultTabBtn = document.querySelector(`.nav-item[data-tab="${roleDef.defaultTab}"]`);
   if (defaultTabBtn) showPage(roleDef.defaultTab, defaultTabBtn);
 
-  // Reset chat + greeting + prompts
   history = [];
   document.getElementById('chat-messages').innerHTML = '';
   buildQuickStrip(role);
@@ -838,19 +1754,9 @@ function applyRole(role) {
   addMsg('brain', getGreeting(role, displayName));
 }
 
-// Admin uses this to switch between previewed roles
 function switchRole(buttonRole, btn) {
-  // Map button data-role → internal role keys
-  const roleMap = {
-    'brittany': 'ops',
-    'sam': 'owner',
-    'brian': 'owner_brian',
-    'crew': 'crew'
-  };
-  const role = roleMap[buttonRole] || 'ops';
-  // When admin toggles, pretend to BE that role (not admin) for view purposes,
-  // but keep isAdmin true so toggle stays visible
-  applyRole(role);
+  const roleMap = { 'brittany':'ops', 'sam':'owner', 'brian':'owner_brian', 'crew':'crew' };
+  applyRole(roleMap[buttonRole] || 'ops');
 }
 
 function initLogo() {
@@ -858,15 +1764,18 @@ function initLogo() {
   document.getElementById('clogo').src = logoSrc;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   QUICK CHIPS
+   ═══════════════════════════════════════════════════════════════════════ */
 function buildQuickStrip(role) {
   const strip = document.getElementById('quick-strip');
   strip.innerHTML = '';
   const prompts = PROMPTS[role] || PROMPTS.ops;
   prompts.forEach(p => {
     const btn = document.createElement('button');
-    btn.className = 'qchip';
-    btn.textContent = p;
-    btn.onclick = () => fire(p);
+    btn.className = 'qchip' + (p.rich ? ' rich' : '');
+    btn.textContent = p.text;
+    btn.onclick = () => fire(p.prompt || p.text);
     strip.appendChild(btn);
   });
 }
@@ -877,8 +1786,33 @@ function showPage(id, el) {
   const page = document.getElementById('page-' + id);
   if (page) page.classList.add('active');
   if (el) el.classList.add('active');
+  else {
+    const navBtn = document.querySelector(`.nav-item[data-tab="${id}"]`);
+    if (navBtn) navBtn.classList.add('active');
+  }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   MARKETING SUB-NAV
+   ═══════════════════════════════════════════════════════════════════════ */
+function showSub(id, el) {
+  document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sub-nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('sub-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FIRE FROM MARKETING — bridges Draft-It buttons into Atlas chat
+   ═══════════════════════════════════════════════════════════════════════ */
+function fireFromMarketing(prompt) {
+  showPage('atlas');
+  setTimeout(() => fire(prompt), 100);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MESSAGE RENDERING
+   ═══════════════════════════════════════════════════════════════════════ */
 function addMsg(role, text) {
   const c = document.getElementById('chat-messages');
   const d = document.createElement('div');
@@ -890,10 +1824,7 @@ function addMsg(role, text) {
     img.src = logoSrc; img.style.cssText = 'width:18px;height:18px;object-fit:contain;display:block;';
     av.appendChild(img);
   } else {
-    // User avatar letter from current role/name
-    const letter = currentFirstName
-      ? currentFirstName.charAt(0).toUpperCase()
-      : (ROLES[currentRole].displayName.charAt(0));
+    const letter = currentFirstName ? currentFirstName.charAt(0).toUpperCase() : (ROLES[currentRole].displayName.charAt(0));
     av.textContent = letter;
   }
   const b = document.createElement('div');
@@ -914,9 +1845,321 @@ function addStreamingMsg() {
   b.className = 'msg-bubble'; b.style.whiteSpace = 'pre-wrap';
   d.appendChild(av); d.appendChild(b);
   c.appendChild(d); c.scrollTop = c.scrollHeight;
-  return b;
+  return { bubble: b, wrapper: d };
 }
 
+/* ═══════════════════════════════════════════════════════════════════════
+   RICH OUTPUT PARSER + RENDERERS
+   ═══════════════════════════════════════════════════════════════════════ */
+function parseAtlasResponse(text) {
+  const blocks = [];
+  const fenceRegex = /```atlas-(slides|social|ad|email|blog)\s*\n([\s\S]*?)\n```/g;
+  let lastIndex = 0;
+  let match;
+  while ((match = fenceRegex.exec(text)) !== null) {
+    const proseBefore = text.slice(lastIndex, match.index).trim();
+    if (proseBefore) blocks.push({ type: 'prose', content: proseBefore });
+    const rawContent = match[2].trim();
+    let parsed;
+    try { parsed = JSON.parse(rawContent); }
+    catch(e) { parsed = { _raw: rawContent, _error: e.message }; }
+    blocks.push({ type: match[1], content: parsed });
+    lastIndex = match.index + match[0].length;
+  }
+  const proseAfter = text.slice(lastIndex).trim();
+  if (proseAfter) blocks.push({ type: 'prose', content: proseAfter });
+  return blocks;
+}
+
+function renderBlock(block) {
+  if (block.content && block.content._error) {
+    return `<div style="padding:14px;background:var(--gray-surface);border-radius:8px;font-size:12px;color:var(--gray-mid)"><strong>Atlas output preview</strong><br><pre style="margin-top:8px;white-space:pre-wrap;font-size:11px">${escapeHtml(block.content._raw || '').slice(0,600)}</pre></div>`;
+  }
+  switch(block.type) {
+    case 'slides': return renderSlides(block.content);
+    case 'social': return renderSocial(block.content);
+    case 'ad': return renderAd(block.content);
+    case 'email': return renderEmail(block.content);
+    case 'blog': return renderBlog(block.content);
+    default: return `<div style="padding:12px 14px">${escapeHtml(String(block.content))}</div>`;
+  }
+}
+
+function finalizeRichResponse(bubbleEl, fullText) {
+  const blocks = parseAtlasResponse(fullText);
+  const hasRich = blocks.some(b => b.type !== 'prose');
+  const hasProse = blocks.some(b => b.type === 'prose');
+  if (!hasRich) {
+    bubbleEl.className = 'msg-bubble';
+    bubbleEl.textContent = fullText;
+    return;
+  }
+  if (hasRich && !hasProse) {
+    bubbleEl.className = 'msg-bubble rich';
+    bubbleEl.innerHTML = blocks.map(renderBlock).join('');
+  } else {
+    bubbleEl.className = 'msg-bubble rich-mixed';
+    bubbleEl.innerHTML = blocks.map(b => b.type === 'prose'
+      ? `<div class="prose">${escapeHtml(b.content).replace(/\n/g, '<br>')}</div>`
+      : renderBlock(b)
+    ).join('');
+  }
+}
+
+function escapeHtml(str) {
+  if (typeof str !== 'string') return String(str ?? '');
+  return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeHtmlWithStrong(str) {
+  return escapeHtml(str).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
+
+/* ─── SLIDES ─── */
+function renderSlides(data) {
+  if (!data || !Array.isArray(data.slides)) return `<div style="padding:14px;font-size:12px;color:var(--gray-mid)">Slide deck data incomplete.</div>`;
+  const { title, slides } = data;
+  const slideId = 'slides-' + Math.random().toString(36).slice(2,8);
+  const slidesHtml = slides.map((s, i) => renderSlide(s, i === 0)).join('');
+  const dotsHtml = slides.map((_, i) => `<div class="slides-dot ${i===0?'active':''}" onclick="goToSlide('${slideId}',${i})"></div>`).join('');
+  return `
+    <div class="atlas-slides" id="${slideId}" data-slide-count="${slides.length}" data-current="0">
+      <div class="slides-toolbar">
+        <span style="font-size:14px;">📊</span>
+        <div class="slides-title">${escapeHtml(title || 'Slide deck')}</div>
+        <div class="slides-counter"><span class="current-slide">1</span> / ${slides.length}</div>
+        <div class="slides-tools">
+          <button class="slides-tool" onclick="alert('PDF export — Phase 2 via html2pdf.js')">⬇ PDF</button>
+          <button class="slides-tool" onclick="alert('Send to Brian — Phase 2 via GHL email')">↗ Send</button>
+        </div>
+      </div>
+      <div class="slides-stage">${slidesHtml}</div>
+      <div class="slides-nav">
+        <button class="slides-nav-btn prev-btn" onclick="prevSlide('${slideId}')" disabled>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,2 4,7 9,12"/></svg>
+        </button>
+        <div class="slides-dots">${dotsHtml}</div>
+        <button class="slides-nav-btn next-btn" onclick="nextSlide('${slideId}')">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5,2 10,7 5,12"/></svg>
+        </button>
+      </div>
+    </div>`;
+}
+function renderSlide(slide, isActive) {
+  const active = isActive ? ' active' : '';
+  switch(slide.layout) {
+    case 'cover':
+      return `<div class="slide cover${active}">
+        ${slide.eyebrow ? `<div class="slide-mark">${escapeHtml(slide.eyebrow)}</div>` : ''}
+        <div class="slide-title">${escapeHtml(slide.title)}</div>
+        ${slide.subtitle ? `<div class="slide-subtitle">${escapeHtml(slide.subtitle)}</div>` : ''}
+        <div class="slide-logo"><strong>HARDESTY</strong> ROOFING <span style="opacity:0.4">${slide.footer ? '· ' + escapeHtml(slide.footer) : '· GAF MASTER ELITE'}</span></div>
+      </div>`;
+    case 'content':
+      return `<div class="slide${active}">
+        ${slide.eyebrow ? `<div class="slide-mark">${escapeHtml(slide.eyebrow)}</div>` : ''}
+        <div class="slide-title">${escapeHtml(slide.title)}</div>
+        ${slide.subtitle ? `<div class="slide-subtitle" style="margin-bottom:14px">${escapeHtml(slide.subtitle)}</div>` : ''}
+        ${slide.bullets ? `<ul class="slide-body-list">${slide.bullets.map(b => `<li>${escapeHtml(b)}</li>`).join('')}</ul>` : ''}
+      </div>`;
+    case 'stats':
+      return `<div class="slide${active}">
+        ${slide.eyebrow ? `<div class="slide-mark">${escapeHtml(slide.eyebrow)}</div>` : ''}
+        <div class="slide-title">${escapeHtml(slide.title)}</div>
+        <div class="slide-stats">
+          ${(slide.stats || []).map(s => `
+            <div class="slide-stat">
+              <div class="slide-stat-val ${s.color === 'red' || s.color === 'teal' ? 'red' : ''}">${escapeHtml(s.value)}</div>
+              <div class="slide-stat-label">${escapeHtml(s.label)}</div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+    case 'result':
+      return `<div class="slide result${active}">
+        ${slide.eyebrow ? `<div class="slide-mark">${escapeHtml(slide.eyebrow)}</div>` : ''}
+        <div class="slide-title" style="margin-bottom:14px">${escapeHtml(slide.title)}</div>
+        <div class="slide-result-number">${escapeHtml(slide.metric)}</div>
+        <div class="slide-result-caption">${escapeHtml(slide.caption)}</div>
+      </div>`;
+    case 'quote':
+      return `<div class="slide quote${active}">
+        ${slide.eyebrow ? `<div class="slide-mark" style="margin-top:8px">${escapeHtml(slide.eyebrow)}</div>` : ''}
+        <div class="slide-quote-text">"${escapeHtml(slide.quote)}"</div>
+        <div class="slide-quote-attr"><strong>${escapeHtml(slide.attribution)}</strong>${slide.role ? ' · ' + escapeHtml(slide.role) : ''}</div>
+      </div>`;
+    default:
+      return `<div class="slide${active}"><div class="slide-title">${escapeHtml(slide.title || 'Slide')}</div></div>`;
+  }
+}
+function nextSlide(id) {
+  const el = document.getElementById(id);
+  const cur = parseInt(el.dataset.current);
+  const total = parseInt(el.dataset.slideCount);
+  if (cur < total - 1) goToSlide(id, cur + 1);
+}
+function prevSlide(id) {
+  const el = document.getElementById(id);
+  const cur = parseInt(el.dataset.current);
+  if (cur > 0) goToSlide(id, cur - 1);
+}
+function goToSlide(id, idx) {
+  const el = document.getElementById(id);
+  const total = parseInt(el.dataset.slideCount);
+  el.querySelectorAll('.slide').forEach((s,i) => s.classList.toggle('active', i === idx));
+  el.querySelectorAll('.slides-dot').forEach((d,i) => d.classList.toggle('active', i === idx));
+  el.querySelector('.current-slide').textContent = idx + 1;
+  el.querySelector('.prev-btn').disabled = idx === 0;
+  el.querySelector('.next-btn').disabled = idx === total - 1;
+  el.dataset.current = idx;
+}
+
+/* ─── SOCIAL ─── */
+function renderSocial(data) {
+  if (!data) return '';
+  const { platform = 'Instagram', username = 'hardestyroofing', location = 'Richmond, Virginia', imageStyle = 'before-after', caption = '', hashtags = [], engagement } = data;
+  const hashtagStr = hashtags.map(h => `#${String(h).replace(/^#/, '')}`).join(' ');
+  let imageHtml;
+  if (imageStyle === 'before-after') {
+    imageHtml = `<div class="sc-before-after">
+      <div class="sc-ba-half before"><span class="sc-ba-label">Before</span></div>
+      <div class="sc-ba-half after"><span class="sc-ba-label">After</span></div>
+      <div class="sc-ba-divider"></div>
+    </div>`;
+  } else {
+    imageHtml = `<div class="sc-image-placeholder">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3"><rect x="4" y="8" width="40" height="32" rx="3"/><circle cx="15" cy="20" r="4"/><path d="M4 34l14-14 10 10 6-6 10 10"/></svg>
+      <div style="font-size:11px;letter-spacing:0.1em;">PHOTO · ${escapeHtml(data.imageAlt || 'Jobsite photo')}</div>
+    </div>`;
+  }
+  return `<div class="atlas-social-wrap">
+    <div class="social-header">
+      <div class="social-label">${escapeHtml(platform)} · Post Preview</div>
+    </div>
+    <div class="social-card">
+      <div class="sc-top">
+        <div class="sc-avatar">HR</div>
+        <div class="sc-user-info">
+          <div class="sc-username">${escapeHtml(username)}</div>
+          <div class="sc-location">${escapeHtml(location)}</div>
+        </div>
+        <div class="sc-menu">⋯</div>
+      </div>
+      <div class="sc-image">${imageHtml}</div>
+      <div class="sc-actions">
+        <div class="sc-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+        <div class="sc-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <div class="sc-action"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+        <div class="sc-action" style="margin-left:auto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></div>
+      </div>
+      ${engagement ? `<div class="sc-likes">${escapeHtml(engagement.likes || '142')} likes</div>` : ''}
+      <div class="sc-caption">
+        <strong>${escapeHtml(username)}</strong>${escapeHtml(caption)}
+        ${hashtagStr ? `<div class="sc-hashtags">${escapeHtml(hashtagStr)}</div>` : ''}
+      </div>
+      <div class="sc-time">2 minutes ago</div>
+      ${engagement ? `<div class="sc-engagement">
+        <div class="sc-eng-cell"><div class="sc-eng-val">${escapeHtml(engagement.reach || '~1,800')}</div><div class="sc-eng-label">Est. Reach</div></div>
+        <div class="sc-eng-cell"><div class="sc-eng-val">${escapeHtml(engagement.engagement || '4.2%')}</div><div class="sc-eng-label">Est. Engagement</div></div>
+        <div class="sc-eng-cell"><div class="sc-eng-val">${escapeHtml(engagement.dms || '3-5')}</div><div class="sc-eng-label">Projected DMs</div></div>
+      </div>` : ''}
+    </div>
+  </div>`;
+}
+
+/* ─── AD ─── */
+function renderAd(data) {
+  if (!data) return '';
+  const { campaign = 'Campaign', finalUrl = 'hardestyroofing.com', headlines = [], descriptions = [], extensions = [] } = data;
+  const primary = { headline: headlines[0] || 'Hardesty Roofing', description: descriptions[0] || '' };
+  const variants = [];
+  for (let i = 1; i < Math.min(headlines.length, 4); i++) {
+    variants.push({ headline: headlines[i], description: descriptions[i] || descriptions[0] || '' });
+  }
+  return `<div class="atlas-ad-wrap">
+    <div class="ad-label-row">
+      <div class="ad-label">Google Ad · ${escapeHtml(campaign)}</div>
+      <div class="ad-meta">${headlines.length} headlines · ${descriptions.length} descriptions</div>
+    </div>
+    <div class="serp-preview">
+      <div class="serp-sponsored">Sponsored</div>
+      <div class="serp-url">${escapeHtml(finalUrl)}</div>
+      <div class="serp-headline">${escapeHtml(primary.headline)}</div>
+      <div class="serp-description">${escapeHtml(primary.description)}</div>
+      ${extensions.length ? `<div class="serp-extensions">${extensions.map(e => `<div class="serp-ext">${escapeHtml(e)}</div>`).join('')}</div>` : ''}
+    </div>
+    ${variants.length ? `<div class="ad-label" style="margin-top:10px;">Alternate Variants</div>
+      <div class="ad-variants">
+        ${variants.map((v, i) => `<div class="ad-variant">
+          <div class="ad-variant-label">Variant ${String.fromCharCode(66+i)}</div>
+          <div class="ad-variant-body"><strong>${escapeHtml(v.headline)}</strong>${escapeHtml(v.description)}</div>
+        </div>`).join('')}
+      </div>` : ''}
+  </div>`;
+}
+
+/* ─── EMAIL ─── */
+function renderEmail(data) {
+  if (!data) return '';
+  const { from = 'Atlas <atlas@hardestyroofing.com>', subject = '', eyebrow = '', greeting = '', sections = [], ctas = [] } = data;
+  return `<div class="atlas-email-wrap">
+    <div class="email-preview">
+      <div class="email-header">
+        <span><strong>From:</strong> ${escapeHtml(from)}</span>
+        <span>${escapeHtml(data.time || 'Mon 7:00 AM')}</span>
+      </div>
+      <div class="email-body">
+        ${eyebrow ? `<div class="email-eyebrow">${escapeHtml(eyebrow)}</div>` : ''}
+        <div class="email-subject">${escapeHtml(subject)}</div>
+        ${greeting ? `<div class="email-greeting">${escapeHtml(greeting)}</div>` : ''}
+        ${sections.map(s => `<div class="email-section">
+          ${s.heading ? `<div class="email-h">${escapeHtml(s.heading)}</div>` : ''}
+          ${s.text ? `<div class="email-text">${escapeHtml(s.text)}</div>` : ''}
+          ${s.list ? `<ul class="email-list">${s.list.map(item => `<li>${escapeHtmlWithStrong(item)}</li>`).join('')}</ul>` : ''}
+        </div>`).join('')}
+        ${ctas.length ? `<div class="email-cta-row">${ctas.map((c, i) => `<button class="email-cta ${i===0?'primary':''}">${escapeHtml(c)}</button>`).join('')}</div>` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ─── BLOG ─── */
+function renderBlog(data) {
+  if (!data) return '';
+  const { title = 'Untitled', category = 'Roofing Guide', readTime = '5 min read', lead = '', sections = [] } = data;
+  const sectionsHtml = sections.map(s => {
+    if (s.type === 'heading') return `<h3>${escapeHtml(s.text)}</h3>`;
+    if (s.type === 'paragraph') return `<p>${escapeHtml(s.text)}</p>`;
+    if (s.type === 'list') return `<ul>${(s.items || []).map(i => `<li>${escapeHtml(i)}</li>`).join('')}</ul>`;
+    return '';
+  }).join('');
+  return `<div class="atlas-blog-wrap">
+    <div class="blog-preview">
+      <div class="blog-header-strip">
+        <span><strong>📝 Blog Draft</strong></span>
+        <span>Ready for Brian · Unsaved</span>
+      </div>
+      <div class="blog-body">
+        <div class="blog-eyebrow">${escapeHtml(category)}</div>
+        <div class="blog-title">${escapeHtml(title)}</div>
+        <div class="blog-meta">
+          <span>✎ Atlas</span>
+          <span>⏱ ${escapeHtml(readTime)}</span>
+          <span>🎯 ${escapeHtml(data.seoTarget || 'SEO primary')}</span>
+        </div>
+        ${lead ? `<div class="blog-lead">${escapeHtml(lead)}</div>` : ''}
+        ${sectionsHtml}
+      </div>
+      <div class="blog-footer">
+        <button class="blog-footer-btn">Edit in chat</button>
+        <button class="blog-footer-btn">Save draft</button>
+        <button class="blog-footer-btn primary">Send to Brian</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   CHAT — streaming, now with rich rendering on completion
+   ═══════════════════════════════════════════════════════════════════════ */
 async function fire(text) { if (!loading) await run(text); }
 async function sendMsg() {
   if (loading) return;
@@ -931,15 +2174,15 @@ async function run(text) {
   addMsg('user', text);
   history.push({ role: 'user', content: text });
 
-  const bubble = addStreamingMsg();
+  const { bubble } = addStreamingMsg();
   let fullReply = '';
+  let sawFence = false;
 
   try {
     const resp = await fetch('/api/claude', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ role: currentRole, messages: history })
     });
-
     if (!resp.ok) throw new Error('API error');
 
     const reader = resp.body.getReader();
@@ -958,7 +2201,29 @@ async function run(text) {
           const parsed = JSON.parse(data);
           if (parsed.type === 'content_block_delta' && parsed.delta?.type === 'text_delta') {
             fullReply += parsed.delta.text;
-            bubble.textContent = fullReply;
+            // Detect fence opening → switch to skeleton while buffering rich content
+            if (!sawFence && /```atlas-(slides|social|ad|email|blog)/.test(fullReply)) {
+              sawFence = true;
+              const m = fullReply.match(/```atlas-(\w+)/);
+              const type = m ? m[1] : 'content';
+              const labels = {
+                slides: 'Building slide deck',
+                social: 'Designing social post',
+                ad: 'Writing ad variants',
+                email: 'Composing email',
+                blog: 'Writing blog post'
+              };
+              bubble.className = 'msg-bubble rich';
+              bubble.innerHTML = `<div class="rich-skeleton">
+                <div class="rich-skeleton-icon">⋯</div>
+                <div class="rich-skeleton-text">
+                  <div class="rich-skeleton-title">${labels[type] || 'Generating content'}</div>
+                  <div class="rich-skeleton-sub">Atlas is generating your content…</div>
+                </div>
+              </div>`;
+            } else if (!sawFence) {
+              bubble.textContent = fullReply;
+            }
             const c = document.getElementById('chat-messages');
             c.scrollTop = c.scrollHeight;
           }
@@ -966,9 +2231,15 @@ async function run(text) {
       }
     }
 
-    if (fullReply) history.push({ role: 'assistant', content: fullReply });
-    else { bubble.textContent = 'Something went wrong. Try again.'; }
-
+    if (fullReply) {
+      // Swap skeleton → fully rendered rich content (or plain text if no fence)
+      finalizeRichResponse(bubble, fullReply);
+      history.push({ role: 'assistant', content: fullReply });
+      const c = document.getElementById('chat-messages');
+      c.scrollTop = c.scrollHeight;
+    } else {
+      bubble.textContent = 'Something went wrong. Try again.';
+    }
   } catch(e) {
     bubble.textContent = 'Deploy to Vercel and wire /api/claude to activate the live brain.';
   }
@@ -993,13 +2264,8 @@ function approveJob(btn, amount) {
 
 window.addEventListener('load', () => {
   initLogo();
-
-  // Detect role from URL params (email, name, role)
   const detectedRole = detectRoleFromUrl();
-
-  // Admin flag: either detected as admin, OR a non-admin role was forced via explicit role= param AND email was admin
   isAdmin = (detectedRole === 'admin');
-
   applyRole(detectedRole);
 });
 </script>
