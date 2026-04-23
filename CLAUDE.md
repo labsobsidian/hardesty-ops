@@ -11,7 +11,7 @@ AI ops command center for **Hardesty Roofing**, delivered by Obsidian Labs. A si
 Five docs at the repo root drive everything. Keep them current before writing code:
 
 - `PROJECT_STATE.md` — mission, current phase, what's built, remaining work, blockers. Update on every material change.
-- `ARCHITECTURE.md` — system layout (currently shares the CONSTANTS table; treat as authoritative for infra/URLs).
+- `ARCHITECTURE.md` — stack, data flow, service responsibilities, repo layout.
 - `CONSTANTS.md` — non-secret IDs, slugs, env flags. **Never put secrets here.**
 - `DECISIONS.md` — dated decision log. Add an entry when a tradeoff is made.
 - `GO_LIVE_CHECKLIST.md` — phased checklist (Demo → GHL → Booking → Voice → Live Data → Sign-Off).
@@ -24,7 +24,8 @@ When the user says "update state" / "log a decision" / "check off X," edit these
 index.html              # Atlas Brain demo app — 7 tabs, seeded data, streaming chat
 api/claude.js           # Vercel serverless endpoint — proxies to Anthropic, streams SSE
 PROJECT_STATE.md
-ARCHITECTURE.md / CONSTANTS.md
+ARCHITECTURE.md
+CONSTANTS.md
 DECISIONS.md
 GO_LIVE_CHECKLIST.md
 ```
