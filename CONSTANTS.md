@@ -1,34 +1,86 @@
-# DECISIONS.md — Hardesty Roofing
-_Append-only. Newest at bottom._
+# CONSTANTS.md — Hardesty Roofing
+_Last updated: 2026-04-23_
+_Never store secrets here._
 
 ---
 
-## 2026-04-22: Demo with seeded data, wire live sync post-demo
+## Client
 
-**Context:** AccuLynx API credentials not yet available. Friday demo is hard deadline.
+| Constant | Value |
+|---|---|
+| Company name | Hardesty Roofing |
+| Client slug | hardesty |
+| Primary ops contact | Brittany |
+| Owner | Sam |
+| Obsidian Labs contact | Brian |
 
-**Decision:** Build demo with realistic seeded data (roofing jobs, pipeline, crew schedule). Wire real AccuLynx → Supabase sync after demo once credentials received.
+## GHL
 
-**Reasoning:** Demo doesn't need live data to be convincing — it needs to show the future state accurately. Seeded data lets us build faster and control the narrative. Real data comes in week 2.
+| Constant | Value |
+|---|---|
+| Location ID | TODO — populate when GHL sub-account confirmed |
+| Sub-account | White-label under labsobsidian GHL |
 
-**Revisit if:** Sam/Brittany specifically ask to see their live AccuLynx data during demo (have a fallback answer ready).
+### Custom Menu Link (Atlas Brain embed)
 
----
+Paste this as the URL on the GHL custom menu link. The app auto-detects the
+user's role from `email` and personalizes the greeting from `name`.
 
-## 2026-04-22: GHL replaces AccuLynx comms immediately; AccuLynx retained as job record source of truth short-term
+```
+https://hardesty-atlas.labsobsidian.co/?email={{user.email}}&name={{user.first_name}}
+```
 
-**Context:** AccuLynx does two things: job management/quoting (useful) and communications (broken — spam problem). GHL does comms better. Full AccuLynx replacement is a bigger lift.
+**Role routing** (driven by `detectRoleFromUrl()` in `index.html`):
 
-**Decision:** Phase 1 — GHL takes all customer comms (estimates, follow-ups, confirmations). AccuLynx stays for job records. Phase 2 — sync AccuLynx to Supabase. Phase 3 — evaluate full AccuLynx replacement once GHL is stable.
+| Email pattern | Role applied |
+|---|---|
+| `@labsobsidian` / `@obsidianlabs` / contains `garrett` | `admin` — all tabs, role switcher visible |
+| contains `brian` | `owner_brian` — marketing-focused view |
+| contains `sam` + `hardesty` | `owner` — Sam's view, approvals enabled |
+| contains `britt` | `ops` — Brittany's view |
+| anything else | `ops` (safe default) |
 
-**Reasoning:** Solves the biggest pain (spam, ugly estimates) fastest without a rip-and-replace that will scare Brittany.
+**Force a role for testing** — append `&role=admin` (or `owner`, `ops`,
+`crew`, `brian`):
 
----
+```
+https://hardesty-atlas.labsobsidian.co/?email={{user.email}}&name={{user.first_name}}&role=admin
+```
 
-## 2026-04-22: Standard Supabase schema from day one
+Iframe embedding works out of the box — `vercel.json` already sets
+`X-Frame-Options: ALLOWALL` and `frame-ancestors *` so GHL can host it.
 
-**Context:** Hardesty is client #2. Master Atlas Brain needs to query all clients with a common data shape.
+## Supabase
 
-**Decision:** Hardesty's Supabase schema follows the cross-client standard (jobs, contacts, pipeline_stages, revenue_events, crews). No custom schema.
+| Constant | Value |
+|---|---|
+| Project ref | TODO |
+| URL | TODO |
 
-**Reasoning:** Retrofitting Chem-Dry was already noted as technical debt. Don't repeat it with Hardesty.
+## Vercel
+
+| Constant | Value |
+|---|---|
+| Brain app URL | https://hardesty-atlas.labsobsidian.co |
+| Vercel project URL | https://hardesty-b120v3g2a-labsobsidians-projects.vercel.app (raw — prefer custom domain) |
+
+## AccuLynx
+
+| Constant | Value |
+|---|---|
+| API base | https://api.acculynx.com |
+| API credentials | TODO — request from Brittany post-demo |
+
+## External
+
+| Constant | Value |
+|---|---|
+| Google Workspace domain | TODO — to be set up |
+| QuickBooks company ID | TODO |
+
+## Flags
+
+| Flag | Value |
+|---|---|
+| DEMO_MODE | true — seeded data until AccuLynx sync wired |
+| ACCULYNX_SYNC | false — pending API credentials |
