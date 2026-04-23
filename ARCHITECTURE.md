@@ -1,5 +1,5 @@
 # CONSTANTS.md — Hardesty Roofing
-_Last updated: 2026-04-22_
+_Last updated: 2026-04-23_
 _Never store secrets here._
 
 ---
@@ -21,6 +21,35 @@ _Never store secrets here._
 | Location ID | TODO — populate when GHL sub-account confirmed |
 | Sub-account | White-label under labsobsidian GHL |
 
+### Custom Menu Link (Atlas Brain embed)
+
+Paste this as the URL on the GHL custom menu link. The app auto-detects the
+user's role from `email` and personalizes the greeting from `name`.
+
+```
+https://hardesty-atlas.labsobsidian.co/?email={{user.email}}&name={{user.first_name}}
+```
+
+**Role routing** (driven by `detectRoleFromUrl()` in `index.html`):
+
+| Email pattern | Role applied |
+|---|---|
+| `@labsobsidian` / `@obsidianlabs` / contains `garrett` | `admin` — all tabs, role switcher visible |
+| contains `brian` | `owner_brian` — marketing-focused view |
+| contains `sam` + `hardesty` | `owner` — Sam's view, approvals enabled |
+| contains `britt` | `ops` — Brittany's view |
+| anything else | `ops` (safe default) |
+
+**Force a role for testing** — append `&role=admin` (or `owner`, `ops`,
+`crew`, `brian`):
+
+```
+https://hardesty-atlas.labsobsidian.co/?email={{user.email}}&name={{user.first_name}}&role=admin
+```
+
+Iframe embedding works out of the box — `vercel.json` already sets
+`X-Frame-Options: ALLOWALL` and `frame-ancestors *` so GHL can host it.
+
 ## Supabase
 
 | Constant | Value |
@@ -32,7 +61,8 @@ _Never store secrets here._
 
 | Constant | Value |
 |---|---|
-| Brain app URL | TODO — brain.hardesty.labsobsidian.co or similar |
+| Brain app URL | https://hardesty-atlas.labsobsidian.co |
+| Vercel project URL | https://hardesty-b120v3g2a-labsobsidians-projects.vercel.app (raw — prefer custom domain) |
 
 ## AccuLynx
 
